@@ -1,0 +1,14 @@
+{
+  "http": {
+    "port": 8080
+  },
+  "db" : {
+    "url": "jdbc:h2:~/mars-db",
+    "username": "",
+    "password": "",
+    "webconsole.port": 9000
+  },
+  "api" : {
+    "url": "../documentation/api-spec/openapi-mars.yaml"
+  }
+}
