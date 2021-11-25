@@ -29,32 +29,6 @@ public class ExternalQuotesRepository {
     private final int port;
     private final boolean useSsl;
 
-    public ExternalQuotesRepository(WebClient webClient) {
-        this(webClient, DEFAULT_HOST, DEFAULT_PORT, DEFAULT_API_URI, true);
-    }
 
-    public ExternalQuotesRepository(WebClient webClient, String host, int port, String apiUri, boolean useSsl) {
-        if (webClient == null) {
-            LOGGER.log(Level.SEVERE, "RandomQuotesClient is not configured");
-            throw new RepositoryException("RandomQuotesClient is not configured");
-        }
-        this.webClient = webClient;
-        this.host = host;
-        this.port = port;
-        this.apiUri = apiUri;
-        this.useSsl = useSsl;
-    }
-
-    /*
-    Example of how to consume an external api.
-     */
-    public Future<String> getRandomQuote() {
-        return webClient.get(port, host, apiUri)
-                .ssl(useSsl)
-                .addQueryParam("count", "1")
-                .as(BodyCodec.jsonObject())
-                .send()
-                .map(HttpResponse::body)
-                .map(json -> json.getJsonArray("quotes").getJsonObject(0).getString("text"));
-    }
+    
 }

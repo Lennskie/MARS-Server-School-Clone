@@ -6,7 +6,6 @@ import io.vertx.ext.web.client.WebClient;
 
 public class Repositories {
     private static MarsH2Repository h2Repo = null;
-    private static ExternalQuotesRepository quotesRepo = null;
 
     private Repositories() {
     }
