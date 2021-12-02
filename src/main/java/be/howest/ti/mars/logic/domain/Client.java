@@ -4,20 +4,18 @@ public class Client {
     private String firstname;
     private String lastname;
 
-    private float latitude;
-    private float longitude;
+    private Location location;
 
     private VitalStatus vitals;
     private Subscription subscription;
 
     private String identifier;
 
-    public Client(String firstname, String lastname, float longitude, float latitude, VitalStatus vitals, Subscription subscription, String identifier) {
+    public Client(String firstname, String lastname, Location location, VitalStatus vitals, Subscription subscription, String identifier) {
         this.firstname = firstname;
         this.lastname = lastname;
 
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.location = location;
 
         this.vitals = vitals;
         this.subscription = subscription;
@@ -40,20 +38,12 @@ public class Client {
         this.lastname = lastname;
     }
 
-    public float getLatitude() {
-        return latitude;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setLatitude(float latitude) {
-        this.latitude = latitude;
-    }
-
-    public float getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public VitalStatus getVitals() {
@@ -85,8 +75,7 @@ public class Client {
         return "Client{" +
                 "firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
+                ", location=" + location +
                 ", vitals=" + vitals +
                 ", subscription=" + subscription +
                 ", identifier='" + identifier + '\'' +

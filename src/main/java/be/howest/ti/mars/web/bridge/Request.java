@@ -1,6 +1,7 @@
 package be.howest.ti.mars.web.bridge;
 
 import be.howest.ti.mars.logic.domain.Dangerzone;
+import be.howest.ti.mars.logic.domain.Location;
 import be.howest.ti.mars.web.exceptions.MalformedRequestException;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.validation.RequestParameters;
@@ -43,6 +44,7 @@ public class Request {
     }
 
     public Dangerzone getDangerzones() {
-        return new Dangerzone(2,3,4);
+        Location testLocation = new Location(3.555, 7.888);
+        return new Dangerzone(testLocation, 50);
     }
 }

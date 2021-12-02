@@ -3,13 +3,11 @@ package be.howest.ti.mars.logic.domain;
 public class Vehicle {
     private boolean occupied;
     private final String identifier;
-    private float latitude;
-    private float longitude;
+    private Location location;
 
-    public Vehicle(String identifier, float latitude, float longitude) {
+    public Vehicle(String identifier, Location location) {
         this.identifier = identifier;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.location = location;
     }
 
     public boolean isOccupied() {
@@ -24,29 +22,20 @@ public class Vehicle {
         return identifier;
     }
 
-    public void setLatitude(float latitude) {
-        this.latitude = latitude;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
-    public float getLatitude() {
-        return latitude;
-    }
-
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
-    }
-
-    public float getLongitude() {
-        return longitude;
+    public Location getLocation() {
+        return location;
     }
 
     @Override
     public String toString() {
         return "Vehicle{" +
                 "occupied=" + occupied +
-                ", identifier=" + identifier +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
+                ", identifier='" + identifier + '\'' +
+                ", location=" + location +
                 '}';
     }
 }

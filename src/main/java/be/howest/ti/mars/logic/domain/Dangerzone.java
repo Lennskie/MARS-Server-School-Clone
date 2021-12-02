@@ -2,22 +2,16 @@ package be.howest.ti.mars.logic.domain;
 
 public class Dangerzone {
 
-    private int latitude;
-    private int longitude;
+    private Location location;
     private int radius;
 
-    public Dangerzone(Integer latitude, Integer longitude, Integer radius){
+    public Dangerzone(Location location, Integer radius){
         this.radius = radius;
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this.location = location;
     }
 
-    public int getLatitude() {
-        return latitude;
-    }
-
-    public int getLongitude() {
-        return longitude;
+    public Location getLocation() {
+        return location;
     }
 
     public int getRadius() {
@@ -27,8 +21,7 @@ public class Dangerzone {
     @Override
     public String toString() {
         return "Dangerzone{" +
-                "latitude=" + latitude +
-                ", longitude=" + longitude +
+                "location=" + location +
                 ", radius=" + radius +
                 '}';
     }

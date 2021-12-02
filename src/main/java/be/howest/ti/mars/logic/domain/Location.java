@@ -1,19 +1,27 @@
 package be.howest.ti.mars.logic.domain;
 
 public class Location {
-    private final float longitude;
-    private final float latitude;
+    private final double longitude;
+    private final double latitude;
 
-    public Location(float longitude, float latitude) {
+    public Location(double longitude, double latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "longitude=" + longitude +
+                ", latitude=" + latitude +
+                '}';
     }
 }
