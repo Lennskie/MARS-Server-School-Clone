@@ -2,6 +2,7 @@ package be.howest.ti.mars.web.bridge;
 
 import be.howest.ti.mars.logic.controller.DefaultMarsController;
 import be.howest.ti.mars.logic.controller.MarsController;
+import be.howest.ti.mars.logic.domain.Dangerzone;
 import be.howest.ti.mars.logic.domain.Quote;
 import be.howest.ti.mars.logic.exceptions.MarsResourceNotFoundException;
 import io.vertx.core.http.HttpMethod;
@@ -34,45 +35,15 @@ public class MarsOpenApiBridge {
         this.controller = controller;
     }
 
-    public void getQuote(RoutingContext ctx) {
-        Quote quote = controller.getQuote(Request.from(ctx).getQuoteId());
-
-        Response.sendQuote(ctx, quote);
-    }
-
-    public void createQuote(RoutingContext ctx) {
-        String quote = Request.from(ctx).getQuote();
-
-        Response.sendQuoteCreated(ctx, controller.createQuote(quote));
-    }
-
-    public void updateQuote(RoutingContext ctx) {
-        Request request = Request.from(ctx);
-        String quoteValue = request.getQuote();
-        int quoteId = request.getQuoteId();
-
-        Response.sendQuoteUpdated(ctx, controller.updateQuote(quoteId, quoteValue));
-    }
-
-    public void deleteQuote(RoutingContext ctx) {
-        int quoteId = Request.from(ctx).getQuoteId();
-
-        controller.deleteQuote(quoteId);
-
-        Response.sendQuoteDeleted(ctx);
+    public void getDangerzones(RoutingContext ctx) {
+        Dangerzone dangerzones = controller.getDangerzones(Request.from(ctx).getDangerzones());
+        Response.sendDangerzones(ctx, dangerzones);
     }
 
     /*
     Example of how to consume an external api.
      */
-    public void randomQuote(RoutingContext ctx) {
-        controller.getRandomQuote()
-                .onSuccess(quote -> Response.sendQuote(ctx, quote))
-                .onFailure(cause -> {
-                    LOGGER.log(Level.WARNING, "Could not fetch random quote.", cause);
-                    throw new MarsResourceNotFoundException("Could not fetch random quote.");
-                });
-    }
+
 
     public Router buildRouter(RouterBuilder routerBuilder) {
         LOGGER.log(Level.INFO, "Installing cors handlers");
@@ -81,20 +52,8 @@ public class MarsOpenApiBridge {
         LOGGER.log(Level.INFO, "Installing failure handlers for all operations");
         routerBuilder.operations().forEach(op -> op.failureHandler(this::onFailedRequest));
 
-        LOGGER.log(Level.INFO, "Installing handler for: getQuote");
-        routerBuilder.operation("getQuote").handler(this::getQuote);
-
-        LOGGER.log(Level.INFO, "Installing handler for: createQuote");
-        routerBuilder.operation("createQuote").handler(this::createQuote);
-
-        LOGGER.log(Level.INFO, "Installing handler for: updateQuote");
-        routerBuilder.operation("updateQuote").handler(this::updateQuote);
-
-        LOGGER.log(Level.INFO, "Installing handler for: deleteQuote");
-        routerBuilder.operation("deleteQuote").handler(this::deleteQuote);
-
-        LOGGER.log(Level.INFO, "Installing handler for: randomQuote");
-        routerBuilder.operation("randomQuote").handler(this::randomQuote);
+        LOGGER.log(Level.INFO, "Installing handler for: getDangerzones");
+        routerBuilder.operation("getDangerzones").handler(this::getDangerzones);
 
         LOGGER.log(Level.INFO, "All handlers are installed, creating router.");
         return routerBuilder.createRouter();

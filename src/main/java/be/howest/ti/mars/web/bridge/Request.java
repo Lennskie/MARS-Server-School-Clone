@@ -1,5 +1,6 @@
 package be.howest.ti.mars.web.bridge;
 
+import be.howest.ti.mars.logic.domain.Dangerzone;
 import be.howest.ti.mars.web.exceptions.MalformedRequestException;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.validation.RequestParameters;
@@ -39,5 +40,9 @@ public class Request {
             LOGGER.log(Level.INFO, "Unable to decipher the data in the body", ex);
             throw new MalformedRequestException("Unable to decipher the data in the request body. See logs for details.");
         }
+    }
+
+    public Dangerzone getDangerzones() {
+        return new Dangerzone(2,3,4);
     }
 }
