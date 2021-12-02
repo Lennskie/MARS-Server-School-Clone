@@ -1,6 +1,7 @@
 package be.howest.ti.mars.logic.controller;
 
 import be.howest.ti.mars.logic.data.Repositories;
+import be.howest.ti.mars.logic.domain.Dangerzone;
 import be.howest.ti.mars.logic.domain.Quote;
 import be.howest.ti.mars.logic.exceptions.MarsResourceNotFoundException;
 import io.vertx.core.Vertx;
@@ -46,6 +47,18 @@ class DefaultMarsControllerTest {
 
         //Assert
         assertTrue(quote != null && StringUtils.isNoneBlank(quote.getValue()));
+    }
+
+    @Test
+    void getDangerzones() {
+        // Arrange
+        MarsController sut = new DefaultMarsController();
+
+        // Act
+        Dangerzone dangerzone = sut.getDangerzones(new Dangerzone(2,3,4));
+
+        //Assert
+        assertNotNull(dangerzone);
     }
 
     @Test

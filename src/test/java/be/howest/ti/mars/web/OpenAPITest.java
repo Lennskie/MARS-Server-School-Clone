@@ -57,73 +57,15 @@ class OpenAPITest {
 
     @Test
     void getQuote(final VertxTestContext testContext) {
-        webClient.get(PORT, HOST, "/api/quotes/2").send()
+        webClient.get(PORT, HOST, "/api/dangerzones/").send()
                 .onFailure(testContext::failNow)
                 .onSuccess(response -> testContext.verify(() -> {
                     assertEquals(200, response.statusCode(), MSG_200_EXPECTED);
                     assertTrue(
-                            StringUtils.isNotBlank(response.bodyAsJsonObject().getString("value")),
-                            "Empty quotes are not allowed"
+                            StringUtils.isNotBlank(response.bodyAsJsonObject().getString("latitude")),
+                            "2"
                     );
                     testContext.completeNow();
                 }));
-    }
-
-    @Test
-    void getRandomQuote(final VertxTestContext testContext) {
-        webClient.get(PORT, HOST, "/api/quotes").send()
-                .onFailure(testContext::failNow)
-                .onSuccess(response -> testContext.verify(() -> {
-                    assertEquals(200, response.statusCode(), MSG_200_EXPECTED);
-                    assertTrue(
-                            StringUtils.isNotBlank(response.bodyAsJsonObject().getString("value")),
-                            "Empty quotes are not allowed"
-                    );
-                    testContext.completeNow();
-                }));
-    }
-
-    @Test
-    void createQuote(final VertxTestContext testContext) {
-        String testQuote = "some value";
-        webClient.post(PORT, HOST, "/api/quotes").sendJsonObject(createQuote(testQuote))
-                .onFailure(testContext::failNow)
-                .onSuccess(response -> testContext.verify(() -> {
-                    assertEquals(201, response.statusCode(), MSG_201_EXPECTED);
-                    assertEquals(
-                            testQuote,
-                            response.bodyAsJsonObject().getString("value"),
-                            "Quote does not match " + testQuote);
-                    testContext.completeNow();
-                }));
-    }
-
-    @Test
-    void updateQuote(final VertxTestContext testContext) {
-        String testQuote = "some value";
-        webClient.put(PORT, HOST, "/api/quotes/0").sendJsonObject(createQuote(testQuote))
-                .onFailure(testContext::failNow)
-                .onSuccess(response -> testContext.verify(() -> {
-                    assertEquals(200, response.statusCode(), MSG_200_EXPECTED);
-                    assertEquals(
-                            testQuote,
-                            response.bodyAsJsonObject().getString("value"),
-                            "Quote does not match " + testQuote);
-                    testContext.completeNow();
-                }));
-    }
-
-    @Test
-    void deleteQuote(final VertxTestContext testContext) {
-        webClient.delete(PORT, HOST, "/api/quotes/1").send()
-                .onFailure(testContext::failNow)
-                .onSuccess(response -> testContext.verify(() -> {
-                    assertEquals(204, response.statusCode(), MSG_204_EXPECTED);
-                    testContext.completeNow();
-                }));
-    }
-
-    private JsonObject createQuote(String quote) {
-        return new JsonObject().put("quote", quote);
     }
 }

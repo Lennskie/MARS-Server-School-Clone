@@ -1,5 +1,6 @@
 package be.howest.ti.mars.logic.controller;
 
+import be.howest.ti.mars.logic.domain.Dangerzone;
 import be.howest.ti.mars.logic.domain.Quote;
 import io.vertx.core.Future;
 
@@ -13,4 +14,6 @@ public interface MarsController {
     void deleteQuote(int quoteId);
 
     Future<Quote> getRandomQuote();
+
+    Dangerzone getDangerzones(Dangerzone dangerzones);
 }

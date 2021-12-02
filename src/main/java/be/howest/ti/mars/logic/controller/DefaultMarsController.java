@@ -1,6 +1,7 @@
 package be.howest.ti.mars.logic.controller;
 
 import be.howest.ti.mars.logic.data.Repositories;
+import be.howest.ti.mars.logic.domain.Dangerzone;
 import be.howest.ti.mars.logic.domain.Quote;
 import be.howest.ti.mars.logic.exceptions.MarsResourceNotFoundException;
 import io.vertx.core.Future;
@@ -71,5 +72,10 @@ public class DefaultMarsController implements MarsController {
                 .getQuotesRepo()
                 .getRandomQuote()
                 .map(this::createQuote);
+    }
+
+    @Override
+    public Dangerzone getDangerzones(Dangerzone dangerzones) {
+        return dangerzones;
     }
 }

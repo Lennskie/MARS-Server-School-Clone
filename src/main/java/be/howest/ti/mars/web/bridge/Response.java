@@ -1,5 +1,6 @@
 package be.howest.ti.mars.web.bridge;
 
+import be.howest.ti.mars.logic.domain.Dangerzone;
 import be.howest.ti.mars.logic.domain.Quote;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.json.Json;
@@ -47,5 +48,9 @@ public class Response {
         sendJsonResponse(ctx, code, new JsonObject()
                 .put("failure", code)
                 .put("cause", quote));
+    }
+
+    public static void sendDangerzones(RoutingContext ctx, Dangerzone dangerzones) {
+        sendJsonResponse(ctx, 200, JsonObject.mapFrom(dangerzones));
     }
 }
