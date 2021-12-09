@@ -62,8 +62,8 @@ class OpenAPITest {
                 .onSuccess(response -> testContext.verify(() -> {
                     assertEquals(200, response.statusCode(), MSG_200_EXPECTED);
                     assertTrue(
-                            StringUtils.isNotBlank(response.bodyAsJsonObject().getString("latitude")),
-                            "2"
+                            StringUtils.isNotBlank(response.bodyAsJsonObject().getJsonObject("location").getString("longitude")),
+                            "3.555"
                     );
                     testContext.completeNow();
                 }));
