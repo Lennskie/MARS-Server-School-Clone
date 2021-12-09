@@ -1,41 +1,21 @@
 package be.howest.ti.mars.logic.domain;
 
-public class Client {
-    private String firstname;
-    private String lastname;
+import java.util.Objects;
+
+public class Client extends User {
 
     private Location location;
 
     private VitalStatus vitals;
     private Subscription subscription;
 
-    private String identifier;
-
     public Client(String firstname, String lastname, Location location, VitalStatus vitals, Subscription subscription, String identifier) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+        super(firstname, lastname, identifier);
 
         this.location = location;
 
         this.vitals = vitals;
         this.subscription = subscription;
-        this.identifier = identifier;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
     }
 
     public Location getLocation() {
@@ -62,23 +42,28 @@ public class Client {
         this.subscription = subscription;
     }
 
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
     @Override
     public String toString() {
         return "Client{" +
-                "firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
+                "firstname='" + super.getFirstname() + '\'' +
+                ", lastname='" + super.getLastname() + '\'' +
                 ", location=" + location +
                 ", vitals=" + vitals +
                 ", subscription=" + subscription +
-                ", identifier='" + identifier + '\'' +
+                ", identifier='" + super.getIdentifier() + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return Objects.equals(location, client.location) && Objects.equals(vitals, client.vitals) && Objects.equals(subscription, client.subscription);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(location, vitals, subscription);
     }
 }
