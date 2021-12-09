@@ -43,6 +43,7 @@ public class Request {
         }
     }
 
+    // fixme: This does not belong here
     public Dangerzone getDangerzones() {
         Location testLocation = new Location(3.555, 7.888);
         return new Dangerzone(testLocation, 50);
