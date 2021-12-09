@@ -29,7 +29,8 @@ import java.util.TimerTask;
  * <p>
  */
 public class MarsRtcBridge {
-    private static final String EB_EVENT_TO_MARTIANS = "events.to.martians";
+    private static final String EB_EVENT_CLIENT_MOVED = "events.clients.moved";
+    private static final String EB_EVENT_VEHICLE_MOVED = "events.vehicles.moved";
     private SockJSHandler sockJSHandler;
     private EventBus eb;
 
@@ -44,7 +45,8 @@ public class MarsRtcBridge {
 
         TimerTask task = new TimerTask() {
             public void run() {
-                eb.publish(EB_EVENT_TO_MARTIANS, new JsonObject(Map.of("MyJsonProp", "some value")));
+                eb.publish(EB_EVENT_CLIENT_MOVED, new JsonObject(Map.of("MyJsonProp", "some value")));
+                eb.publish(EB_EVENT_VEHICLE_MOVED, new JsonObject(Map.of("MyJsonProp", "some value")));
             }
         };
 
