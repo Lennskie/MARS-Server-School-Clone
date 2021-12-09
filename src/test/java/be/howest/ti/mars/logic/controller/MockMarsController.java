@@ -1,6 +1,7 @@
 package be.howest.ti.mars.logic.controller;
 
 import be.howest.ti.mars.logic.domain.Dangerzone;
+import be.howest.ti.mars.logic.domain.Location;
 import be.howest.ti.mars.logic.domain.Quote;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -35,6 +36,6 @@ public class MockMarsController implements MarsController {
 
     @Override
     public Dangerzone getDangerzones(Dangerzone dangerzones) {
-        return new Dangerzone(1,2,3);
+        return new Dangerzone(new Location(2.33, 2.33),3);
     }
 }

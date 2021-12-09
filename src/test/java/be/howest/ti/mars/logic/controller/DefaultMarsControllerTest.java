@@ -2,6 +2,7 @@ package be.howest.ti.mars.logic.controller;
 
 import be.howest.ti.mars.logic.data.Repositories;
 import be.howest.ti.mars.logic.domain.Dangerzone;
+import be.howest.ti.mars.logic.domain.Location;
 import be.howest.ti.mars.logic.domain.Quote;
 import be.howest.ti.mars.logic.exceptions.MarsResourceNotFoundException;
 import io.vertx.core.Vertx;
@@ -55,7 +56,7 @@ class DefaultMarsControllerTest {
         MarsController sut = new DefaultMarsController();
 
         // Act
-        Dangerzone dangerzone = sut.getDangerzones(new Dangerzone(2,3,4));
+        Dangerzone dangerzone = sut.getDangerzones(new Dangerzone(new Location(2.33, 2.33),4));
 
         //Assert
         assertNotNull(dangerzone);
