@@ -16,9 +16,6 @@ def h2version = "1.4.200"
 group 'be.howest.ti'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
-
 jacocoTestReport {
     reports {
         xml.enabled true
@@ -78,6 +75,6 @@ run {
             "vertx.logger-delegate-factory-class-name",
             "io.vertx.core.logging.JULLogDelegateFactory"
     )
-    args = ['run', 'be.howest.ti.mars.web.WebServer', "--launcher-class=$mainClassName",
+    args = ['run', 'mars.web.WebServer', "--launcher-class=$mainClassName",
             "-Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.JULLogDelegateFactory"]
 }
