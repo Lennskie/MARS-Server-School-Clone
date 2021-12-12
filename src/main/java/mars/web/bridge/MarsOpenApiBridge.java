@@ -1,8 +1,10 @@
 package mars.web.bridge;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import mars.logic.controller.DefaultMarsController;
 import mars.logic.controller.MarsController;
 import mars.logic.domain.Dangerzone;
+import mars.logic.domain.Subscription;
 import mars.logic.exceptions.MarsResourceNotFoundException;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.Router;
@@ -10,6 +12,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,6 +42,11 @@ public class MarsOpenApiBridge {
         Response.sendDangerzones(ctx, dangerzones);
     }
 
+    public void getSubscriptions(RoutingContext ctx) {
+        List<Subscription> subscriptions = controller.getSubscriptions();
+        Response.sendSubscriptions(ctx, subscriptions);
+    }
+
     /*
     Example of how to consume an external api.
      */
@@ -53,6 +61,9 @@ public class MarsOpenApiBridge {
 
         LOGGER.log(Level.INFO, "Installing handler for: getDangerzones");
         routerBuilder.operation("getDangerzones").handler(this::getDangerzones);
+
+        LOGGER.log(Level.INFO, "Installing handler for: getSubscriptions");
+        routerBuilder.operation("getSubscriptions").handler(this::getSubscriptions);
 
         LOGGER.log(Level.INFO, "All handlers are installed, creating router.");
         return routerBuilder.createRouter();

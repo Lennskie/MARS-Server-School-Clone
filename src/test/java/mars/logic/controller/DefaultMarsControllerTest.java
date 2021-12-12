@@ -4,6 +4,7 @@ import mars.logic.data.Repositories;
 import mars.logic.domain.Dangerzone;
 import mars.logic.domain.Location;
 import mars.logic.domain.Quote;
+import mars.logic.domain.Subscription;
 import mars.logic.exceptions.MarsResourceNotFoundException;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,16 +28,28 @@ class DefaultMarsControllerTest {
     @BeforeAll
     void setupTestSuite() {
         Repositories.shutdown();
-        JsonObject dbProperties = new JsonObject(Map.of("url", "jdbc:h2:~/mars-db",
+        JsonObject dbProperties = new JsonObject(Map.of("url", URL,
                 "username", "",
                 "password", "",
-                "webconsole.port", 9000));
+                "webconsole.port", 9001));
         Repositories.configure(dbProperties, WebClient.create(Vertx.vertx()));
     }
 
     @BeforeEach
     void setupTest() {
         Repositories.getH2Repo().generateData();
+    }
+
+    @Test
+    void getSubscriptions() {
+        // Arrange
+        MarsController sut = new DefaultMarsController();
+
+        // Act
+        List<Subscription> subscriptions = sut.getSubscriptions();
+
+        //Assert
+        assertEquals(3, subscriptions.size());
     }
 
     @Test

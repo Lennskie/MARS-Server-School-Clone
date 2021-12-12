@@ -5,9 +5,23 @@ import mars.logic.domain.Location;
 import mars.logic.domain.Quote;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
+import mars.logic.domain.Subscription;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MockMarsController implements MarsController {
     private static final String SOME_QUOTE = "quote";
+
+    @Override
+    public List<Subscription> getSubscriptions() {
+        List<Subscription> subscriptions = new ArrayList<>();
+        subscriptions.add(new Subscription("Silver", "Short description.", 500.00));
+        subscriptions.add(new Subscription("Gold", "Short description.", 750.00));
+        subscriptions.add(new Subscription("Platinum", "Short description.", 1000.00));
+        return subscriptions;
+    }
+
     @Override
     public Quote getQuote(int quoteId) {
         return new Quote(quoteId, SOME_QUOTE);

@@ -6,6 +6,9 @@ import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import mars.logic.domain.Subscription;
+
+import java.util.List;
 
 /**
  * The Response class is responsible for translating the result of the controller into
@@ -14,6 +17,12 @@ import io.vertx.ext.web.RoutingContext;
 public class Response {
 
     private Response() { }
+
+    public static void sendSubscriptions(RoutingContext ctx, List<Subscription> subscriptions) {
+        // TODO I NEED HELP FIXING THIS This causes a 400 Response due to
+        // "Cannot deserialize instance of `java.util.LinkedHashMap<java.lang.Object,java.lang.Object>` out of START_ARRAY token\n at [Source: UNKNOWN; line: -1, column: -1]"
+        sendJsonResponse(ctx, 200, JsonObject.mapFrom(subscriptions));
+    }
 
     public static void sendQuote(RoutingContext ctx, Quote quote) {
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(quote));

@@ -1,15 +1,23 @@
 package mars.logic.domain;
 
+import java.util.Objects;
+
 public class User {
+    private String identifier;
     private String firstname;
     private String lastname;
 
-    private String identifier;
-
-    public User(String firstname, String lastname, String identifier) {
+    public User(String identifier, String firstname, String lastname) {
+        this.identifier = identifier;
         this.firstname = firstname;
         this.lastname = lastname;
+    }
 
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
 
@@ -29,12 +37,17 @@ public class User {
         this.lastname = lastname;
     }
 
-    public String getIdentifier() {
-        return identifier;
+    @Override
+    public int hashCode() {
+        return Objects.hash(identifier);
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(identifier, user.identifier);
     }
 
     @Override
