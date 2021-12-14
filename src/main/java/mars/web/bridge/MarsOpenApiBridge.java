@@ -1,6 +1,7 @@
 package mars.web.bridge;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.vertx.core.json.JsonObject;
 import mars.logic.controller.DefaultMarsController;
 import mars.logic.controller.MarsController;
 import mars.logic.domain.Dangerzone;
@@ -40,11 +41,13 @@ public class MarsOpenApiBridge {
     public void getDangerzones(RoutingContext ctx) {
         Dangerzone dangerzones = controller.getDangerzones(Request.from(ctx).getDangerzones());
         Response.sendDangerzones(ctx, dangerzones);
+
     }
 
     public void getSubscriptions(RoutingContext ctx) {
         List<Subscription> subscriptions = controller.getSubscriptions();
-        Response.sendSubscriptions(ctx, subscriptions);
+
+        Response.sendSubscriptions(ctx, new JsonObject().put("subs", subscriptions));
     }
 
     /*

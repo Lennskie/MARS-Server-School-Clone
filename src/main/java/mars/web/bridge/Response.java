@@ -18,9 +18,8 @@ public class Response {
 
     private Response() { }
 
-    public static void sendSubscriptions(RoutingContext ctx, List<Subscription> subscriptions) {
-        // TODO I NEED HELP FIXING THIS This causes a 400 Response due to
-        // "Cannot deserialize instance of `java.util.LinkedHashMap<java.lang.Object,java.lang.Object>` out of START_ARRAY token\n at [Source: UNKNOWN; line: -1, column: -1]"
+    public static void sendSubscriptions(RoutingContext ctx, JsonObject subscriptions) {
+        // Lenn: JsonObject has been added here and in MarsOpenApiBridge > getSubscriptions
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(subscriptions));
     }
 
