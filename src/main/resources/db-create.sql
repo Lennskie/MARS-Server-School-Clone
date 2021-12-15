@@ -1,11 +1,3 @@
-drop table if exists quotes;
-create table quotes
-(
-    id    int auto_increment,
-    quote varchar(255)
-);
-
-
 -- User
 drop table if exists users cascade;
 create table users
