@@ -44,7 +44,6 @@ public class MarsOpenApiBridge {
 
     public void getSubscriptions(RoutingContext ctx) {
         List<Subscription> subscriptions = controller.getSubscriptions();
-
         Response.sendSubscriptions(ctx, new JsonObject().put("subscriptions", subscriptions));
     }
 
