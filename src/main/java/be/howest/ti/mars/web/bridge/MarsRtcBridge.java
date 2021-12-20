@@ -1,5 +1,10 @@
 package be.howest.ti.mars.web.bridge;
 
+import be.howest.ti.mars.logic.domain.Client;
+import be.howest.ti.mars.logic.domain.Location;
+import be.howest.ti.mars.logic.domain.Subscription;
+import be.howest.ti.mars.logic.domain.VitalStatus;
+import io.swagger.v3.core.util.Json;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
@@ -10,6 +15,8 @@ import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import com.fasterxml.jackson.core.util.*;
 
 /**
  * In the MarsRtcBridge class you will find one example function which sends a message on the message bus to the client.
@@ -29,32 +36,45 @@ import java.util.TimerTask;
  * <p>
  */
 public class MarsRtcBridge {
-    private static final String EB_EVENT_CLIENT_MOVED = "events.clients.moved";
-    private static final String EB_EVENT_VEHICLE_MOVED = "events.vehicles.moved";
+
+    private final String NEW_CLIENT_EVENT_BUS = "new.client";
+    private final String NEW_VEHICLE_EVENT_BUS = "new.vehicle";
+
+    private final String CLIENT_STATUS_EVENT_BUS = "status.client";
+    private final String VEHICLE_STATUS_EVENT_BUS = "status.vehicle";
+
+    private final String CLIENT_LOCATION_EVENT_BUS = "location.client";
+    private final String VEHICLE_LOCATION_EVENT_BUS = "location.vehicle";
+
     private SockJSHandler sockJSHandler;
     private EventBus eb;
 
-    /**
-     * Example function to put a message on the event bus every 10 seconds.
-     * The timer logic is only there to simulate a repetitive stream of data as an example.
-     * Please remove this timer logic or move it to an appropriate place.
-     * Please call the controller to get some business logic data. Afterwords publish the result to the client.
-     */
-    public void sendEventToClients() {
-        final Timer timer = new Timer();
+    private void MockCalls() {
+        Client mockClient = new Client("Dummy", "User", new Location(5.12, 8.12), new VitalStatus(), new Subscription(), "1");
 
-        TimerTask task = new TimerTask() {
+        Timer newClientTimer = new Timer();
+        Timer newVehicleTimer = new Timer();
+
+        TimerTask newClientTimerTask = new TimerTask() {
+            @Override
             public void run() {
-                eb.publish(EB_EVENT_CLIENT_MOVED, new JsonObject(Map.of("MyJsonProp", "some value")));
-                eb.publish(EB_EVENT_VEHICLE_MOVED, new JsonObject(Map.of("MyJsonProp", "some value")));
+                eb.publish(NEW_CLIENT_EVENT_BUS, JsonObject.mapFrom(mockClient));
             }
         };
 
-        timer.schedule(task, 0, 30000);
+        TimerTask newVehicleTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+                eb.publish(NEW_VEHICLE_EVENT_BUS, "A New vehicle should be added!");
+            }
+        };
+
+        newClientTimer.schedule(newClientTimerTask, 0, 3000);
+        newVehicleTimer.schedule(newVehicleTimerTask, 0, 3000);
     }
 
     private void createSockJSHandler() {
-        final PermittedOptions permittedOptions = new PermittedOptions().setAddressRegex("events\\..+");
+        final PermittedOptions permittedOptions = new PermittedOptions().setAddressRegex(".+");
         final SockJSBridgeOptions options = new SockJSBridgeOptions()
                 .addInboundPermitted(permittedOptions)
                 .addOutboundPermitted(permittedOptions);
@@ -66,9 +86,7 @@ public class MarsRtcBridge {
         eb = vertx.eventBus();
         createSockJSHandler();
 
-        // This is for demo purposes only.
-        // Do not send messages in this getSockJSHandler function.
-        sendEventToClients();
+        MockCalls();
 
         return sockJSHandler;
     }

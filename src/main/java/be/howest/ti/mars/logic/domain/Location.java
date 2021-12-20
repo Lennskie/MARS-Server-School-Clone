@@ -1,7 +1,11 @@
 package be.howest.ti.mars.logic.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Location {
+    @JsonProperty("longitude")
     private final double longitude;
+    @JsonProperty("latitude")
     private final double latitude;
 
     public Location(double longitude, double latitude) {

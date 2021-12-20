@@ -1,12 +1,17 @@
 package be.howest.ti.mars.logic.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 public class Client extends User {
 
+    @JsonProperty("location")
     private Location location;
 
+    @JsonProperty("vitals")
     private VitalStatus vitals;
+    @JsonProperty("subscription")
     private Subscription subscription;
 
     public Client(String firstname, String lastname, Location location, VitalStatus vitals, Subscription subscription, String identifier) {
