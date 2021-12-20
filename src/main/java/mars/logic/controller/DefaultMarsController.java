@@ -3,9 +3,12 @@ package mars.logic.controller;
 import mars.logic.data.Repositories;
 import mars.logic.domain.Dangerzone;
 import mars.logic.domain.Quote;
+import mars.logic.domain.Subscription;
 import mars.logic.exceptions.MarsResourceNotFoundException;
 import io.vertx.core.Future;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 /**
  * DefaultMarsController is the default implementation for the MarsController interface.
@@ -22,6 +25,11 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class DefaultMarsController implements MarsController {
     private static final String MSG_QUOTE_ID_UNKNOWN = "No quote with id: %d";
+
+    @Override
+    public List<Subscription> getSubscriptions() {
+        return Repositories.getH2Repo().getSubscriptions();
+    }
 
     @Override
     public Quote getQuote(int quoteId) {

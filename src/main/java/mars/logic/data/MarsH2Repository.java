@@ -1,6 +1,7 @@
 package mars.logic.data;
 
 import mars.logic.domain.Quote;
+import mars.logic.domain.Subscription;
 import mars.logic.exceptions.RepositoryException;
 import org.h2.tools.Server;
 
@@ -8,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,6 +36,7 @@ public class MarsH2Repository {
     private static final String SQL_INSERT_QUOTE = "insert into quotes (`quote`) values (?);";
     private static final String SQL_UPDATE_QUOTE = "update quotes set quote = ? where id = ?;";
     private static final String SQL_DELETE_QUOTE = "delete from quotes where id = ?;";
+    private static final String SQL_SELECT_SUBSCRIPTIONS = "select * from subscriptions;";
     private final Server dbWebConsole;
     private final String username;
     private final String password;
@@ -161,5 +165,28 @@ public class MarsH2Repository {
 
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, username, password);
+    }
+
+    public List<Subscription> getSubscriptions() {
+        try (
+            Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_SUBSCRIPTIONS)
+        ) {
+            List<Subscription> subscriptions = new ArrayList<>();
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Subscription subscription = new Subscription(
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getDouble("price")
+                    );
+                    subscriptions.add(subscription);
+                }
+            }
+            return subscriptions;
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Failed to get subscriptions.", ex);
+            throw new RepositoryException("Could not get subscriptions.");
+        }
     }
 }
