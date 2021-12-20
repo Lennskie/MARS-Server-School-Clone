@@ -1,7 +1,9 @@
 package mars.web.bridge;
 
-import be.howest.ti.mars.logic.domain.*;
-import be.howest.ti.mars.logic.domain.util.RandomLocationGenerator;
+import mars.logic.controller.DefaultMarsController;
+import mars.logic.controller.MarsController;
+import mars.logic.domain.*;
+import mars.logic.domain.util.RandomLocationGenerator;
 import io.swagger.v3.core.util.Json;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
@@ -35,6 +37,8 @@ import com.fasterxml.jackson.core.util.*;
  */
 public class MarsRtcBridge {
 
+    MarsController marsController = new DefaultMarsController();
+
     private final String NEW_CLIENT_EVENT_BUS = "new.client";
     private final String NEW_VEHICLE_EVENT_BUS = "new.vehicle";
 
@@ -48,8 +52,14 @@ public class MarsRtcBridge {
     private EventBus eb;
 
     private void MockCalls() {
-        Client mockClient = new Client("Dummy", "User", RandomLocationGenerator.getRandomLocation(), new VitalStatus(), new Subscription(), "1");
+        // "1" Is arbitrary here, it's mocking
+        Subscription dummyClientSubscription = marsController.getSubscriptions().get(1);
+        // This client should come from repository as well, this is WIP.
+        Client mockClient = new Client("Dummy", "User", RandomLocationGenerator.getRandomLocation(), new VitalStatus(), dummyClientSubscription, "1");
+        // Same for the vehicle, repository is WIP
         Vehicle mockVehicle = new Vehicle("V1", RandomLocationGenerator.getRandomLocation());
+
+
         Timer newClientTimer = new Timer();
         Timer newVehicleTimer = new Timer();
 
@@ -57,6 +67,7 @@ public class MarsRtcBridge {
             @Override
             public void run() {
                 eb.publish(NEW_CLIENT_EVENT_BUS, JsonObject.mapFrom(mockClient));
+                mockClient.setLocation(RandomLocationGenerator.getRandomLocation());
             }
         };
 
@@ -64,6 +75,7 @@ public class MarsRtcBridge {
             @Override
             public void run() {
                 eb.publish(NEW_VEHICLE_EVENT_BUS, JsonObject.mapFrom(mockVehicle));
+                mockVehicle.setLocation(RandomLocationGenerator.getRandomLocation());
             }
         };
 
