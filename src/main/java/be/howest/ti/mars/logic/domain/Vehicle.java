@@ -1,8 +1,13 @@
 package be.howest.ti.mars.logic.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Vehicle {
+    @JsonProperty
     private boolean occupied;
+    @JsonProperty
     private final String identifier;
+    @JsonProperty
     private Location location;
 
     public Vehicle(String identifier, Location location) {

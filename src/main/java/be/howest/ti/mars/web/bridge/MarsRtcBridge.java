@@ -1,9 +1,7 @@
 package be.howest.ti.mars.web.bridge;
 
-import be.howest.ti.mars.logic.domain.Client;
-import be.howest.ti.mars.logic.domain.Location;
-import be.howest.ti.mars.logic.domain.Subscription;
-import be.howest.ti.mars.logic.domain.VitalStatus;
+import be.howest.ti.mars.logic.domain.*;
+import be.howest.ti.mars.logic.domain.util.RandomLocationGenerator;
 import io.swagger.v3.core.util.Json;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
@@ -50,8 +48,8 @@ public class MarsRtcBridge {
     private EventBus eb;
 
     private void MockCalls() {
-        Client mockClient = new Client("Dummy", "User", new Location(5.12, 8.12), new VitalStatus(), new Subscription(), "1");
-
+        Client mockClient = new Client("Dummy", "User", RandomLocationGenerator.getRandomLocation(), new VitalStatus(), new Subscription(), "1");
+        Vehicle mockVehicle = new Vehicle("V1", RandomLocationGenerator.getRandomLocation());
         Timer newClientTimer = new Timer();
         Timer newVehicleTimer = new Timer();
 
@@ -65,7 +63,7 @@ public class MarsRtcBridge {
         TimerTask newVehicleTimerTask = new TimerTask() {
             @Override
             public void run() {
-                eb.publish(NEW_VEHICLE_EVENT_BUS, "A New vehicle should be added!");
+                eb.publish(NEW_VEHICLE_EVENT_BUS, JsonObject.mapFrom(mockVehicle));
             }
         };
 
