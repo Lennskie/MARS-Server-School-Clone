@@ -37,7 +37,7 @@ import com.fasterxml.jackson.core.util.*;
  */
 public class MarsRtcBridge {
 
-    MarsController marsController = new DefaultMarsController();
+    private static final MarsController marsController = new DefaultMarsController();
 
     private final String NEW_CLIENT_EVENT_BUS = "new.client";
     private final String NEW_VEHICLE_EVENT_BUS = "new.vehicle";
@@ -51,6 +51,8 @@ public class MarsRtcBridge {
     private SockJSHandler sockJSHandler;
     private EventBus eb;
 
+
+    // Mockcalls is not intended to stay - it is currently just a "filler" to test and get the rest going
     private void MockCalls() {
         // "1" Is arbitrary here, it's mocking
         Subscription dummyClientSubscription = marsController.getSubscriptions().get(1);
@@ -66,7 +68,7 @@ public class MarsRtcBridge {
         TimerTask newClientTimerTask = new TimerTask() {
             @Override
             public void run() {
-                eb.publish(NEW_CLIENT_EVENT_BUS, JsonObject.mapFrom(mockClient));
+                publishNewClient(mockClient);
                 mockClient.setLocation(RandomLocationGenerator.getRandomLocation());
             }
         };
@@ -74,13 +76,21 @@ public class MarsRtcBridge {
         TimerTask newVehicleTimerTask = new TimerTask() {
             @Override
             public void run() {
-                eb.publish(NEW_VEHICLE_EVENT_BUS, JsonObject.mapFrom(mockVehicle));
+                publishNewVehicle(mockVehicle);
                 mockVehicle.setLocation(RandomLocationGenerator.getRandomLocation());
             }
         };
 
         newClientTimer.schedule(newClientTimerTask, 0, 3000);
         newVehicleTimer.schedule(newVehicleTimerTask, 0, 3000);
+    }
+
+    public void publishNewClient(Client newClient) {
+        eb.publish(NEW_CLIENT_EVENT_BUS, JsonObject.mapFrom(newClient));
+    }
+
+    public void publishNewVehicle(Vehicle newVehicle) {
+        eb.publish(NEW_VEHICLE_EVENT_BUS, JsonObject.mapFrom(newVehicle));
     }
 
     private void createSockJSHandler() {
