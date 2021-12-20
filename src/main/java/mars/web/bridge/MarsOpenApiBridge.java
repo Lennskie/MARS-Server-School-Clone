@@ -1,6 +1,5 @@
 package mars.web.bridge;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.vertx.core.json.JsonObject;
 import mars.logic.controller.DefaultMarsController;
 import mars.logic.controller.MarsController;
@@ -12,7 +11,6 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -47,14 +45,12 @@ public class MarsOpenApiBridge {
     public void getSubscriptions(RoutingContext ctx) {
         List<Subscription> subscriptions = controller.getSubscriptions();
 
-        Response.sendSubscriptions(ctx, new JsonObject().put("subs", subscriptions));
+        Response.sendSubscriptions(ctx, new JsonObject().put("subscriptions", subscriptions));
     }
 
     /*
     Example of how to consume an external api.
      */
-
-
     public Router buildRouter(RouterBuilder routerBuilder) {
         LOGGER.log(Level.INFO, "Installing cors handlers");
         routerBuilder.rootHandler(createCorsHandler());
