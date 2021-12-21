@@ -24,6 +24,7 @@ class VehiclesH2RepositoryTest {
         Repositories.configure(dbProperties, WebClient.create(Vertx.vertx()));
     }
 
+
     @BeforeEach
     void setupTest() {
         Repositories.getVehiclesRepo().generateData();
