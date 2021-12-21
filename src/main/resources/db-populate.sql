@@ -1,3 +1,8 @@
+-- Quotes
+INSERT INTO quotes VALUES (0, 'You must accept that you might fail.');
+INSERT INTO quotes VALUES (1, 'Everyone enjoys doing the kind of work for which he is best suited.');
+
+
 -- Users (identifier, firstname, lastname)
 INSERT INTO users VALUES ('MARS-ID-007', 'James', 'Bond');
 INSERT INTO users VALUES ('MARS-ID-123', 'Lara', 'Croft');
@@ -14,3 +19,9 @@ INSERT INTO subscriptions VALUES ('Platinum', 'Rescue in any Dome, and anywhere 
 INSERT INTO user_subscription VALUES ('MARS-ID-007', 'Gold', 750.00, CURRENT_DATE, null, false);
 INSERT INTO user_subscription VALUES ('MARS-ID-123', 'Silver', 500.00, CURRENT_DATE, null, false);
 INSERT INTO user_subscription VALUES ('MARS-ID-456', 'Platinum', 1000.00, CURRENT_DATE, null, false);
+
+
+-- Vehicles (identifier, occupied)
+INSERT INTO vehicles VALUES ('AV-001', false);
+INSERT INTO vehicles VALUES ('AV-002', false);
+INSERT INTO vehicles VALUES ('AV-003', false);

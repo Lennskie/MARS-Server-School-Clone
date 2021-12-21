@@ -1,6 +1,7 @@
 package mars.logic.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Objects;
 
 public class Vehicle {
     @JsonProperty
@@ -10,37 +11,53 @@ public class Vehicle {
     @JsonProperty
     private Location location;
 
-    public Vehicle(String identifier, Location location) {
+    public Vehicle(String identifier, boolean occupied, Location location) {
         this.identifier = identifier;
+        this.occupied = occupied;
         this.location = location;
     }
 
-    public boolean isOccupied() {
-        return occupied;
+    public Vehicle(String identifier) {
+        this(identifier, false, null);
     }
 
-    public void setOccupied(boolean isOccupied) {
-        this.occupied = isOccupied;
+    @Override
+    public int hashCode() {
+        return Objects.hash(identifier);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Vehicle)) return false;
+        Vehicle vehicle = (Vehicle) o;
+        return identifier.equals(vehicle.identifier);
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "identifier='" + identifier + '\'' +
+                '}';
     }
 
     public String getIdentifier() {
         return identifier;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public boolean isOccupied() {
+        return occupied;
+    }
+
+    public void setOccupied(boolean occupied) {
+        this.occupied = occupied;
     }
 
     public Location getLocation() {
         return location;
     }
 
-    @Override
-    public String toString() {
-        return "Vehicle{" +
-                "occupied=" + occupied +
-                ", identifier='" + identifier + '\'' +
-                ", location=" + location +
-                '}';
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

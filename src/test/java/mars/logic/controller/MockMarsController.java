@@ -1,11 +1,8 @@
 package mars.logic.controller;
 
-import mars.logic.domain.Dangerzone;
-import mars.logic.domain.Location;
-import mars.logic.domain.Quote;
+import mars.logic.domain.*;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import mars.logic.domain.Subscription;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,5 +53,19 @@ public class MockMarsController implements MarsController {
     @Override
     public void addListener(MarsControllerListener listener) {
         // Boilerplate
+    }
+
+    public List<Vehicle> getVehicles() {
+        List<Vehicle> vehicles = new ArrayList<>();
+        vehicles.add(new Vehicle("AV-001"));
+        vehicles.add(new Vehicle("AV-002"));
+        vehicles.add(new Vehicle("AV-003"));
+
+        return vehicles;
+    }
+
+    @Override
+    public Vehicle getVehicle(String identifier) {
+        return new Vehicle("AV-001");
     }
 }

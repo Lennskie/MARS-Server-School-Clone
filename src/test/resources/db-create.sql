@@ -1,4 +1,4 @@
-drop table if exists quotes;
+drop table if exists quotes cascade;
 create table quotes
 (
     id    int auto_increment,
@@ -53,3 +53,11 @@ create table user_subscription
         foreign key (user_identifier) references users
             on update cascade on delete cascade
 );
+
+-- Vehicles
+drop table if exists vehicles;
+create table vehicles
+(
+    identifier varchar not null,
+    occupied boolean not null default false
+)

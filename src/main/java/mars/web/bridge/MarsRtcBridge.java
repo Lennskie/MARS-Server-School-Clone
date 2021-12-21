@@ -63,7 +63,7 @@ public class MarsRtcBridge implements MarsControllerListener {
         // This client should come from repository as well, this is WIP.
         Client mockClient = new Client("Dummy", "User", RandomLocationGenerator.getRandomLocation(), new VitalStatus(), dummyClientSubscription, "1");
         // Same for the vehicle, repository is WIP
-        Vehicle mockVehicle = new Vehicle("V1", RandomLocationGenerator.getRandomLocation());
+        Vehicle mockVehicle = new Vehicle("V1", false, RandomLocationGenerator.getRandomLocation());
 
 
         Timer newClientTimer = new Timer();

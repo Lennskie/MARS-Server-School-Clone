@@ -17,11 +17,11 @@ import java.util.logging.Logger;
  * See https://goquotes-api.herokuapp.com/api/v1/random?count=1
  * See SOA&SD for another example.
  */
-public class ExternalQuotesRepository {
+public class QuotesExternalRepository {
     private static final int DEFAULT_PORT = 443;
     private static final String DEFAULT_HOST = "frightening-warlock-37692.herokuapp.com";
     private static final String DEFAULT_API_URI = "/api/v1/random";
-    private static final Logger LOGGER = Logger.getLogger(ExternalQuotesRepository.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(QuotesExternalRepository.class.getName());
 
     private final WebClient webClient;
     private final String host;
@@ -29,11 +29,11 @@ public class ExternalQuotesRepository {
     private final int port;
     private final boolean useSsl;
 
-    public ExternalQuotesRepository(WebClient webClient) {
+    public QuotesExternalRepository(WebClient webClient) {
         this(webClient, DEFAULT_HOST, DEFAULT_PORT, DEFAULT_API_URI, true);
     }
 
-    public ExternalQuotesRepository(WebClient webClient, String host, int port, String apiUri, boolean useSsl) {
+    public QuotesExternalRepository(WebClient webClient, String host, int port, String apiUri, boolean useSsl) {
         if (webClient == null) {
             LOGGER.log(Level.SEVERE, "RandomQuotesClient is not configured");
             throw new RepositoryException("RandomQuotesClient is not configured");

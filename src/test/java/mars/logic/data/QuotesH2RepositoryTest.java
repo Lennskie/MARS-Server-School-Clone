@@ -6,17 +6,16 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
 import org.junit.jupiter.api.*;
-
 import java.util.Map;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class MarsH2RepositoryTest {
+class QuotesH2RepositoryTest {
     private static final String URL = "jdbc:h2:~/mars-db";
 
     @BeforeAll
     void setupTestSuite() {
         Repositories.shutdown();
-        JsonObject dbProperties = new JsonObject(Map.of("url","jdbc:h2:~/mars-db",
+        JsonObject dbProperties = new JsonObject(Map.of("url", URL,
                 "username", "",
                 "password", "",
                 "webconsole.port", 9000 ));
@@ -25,7 +24,7 @@ class MarsH2RepositoryTest {
 
     @BeforeEach
     void setupTest() {
-        Repositories.getH2Repo().generateData();
+        Repositories.getQuotesRepo().generateData();
     }
 
     @Test
@@ -34,7 +33,7 @@ class MarsH2RepositoryTest {
         int id = 1;
 
         // Act
-        Quote quote = Repositories.getH2Repo().getQuote(id);
+        Quote quote = Repositories.getQuotesRepo().getQuote(id);
 
         // Assert
         Assertions.assertTrue(quote != null && !StringUtil.isNullOrEmpty(quote.getValue()));
@@ -47,7 +46,7 @@ class MarsH2RepositoryTest {
         String quoteValue = "some value";
 
         // Act
-        Quote quote = Repositories.getH2Repo().updateQuote(id, quoteValue);
+        Quote quote = Repositories.getQuotesRepo().updateQuote(id, quoteValue);
 
         // Assert
         Assertions.assertNotNull(quote);
@@ -60,7 +59,7 @@ class MarsH2RepositoryTest {
         String quoteValue = "some value";
 
         // Act
-        Quote quote = Repositories.getH2Repo().insertQuote(quoteValue);
+        Quote quote = Repositories.getQuotesRepo().insertQuote(quoteValue);
 
         // Assert
         Assertions.assertNotNull(quote);
@@ -73,10 +72,10 @@ class MarsH2RepositoryTest {
         int id = 1;
 
         // Act
-        Repositories.getH2Repo().deleteQuote(id);
+        Repositories.getQuotesRepo().deleteQuote(id);
 
         // Assert
-        Assertions.assertNull(Repositories.getH2Repo().getQuote(id));
+        Assertions.assertNull(Repositories.getQuotesRepo().getQuote(id));
     }
 
 }

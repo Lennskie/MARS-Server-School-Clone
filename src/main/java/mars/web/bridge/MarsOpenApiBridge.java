@@ -5,6 +5,7 @@ import mars.logic.controller.DefaultMarsController;
 import mars.logic.controller.MarsController;
 import mars.logic.domain.Dangerzone;
 import mars.logic.domain.Subscription;
+import mars.logic.domain.Vehicle;
 import mars.logic.exceptions.MarsResourceNotFoundException;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.Router;
@@ -27,6 +28,8 @@ import java.util.logging.Logger;
 public class MarsOpenApiBridge {
     private static final Logger LOGGER = Logger.getLogger(MarsOpenApiBridge.class.getName());
     private final MarsController controller;
+    public static final String SPEC_SUBSCRIPTIONS = "subscriptions";
+    public static final String SPEC_VEHICLES = "vehicles";
 
     public MarsOpenApiBridge() {
         this.controller = new DefaultMarsController();
@@ -44,8 +47,17 @@ public class MarsOpenApiBridge {
 
     public void getSubscriptions(RoutingContext ctx) {
         List<Subscription> subscriptions = controller.getSubscriptions();
+        Response.sendSubscriptions(ctx, new JsonObject().put(SPEC_SUBSCRIPTIONS, subscriptions));
+    }
 
-        Response.sendSubscriptions(ctx, new JsonObject().put("subscriptions", subscriptions));
+    public void getVehicles(RoutingContext ctx) {
+        List<Vehicle> vehicles = controller.getVehicles();
+        Response.sendVehicles(ctx, new JsonObject().put(SPEC_VEHICLES, vehicles));
+    }
+
+    public void getVehicle(RoutingContext ctx) {
+        Vehicle vehicle = controller.getVehicle(Request.from(ctx).getVehicleId());
+        Response.sendVehicle(ctx, JsonObject.mapFrom(vehicle));
     }
 
     public MarsController getMarsController() {
@@ -67,6 +79,12 @@ public class MarsOpenApiBridge {
 
         LOGGER.log(Level.INFO, "Installing handler for: getSubscriptions");
         routerBuilder.operation("getSubscriptions").handler(this::getSubscriptions);
+
+        LOGGER.log(Level.INFO, "Installing handler for: getVehicles");
+        routerBuilder.operation("getVehicles").handler(this::getVehicles);
+
+        LOGGER.log(Level.INFO, "Installing handler for: getVehicle");
+        routerBuilder.operation("getVehicle").handler(this::getVehicle);
 
         LOGGER.log(Level.INFO, "All handlers are installed, creating router.");
         return routerBuilder.createRouter();

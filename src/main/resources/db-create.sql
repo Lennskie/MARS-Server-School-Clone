@@ -1,3 +1,12 @@
+-- Quotes
+drop table if exists quotes cascade;
+create table quotes
+(
+    id    int auto_increment,
+    quote varchar(255)
+);
+
+
 -- User
 drop table if exists users cascade;
 create table users
@@ -45,3 +54,12 @@ create table user_subscription
         foreign key (user_identifier) references users
             on update cascade on delete cascade
 );
+
+
+-- Vehicles
+drop table if exists vehicles;
+create table vehicles
+(
+    identifier varchar not null,
+    occupied boolean not null default false
+)

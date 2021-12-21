@@ -6,9 +6,6 @@ import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import mars.logic.domain.Subscription;
-
-import java.util.List;
 
 /**
  * The Response class is responsible for translating the result of the controller into
@@ -19,8 +16,15 @@ public class Response {
     private Response() { }
 
     public static void sendSubscriptions(RoutingContext ctx, JsonObject subscriptions) {
-        // Lenn: JsonObject has been added here and in MarsOpenApiBridge > getSubscriptions
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(subscriptions));
+    }
+
+    public static void sendVehicles(RoutingContext ctx, JsonObject vehicles) {
+        sendJsonResponse(ctx, 200, JsonObject.mapFrom(vehicles));
+    }
+
+    public static void sendVehicle(RoutingContext ctx, JsonObject vehicle) {
+        sendJsonResponse(ctx, 200, JsonObject.mapFrom(vehicle));
     }
 
     public static void sendQuote(RoutingContext ctx, Quote quote) {

@@ -4,10 +4,12 @@ import mars.logic.data.Repositories;
 import mars.logic.domain.Dangerzone;
 import mars.logic.domain.Quote;
 import mars.logic.domain.Subscription;
+import mars.logic.domain.Vehicle;
 import mars.logic.exceptions.MarsResourceNotFoundException;
 import io.vertx.core.Future;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -26,16 +28,16 @@ import java.util.List;
 public class DefaultMarsController implements MarsController {
     private static final String MSG_QUOTE_ID_UNKNOWN = "No quote with id: %d";
     // DP: Observer Pattern Keep a list of all listeners
-    private List<MarsControllerListener> listeners;
+    private List<MarsControllerListener> listeners = new LinkedList<>();
 
     @Override
     public List<Subscription> getSubscriptions() {
-        return Repositories.getH2Repo().getSubscriptions();
+        return Repositories.getSubscriptionsRepo().getSubscriptions();
     }
 
     @Override
     public Quote getQuote(int quoteId) {
-        Quote quote = Repositories.getH2Repo().getQuote(quoteId);
+        Quote quote = Repositories.getQuotesRepo().getQuote(quoteId);
         if (null == quote)
             throw new MarsResourceNotFoundException(String.format(MSG_QUOTE_ID_UNKNOWN, quoteId));
 
@@ -47,7 +49,7 @@ public class DefaultMarsController implements MarsController {
         if (StringUtils.isBlank(quote))
             throw new IllegalArgumentException("An empty quote is not allowed.");
 
-        Quote returnQuote = Repositories.getH2Repo().insertQuote(quote);
+        Quote returnQuote = Repositories.getQuotesRepo().insertQuote(quote);
         fireQuoteCreated(returnQuote);
         return returnQuote;
     }
@@ -65,18 +67,18 @@ public class DefaultMarsController implements MarsController {
         if (quoteId < 0)
             throw new IllegalArgumentException("No valid quote ID provided");
 
-        if (null == Repositories.getH2Repo().getQuote(quoteId))
+        if (null == Repositories.getQuotesRepo().getQuote(quoteId))
             throw new MarsResourceNotFoundException(String.format(MSG_QUOTE_ID_UNKNOWN, quoteId));
 
-        return Repositories.getH2Repo().updateQuote(quoteId, quote);
+        return Repositories.getQuotesRepo().updateQuote(quoteId, quote);
     }
 
     @Override
     public void deleteQuote(int quoteId) {
-        if (null == Repositories.getH2Repo().getQuote(quoteId))
+        if (null == Repositories.getQuotesRepo().getQuote(quoteId))
             throw new MarsResourceNotFoundException(String.format(MSG_QUOTE_ID_UNKNOWN, quoteId));
 
-        Repositories.getH2Repo().deleteQuote(quoteId);
+        Repositories.getQuotesRepo().deleteQuote(quoteId);
     }
 
     /*
@@ -86,7 +88,7 @@ public class DefaultMarsController implements MarsController {
     @Override
     public Future<Quote> getRandomQuote() {
         return Repositories
-                .getQuotesRepo()
+                .getQuotesExternalRepo()
                 .getRandomQuote()
                 .map(this::createQuote);
     }
@@ -100,5 +102,18 @@ public class DefaultMarsController implements MarsController {
     public void addListener(MarsControllerListener listener) {
         // DP: Observer Pattern Add listeners to get notified
         this.listeners.add(listener);
+    }
+
+    public List<Vehicle> getVehicles() {
+        return Repositories.getVehiclesRepo().getVehicles();
+    }
+
+    @Override
+    public Vehicle getVehicle(String identifier) {
+        Vehicle vehicle = Repositories.getVehiclesRepo().getVehicle(identifier);
+        if (null == vehicle)
+            throw new MarsResourceNotFoundException(identifier);
+
+        return vehicle;
     }
 }
