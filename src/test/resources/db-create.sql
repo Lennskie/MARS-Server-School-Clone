@@ -1,4 +1,4 @@
-drop table if exists quotes;
+drop table if exists quotes cascade;
 create table quotes
 (
     id    int auto_increment,

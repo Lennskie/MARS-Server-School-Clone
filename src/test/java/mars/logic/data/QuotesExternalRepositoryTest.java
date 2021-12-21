@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(VertxExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ExternalQuotesRepositoryTest {
+class QuotesExternalRepositoryTest {
     private MockWebServer webServer;
 
     @BeforeAll
@@ -34,7 +34,7 @@ class ExternalQuotesRepositoryTest {
         webServer = new MockWebServer();
         webServer.useHttps((SSLSocketFactory) SSLSocketFactory.getDefault(), true);
         Repositories.shutdown();
-        JsonObject dbProperties = new JsonObject(Map.of("url","jdbc:h2:mem:mars",
+        JsonObject dbProperties = new JsonObject(Map.of("url","jdbc:h2:~/mars-db",
                 "username", "",
                 "password", "",
                 "webconsole.port", 9000 ));
@@ -53,7 +53,7 @@ class ExternalQuotesRepositoryTest {
                 .setHeader("content-type", "application/json"));
 
         // Act
-        Future<String> quote = Repositories.getQuotesRepo().getRandomQuote();
+        Future<String> quote = Repositories.getQuotesExternalRepo().getRandomQuote();
 
         // Assert
         final RecordedRequest recordedRequest = webServer.takeRequest();
@@ -69,6 +69,6 @@ class ExternalQuotesRepositoryTest {
     @Test
     void getRepoWithoutConfiguration() {
         //Arrange + Act + Assert
-        assertThrows(RepositoryException.class, () -> new ExternalQuotesRepository(null));
+        assertThrows(RepositoryException.class, () -> new QuotesExternalRepository(null));
     }
 }
