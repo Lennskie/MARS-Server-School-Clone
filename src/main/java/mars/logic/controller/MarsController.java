@@ -1,10 +1,7 @@
 package mars.logic.controller;
 
-import mars.logic.domain.Dangerzone;
-import mars.logic.domain.Quote;
+import mars.logic.domain.*;
 import io.vertx.core.Future;
-import mars.logic.domain.Subscription;
-import mars.logic.domain.Vehicle;
 
 import java.util.List;
 
@@ -22,4 +19,7 @@ public interface MarsController {
 
     List<Vehicle> getVehicles();
     Vehicle getVehicle(String identifier);
+
+    List<Dome> getDomes();
+    Dome getDome(String identifier);
 }
