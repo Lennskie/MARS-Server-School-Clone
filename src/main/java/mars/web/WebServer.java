@@ -1,5 +1,8 @@
 package mars.web;
 
+import mars.logic.controller.DefaultMarsController;
+import mars.logic.controller.MarsController;
+import mars.logic.controller.MarsControllerListener;
 import mars.logic.data.Repositories;
 import mars.web.bridge.MarsOpenApiBridge;
 import mars.web.bridge.MarsRtcBridge;
@@ -35,10 +38,16 @@ public class WebServer extends AbstractVerticle {
     public WebServer(MarsOpenApiBridge bridge, MarsRtcBridge rtcBridge) {
         this.openApiBridge = bridge;
         this.rtcBridge = rtcBridge;
+
+        // rtcBridge.setMarsController(openApiBridge.getMarsController());
+    }
+
+    public WebServer(MarsController marsController) {
+        this(new MarsOpenApiBridge(marsController), new MarsRtcBridge(marsController));
     }
 
     public WebServer() {
-        this(new MarsOpenApiBridge(), new MarsRtcBridge());
+        this(new DefaultMarsController());
     }
 
     @Override
