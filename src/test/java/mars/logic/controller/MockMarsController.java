@@ -64,4 +64,19 @@ public class MockMarsController implements MarsController {
     public Vehicle getVehicle(String identifier) {
         return new Vehicle("AV-001");
     }
+
+    @Override
+    public List<Client> getClients() {
+        List<Client> clients = new ArrayList<>();
+        clients.add(new Client("MARS-ID-007", "James", "Bond", null, null, null));
+        clients.add(new Client("MARS-ID-123", "Lara", "Croft", null, null, null));
+        clients.add(new Client("MARS-ID-456", "Peter", "Parker", null, null, null));
+
+        return clients;
+    }
+
+    @Override
+    public Client getClient(String identifier) {
+        return new Client("MARS-ID-007", "James", "Bond", null, null, null);
+    }
 }

@@ -2,14 +2,10 @@ package mars.logic.data.util;
 
 import mars.logic.exceptions.RepositoryException;
 import org.h2.tools.Server;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

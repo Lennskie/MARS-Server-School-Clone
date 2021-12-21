@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 public class Request {
     private static final Logger LOGGER = Logger.getLogger(Request.class.getName());
     public static final String SPEC_VEHICLE_ID = "vehicleId";
+    public static final String SPEC_CLIENT_ID = "clientId";
     public static final String SPEC_QUOTE = "quote";
     private final RequestParameters params;
 
@@ -42,6 +43,11 @@ public class Request {
     public String getVehicleId() {
         return params.pathParameter(SPEC_VEHICLE_ID).getString();
     }
+
+    public String getClientId() {
+        return params.pathParameter(SPEC_CLIENT_ID).getString();
+    }
+
 
     public Dangerzone getDangerzones() {
         Location testLocation = new Location(3.555, 7.888);

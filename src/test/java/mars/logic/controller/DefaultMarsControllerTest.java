@@ -68,6 +68,24 @@ class DefaultMarsControllerTest {
     }
 
     @Test
+    void getClients() {
+        MarsController sut = new DefaultMarsController();
+
+        List<Client> clients = sut.getClients();
+
+        assertEquals(3, clients.size());
+    }
+
+    @Test
+    void getClient() {
+        MarsController sut = new DefaultMarsController();
+
+        Client clients = sut.getClient("MARS-ID-007");
+
+        assertTrue(clients != null && StringUtils.isNoneBlank(clients.getIdentifier()));
+    }
+
+    @Test
     void getQuote() {
         // Arrange
         MarsController sut = new DefaultMarsController();
