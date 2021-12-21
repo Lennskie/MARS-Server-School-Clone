@@ -1,5 +1,4 @@
--- Quotes
-drop table if exists quotes cascade;
+drop table if exists quotes;
 create table quotes
 (
     id    int auto_increment,
@@ -53,21 +52,4 @@ create table user_subscription
     constraint user_subscription_user_identifier_fk
         foreign key (user_identifier) references users
             on update cascade on delete cascade
-);
-
-
--- Vehicles
-drop table if exists vehicles;
-create table vehicles
-(
-    identifier varchar not null,
-    occupied boolean not null default false
-);
-
--- Domes
-drop table if exists domes;
-create table domes
-(
-    identifier varchar not null,
-    size double not null
 );

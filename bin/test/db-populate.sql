@@ -1,4 +1,3 @@
--- Quotes
 INSERT INTO quotes VALUES (0, 'You must accept that you might fail.');
 INSERT INTO quotes VALUES (1, 'Everyone enjoys doing the kind of work for which he is best suited.');
 
@@ -19,21 +18,3 @@ INSERT INTO subscriptions VALUES ('Platinum', 'Rescue in any Dome, and anywhere 
 INSERT INTO user_subscription VALUES ('MARS-ID-007', 'Gold', 750.00, CURRENT_DATE, null, false);
 INSERT INTO user_subscription VALUES ('MARS-ID-123', 'Silver', 500.00, CURRENT_DATE, null, false);
 INSERT INTO user_subscription VALUES ('MARS-ID-456', 'Platinum', 1000.00, CURRENT_DATE, null, false);
-
-
--- Vehicles (identifier, occupied)
-INSERT INTO vehicles VALUES ('AV-001', false);
-INSERT INTO vehicles VALUES ('AV-002', false);
-INSERT INTO vehicles VALUES ('AV-003', false);
-
--- Domes (identifier, size)
-INSERT INTO domes VALUES ('DOME-001', 1483.23);
-INSERT INTO domes VALUES ('DOME-002', 1231.38);
-INSERT INTO domes VALUES ('DOME-003', 927.29);
-INSERT INTO domes VALUES ('DOME-004', 1120.98);
-INSERT INTO domes VALUES ('DOME-005', 923.21);
-INSERT INTO domes VALUES ('DOME-006', 827.34);
-INSERT INTO domes VALUES ('DOME-007', 1534.32);
-INSERT INTO domes VALUES ('DOME-008', 1929.21);
-INSERT INTO domes VALUES ('DOME-009', 1739.76);
-INSERT INTO domes VALUES ('DOME-010', 1846.23);
