@@ -7,5 +7,5 @@ import java.util.List;
 public interface VehiclesRepository {
     void generateData();
     List<Vehicle> getVehicles();
-    Vehicle getVehicles(int identifier);
+    Vehicle getVehicle(String identifier);
 }
