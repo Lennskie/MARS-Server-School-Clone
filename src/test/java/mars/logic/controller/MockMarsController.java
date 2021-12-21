@@ -51,6 +51,10 @@ public class MockMarsController implements MarsController {
     }
 
     @Override
+    public void addListener(MarsControllerListener listener) {
+        // Boilerplate
+    }
+
     public List<Vehicle> getVehicles() {
         List<Vehicle> vehicles = new ArrayList<>();
         vehicles.add(new Vehicle("AV-001"));

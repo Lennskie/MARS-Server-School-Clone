@@ -72,6 +72,10 @@ public class MarsOpenApiBridge {
         Response.sendDome(ctx, JsonObject.mapFrom(dome));
     }
 
+    public MarsController getMarsController() {
+        return this.controller;
+    }
+
     /*
     Example of how to consume an external api.
      */
