@@ -4,6 +4,7 @@ import mars.logic.domain.Dangerzone;
 import mars.logic.domain.Quote;
 import io.vertx.core.Future;
 import mars.logic.domain.Subscription;
+import mars.web.bridge.MarsRtcBridge;
 
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface MarsController {
     Future<Quote> getRandomQuote();
 
     Dangerzone getDangerzones(Dangerzone dangerzones);
+
+    void addListener(MarsControllerListener listener);
 }

@@ -48,6 +48,10 @@ public class MarsOpenApiBridge {
         Response.sendSubscriptions(ctx, new JsonObject().put("subscriptions", subscriptions));
     }
 
+    public MarsController getMarsController() {
+        return this.controller;
+    }
+
     /*
     Example of how to consume an external api.
      */

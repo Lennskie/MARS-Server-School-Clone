@@ -25,6 +25,7 @@ import java.util.List;
  */
 public class DefaultMarsController implements MarsController {
     private static final String MSG_QUOTE_ID_UNKNOWN = "No quote with id: %d";
+    private List<MarsControllerListener> listeners;
 
     @Override
     public List<Subscription> getSubscriptions() {
@@ -45,7 +46,13 @@ public class DefaultMarsController implements MarsController {
         if (StringUtils.isBlank(quote))
             throw new IllegalArgumentException("An empty quote is not allowed.");
 
-        return Repositories.getH2Repo().insertQuote(quote);
+        Quote returnQuote = Repositories.getH2Repo().insertQuote(quote);
+        fireQuoteCreated(returnQuote);
+        return returnQuote;
+    }
+
+    private void fireQuoteCreated(Quote quote) {
+        listeners.forEach(marsControllerListener -> marsControllerListener.onQuoteCreated(quote));
     }
 
     @Override
@@ -85,5 +92,10 @@ public class DefaultMarsController implements MarsController {
     @Override
     public Dangerzone getDangerzones(Dangerzone dangerzones) {
         return dangerzones;
+    }
+
+    @Override
+    public void addListener(MarsControllerListener listener) {
+        this.listeners.add(listener);
     }
 }

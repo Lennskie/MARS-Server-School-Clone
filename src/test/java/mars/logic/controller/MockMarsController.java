@@ -52,4 +52,9 @@ public class MockMarsController implements MarsController {
     public Dangerzone getDangerzones(Dangerzone dangerzones) {
         return new Dangerzone(new Location(2.33, 2.33),3);
     }
+
+    @Override
+    public void addListener(MarsControllerListener listener) {
+        // Boilerplate
+    }
 }

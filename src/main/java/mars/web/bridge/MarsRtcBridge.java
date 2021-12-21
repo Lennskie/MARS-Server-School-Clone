@@ -1,10 +1,10 @@
 package mars.web.bridge;
 
 import mars.logic.controller.DefaultMarsController;
+import mars.logic.controller.MarsControllerListener;
 import mars.logic.controller.MarsController;
 import mars.logic.domain.*;
 import mars.logic.domain.util.RandomLocationGenerator;
-import io.swagger.v3.core.util.Json;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
@@ -12,11 +12,8 @@ import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import com.fasterxml.jackson.core.util.*;
 
 /**
  * In the MarsRtcBridge class you will find one example function which sends a message on the message bus to the client.
@@ -35,9 +32,7 @@ import com.fasterxml.jackson.core.util.*;
  * Just like in the openapi bridge, keep business logic isolated in the package logic.
  * <p>
  */
-public class MarsRtcBridge {
-
-    private static final MarsController marsController = new DefaultMarsController();
+public class MarsRtcBridge implements MarsControllerListener {
 
     private final String NEW_CLIENT_EVENT_BUS = "new.client";
     private final String NEW_VEHICLE_EVENT_BUS = "new.vehicle";
@@ -50,6 +45,15 @@ public class MarsRtcBridge {
 
     private SockJSHandler sockJSHandler;
     private EventBus eb;
+    private MarsController marsController;
+
+    public MarsRtcBridge() {
+        this(new DefaultMarsController());
+    }
+
+    public MarsRtcBridge(MarsController marsController) {
+        this.setMarsController(marsController);
+    }
 
 
     // Mockcalls is not intended to stay - it is currently just a "filler" to test and get the rest going
@@ -109,5 +113,16 @@ public class MarsRtcBridge {
         MockCalls();
 
         return sockJSHandler;
+    }
+
+    public void setMarsController(MarsController marsController) {
+        // DP: Observer (Register this bridge by the controller as listener)
+        marsController.addListener(this);
+        this.marsController = marsController;
+    }
+
+    @Override
+    public void onQuoteCreated(Quote quote) {
+
     }
 }
