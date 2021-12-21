@@ -68,6 +68,24 @@ class DefaultMarsControllerTest {
     }
 
     @Test
+    void getDomes() {
+        MarsController sut = new DefaultMarsController();
+
+        List<Dome> domes = sut.getDomes();
+
+        assertEquals(10, domes.size());
+    }
+
+    @Test
+    void getDome() {
+        MarsController sut = new DefaultMarsController();
+
+        Dome dome = sut.getDome("DOME-001");
+
+        assertTrue(dome != null && StringUtils.isNoneBlank(dome.getIdentifier()));
+    }
+
+    @Test
     void getQuote() {
         // Arrange
         MarsController sut = new DefaultMarsController();
