@@ -116,7 +116,7 @@ public class MarsRtcBridge implements MarsControllerListener {
     }
 
     public void setMarsController(MarsController marsController) {
-        // DP: Observer (Register this bridge by the controller as listener)
+        // DP: Observer pattern (Register this bridge by the controller as listener)
         marsController.addListener(this);
         this.marsController = marsController;
     }

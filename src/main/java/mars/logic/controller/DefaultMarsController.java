@@ -25,6 +25,7 @@ import java.util.List;
  */
 public class DefaultMarsController implements MarsController {
     private static final String MSG_QUOTE_ID_UNKNOWN = "No quote with id: %d";
+    // DP: Observer Pattern Keep a list of all listeners
     private List<MarsControllerListener> listeners;
 
     @Override
@@ -52,6 +53,7 @@ public class DefaultMarsController implements MarsController {
     }
 
     private void fireQuoteCreated(Quote quote) {
+        // DP: Observer Pattern notify listeners of created quote
         listeners.forEach(marsControllerListener -> marsControllerListener.onQuoteCreated(quote));
     }
 
@@ -96,6 +98,7 @@ public class DefaultMarsController implements MarsController {
 
     @Override
     public void addListener(MarsControllerListener listener) {
+        // DP: Observer Pattern Add listeners to get notified
         this.listeners.add(listener);
     }
 }
