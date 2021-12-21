@@ -7,5 +7,6 @@ import java.util.List;
 public interface ClientsRepository {
     void generateData();
     List<Client> getClients();
+    List<Client> getSubscribedClients();
     Client getClient(String identifier);
 }

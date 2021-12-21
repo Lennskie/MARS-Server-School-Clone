@@ -4,7 +4,9 @@ import mars.logic.domain.*;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MockMarsController implements MarsController {
@@ -67,16 +69,50 @@ public class MockMarsController implements MarsController {
 
     @Override
     public List<Client> getClients() {
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
+        Subscription subSilver = new Subscription("Silver", "Short description.", 500.00, formatter.format(date), null, false);
+        Subscription subGold = new Subscription("Gold", "Short description.", 500.00, formatter.format(date), null, false);
+        Subscription subPlat = new Subscription("Platinum", "Short description.", 500.00, formatter.format(date), null, false);
+        Subscription subExpired = new Subscription("Silver", "Short description.", 500.00, formatter.format(date), formatter.format(date), false);
+        Subscription subReimbursed = new Subscription("Silver", "Short description.", 500.00, formatter.format(date), formatter.format(date), true);
+
         List<Client> clients = new ArrayList<>();
-        clients.add(new Client("MARS-ID-007", "James", "Bond", null, null, null));
-        clients.add(new Client("MARS-ID-123", "Lara", "Croft", null, null, null));
-        clients.add(new Client("MARS-ID-456", "Peter", "Parker", null, null, null));
+        clients.add(new Client("MARS-ID-001", "Ana", "'Silveneyer'", subSilver, null, null));
+        clients.add(new Client("MARS-ID-002", "Bob", "'Goldeneyer'", subGold, null, null));
+        clients.add(new Client("MARS-ID-003", "Carolina", "'Platineyer'", subPlat, null, null));
+        clients.add(new Client("MARS-ID-004", "Dirk", "'Endedneyer'", subExpired, null, null));
+        clients.add(new Client("MARS-ID-005", "Elena", "'Reumbersedneyer'", subReimbursed, null, null));
+        clients.add(new Client("MARS-ID-006", "Florence", "'Nosubneyer'", null, null, null));
+
+        return clients;
+    }
+
+    @Override
+    public List<Client> getSubscribedClients() {
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
+        Subscription subSilver = new Subscription("Silver", "Short description.", 500.00, formatter.format(date), null, false);
+        Subscription subGold = new Subscription("Gold", "Short description.", 500.00, formatter.format(date), null, false);
+        Subscription subPlat = new Subscription("Platinum", "Short description.", 500.00, formatter.format(date), null, false);
+
+        List<Client> clients = new ArrayList<>();
+        clients.add(new Client("MARS-ID-001", "Ana", "'Silveneyer'", subSilver, null, null));
+        clients.add(new Client("MARS-ID-002", "Bob", "'Goldeneyer'", subGold, null, null));
+        clients.add(new Client("MARS-ID-003", "Carolina", "'Platineyer'", subPlat, null, null));
 
         return clients;
     }
 
     @Override
     public Client getClient(String identifier) {
-        return new Client("MARS-ID-007", "James", "Bond", null, null, null);
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
+        Subscription subSilver = new Subscription("Silver", "Short description.", 500.00, formatter.format(date), null, false);
+
+        return new Client("MARS-ID-001", "Ana", "'Silveneyer'", subSilver, null, null);
     }
 }

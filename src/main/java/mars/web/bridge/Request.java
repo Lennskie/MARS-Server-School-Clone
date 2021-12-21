@@ -48,7 +48,6 @@ public class Request {
         return params.pathParameter(SPEC_CLIENT_ID).getString();
     }
 
-
     public Dangerzone getDangerzones() {
         Location testLocation = new Location(3.555, 7.888);
         return new Dangerzone(testLocation, 50);

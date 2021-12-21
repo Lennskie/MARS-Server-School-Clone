@@ -73,16 +73,52 @@ class DefaultMarsControllerTest {
 
         List<Client> clients = sut.getClients();
 
+        // Assert show all Clients
+        assertEquals(6, clients.size());
+
+        // Assert Client attributes
+        assertTrue(StringUtils.isNoneBlank(clients.get(0).getIdentifier()));
+        assertTrue(StringUtils.isNoneBlank(clients.get(0).getFirstname()));
+        assertTrue(StringUtils.isNoneBlank(clients.get(0).getLastname()));
+
+        // Assert Subscription attributes
+        assertTrue(StringUtils.isNoneBlank(clients.get(0).getSubscription().getName()));
+        assertTrue(StringUtils.isNoneBlank(clients.get(1).getSubscription().getName()));
+        assertTrue(StringUtils.isNoneBlank(clients.get(2).getSubscription().getName()));
+        assertNotNull(clients.get(3).getSubscription().getEndDate());
+        assertTrue(clients.get(4).getSubscription().isReimbursed());
+        assertNull(clients.get(5).getSubscription());
+    }
+
+    @Test
+    void getSubscribedClients() {
+        MarsController sut = new DefaultMarsController();
+
+        List<Client> clients = sut.getSubscribedClients();
+
+        // Assert only show Clients with an active subscription
         assertEquals(3, clients.size());
+
+        // Assert Client attributes
+        assertTrue(StringUtils.isNoneBlank(clients.get(0).getIdentifier()));
+        assertTrue(StringUtils.isNoneBlank(clients.get(0).getFirstname()));
+        assertTrue(StringUtils.isNoneBlank(clients.get(0).getLastname()));
+
+        // Assert Subscription attributes
+        assertTrue(StringUtils.isNoneBlank(clients.get(0).getSubscription().getName()));
     }
 
     @Test
     void getClient() {
         MarsController sut = new DefaultMarsController();
 
-        Client clients = sut.getClient("MARS-ID-007");
+        Client client = sut.getClient("MARS-ID-001");
 
-        assertTrue(clients != null && StringUtils.isNoneBlank(clients.getIdentifier()));
+        assertTrue(client != null && StringUtils.isNoneBlank(client.getIdentifier()));
+        assertTrue(StringUtils.isNoneBlank(client.getIdentifier()));
+        assertTrue(StringUtils.isNoneBlank(client.getFirstname()));
+        assertTrue(StringUtils.isNoneBlank(client.getLastname()));
+        assertTrue(StringUtils.isNoneBlank(client.getSubscription().getName()));
     }
 
     @Test

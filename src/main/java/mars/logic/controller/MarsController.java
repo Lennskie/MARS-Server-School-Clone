@@ -21,5 +21,6 @@ public interface MarsController {
     Vehicle getVehicle(String identifier);
 
     List<Client> getClients();
+    List<Client> getSubscribedClients();
     Client getClient(String identifier);
 }
