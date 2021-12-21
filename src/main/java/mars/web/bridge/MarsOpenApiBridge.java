@@ -42,10 +42,6 @@ public class MarsOpenApiBridge {
         this.controller = controller;
     }
 
-    public MarsController getMarsController() {
-        return this.controller;
-    }
-
     public void getDangerzones(RoutingContext ctx) {
         Dangerzone dangerzones = controller.getDangerzones(Request.from(ctx).getDangerzones());
         Response.sendDangerzones(ctx, dangerzones);
