@@ -19,6 +19,14 @@ public class Response {
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(subscriptions));
     }
 
+    public static void sendVehicles(RoutingContext ctx, JsonObject vehicles) {
+        sendJsonResponse(ctx, 200, JsonObject.mapFrom(vehicles));
+    }
+
+    public static void sendVehicle(RoutingContext ctx, JsonObject vehicle) {
+        sendJsonResponse(ctx, 200, JsonObject.mapFrom(vehicle));
+    }
+
     public static void sendQuote(RoutingContext ctx, Quote quote) {
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(quote));
     }

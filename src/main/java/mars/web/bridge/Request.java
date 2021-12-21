@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 public class Request {
     private static final Logger LOGGER = Logger.getLogger(Request.class.getName());
-    public static final String SPEC_QUOTE_ID = "quoteId";
+    public static final String SPEC_VEHICLE_ID = "vehicleId";
     public static final String SPEC_QUOTE = "quote";
     private final RequestParameters params;
 
@@ -28,10 +28,6 @@ public class Request {
         this.params = ctx.get(ValidationHandler.REQUEST_CONTEXT_KEY);
     }
 
-    public int getQuoteId() {
-        return params.pathParameter(SPEC_QUOTE_ID).getInteger();
-    }
-
     public String getQuote() {
         try {
             if (params.body().isJsonObject())
@@ -41,6 +37,10 @@ public class Request {
             LOGGER.log(Level.INFO, "Unable to decipher the data in the body", ex);
             throw new MalformedRequestException("Unable to decipher the data in the request body. See logs for details.");
         }
+    }
+
+    public String getVehicleId() {
+        return params.pathParameter(SPEC_VEHICLE_ID).getString();
     }
 
     public Dangerzone getDangerzones() {

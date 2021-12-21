@@ -10,6 +10,7 @@ public class Repositories {
     private static QuotesExternalRepository quotesExternalRepo = null;
     private static final SubscriptionsRepository SUBSCRIPTIONS_REPO = new SubscriptionsH2Repository();
     private static final QuotesRepository QUOTES_REPO = new QuotesH2Repository();
+    private static final VehiclesRepository VEHICLES_REPO = new VehiclesH2Repository();
 
     private Repositories() {}
 
@@ -33,6 +34,10 @@ public class Repositories {
 
     public static QuotesRepository getQuotesRepo() {
         return QUOTES_REPO;
+    }
+
+    public static VehiclesRepository getVehiclesRepo() {
+        return VEHICLES_REPO;
     }
 
     public static void configure(JsonObject dbProps, WebClient webClient) {

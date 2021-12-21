@@ -4,6 +4,7 @@ import mars.logic.data.Repositories;
 import mars.logic.domain.Dangerzone;
 import mars.logic.domain.Quote;
 import mars.logic.domain.Subscription;
+import mars.logic.domain.Vehicle;
 import mars.logic.exceptions.MarsResourceNotFoundException;
 import io.vertx.core.Future;
 import org.apache.commons.lang3.StringUtils;
@@ -85,5 +86,19 @@ public class DefaultMarsController implements MarsController {
     @Override
     public Dangerzone getDangerzones(Dangerzone dangerzones) {
         return dangerzones;
+    }
+
+    @Override
+    public List<Vehicle> getVehicles() {
+        return Repositories.getVehiclesRepo().getVehicles();
+    }
+
+    @Override
+    public Vehicle getVehicle(String identifier) {
+        Vehicle vehicle = Repositories.getVehiclesRepo().getVehicle(identifier);
+        if (null == vehicle)
+            throw new MarsResourceNotFoundException(identifier);
+
+        return vehicle;
     }
 }
