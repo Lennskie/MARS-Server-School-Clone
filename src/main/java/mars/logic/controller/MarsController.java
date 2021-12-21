@@ -17,7 +17,10 @@ public interface MarsController {
 
     Dangerzone getDangerzones(Dangerzone dangerzones);
 
+    void addListener(MarsControllerListener listener);
+
     List<Vehicle> getVehicles();
+
     Vehicle getVehicle(String identifier);
 
     List<Client> getClients();

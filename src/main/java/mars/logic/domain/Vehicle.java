@@ -1,10 +1,14 @@
 package mars.logic.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
 
 public class Vehicle {
-    private final String identifier;
+    @JsonProperty
     private boolean occupied;
+    @JsonProperty
+    private final String identifier;
+    @JsonProperty
     private Location location;
 
     public Vehicle(String identifier, boolean occupied, Location location) {

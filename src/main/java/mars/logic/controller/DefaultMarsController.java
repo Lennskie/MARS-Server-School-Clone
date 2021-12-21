@@ -6,6 +6,7 @@ import mars.logic.exceptions.MarsResourceNotFoundException;
 import io.vertx.core.Future;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -23,6 +24,8 @@ import java.util.List;
  */
 public class DefaultMarsController implements MarsController {
     private static final String MSG_QUOTE_ID_UNKNOWN = "No quote with id: %d";
+    // DP: Observer Pattern Keep a list of all listeners
+    private List<MarsControllerListener> listeners = new LinkedList<>();
 
     @Override
     public List<Subscription> getSubscriptions() {
@@ -43,7 +46,14 @@ public class DefaultMarsController implements MarsController {
         if (StringUtils.isBlank(quote))
             throw new IllegalArgumentException("An empty quote is not allowed.");
 
-        return Repositories.getQuotesRepo().insertQuote(quote);
+        Quote returnQuote = Repositories.getQuotesRepo().insertQuote(quote);
+        fireQuoteCreated(returnQuote);
+        return returnQuote;
+    }
+
+    private void fireQuoteCreated(Quote quote) {
+        // DP: Observer Pattern notify listeners of created quote
+        listeners.forEach(marsControllerListener -> marsControllerListener.onQuoteCreated(quote));
     }
 
     @Override
@@ -86,6 +96,11 @@ public class DefaultMarsController implements MarsController {
     }
 
     @Override
+    public void addListener(MarsControllerListener listener) {
+        // DP: Observer Pattern Add listeners to get notified
+        this.listeners.add(listener);
+    }
+
     public List<Vehicle> getVehicles() {
         return Repositories.getVehiclesRepo().getVehicles();
     }
