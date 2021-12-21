@@ -11,6 +11,7 @@ public class Repositories {
     private static final SubscriptionsRepository SUBSCRIPTIONS_REPO = new SubscriptionsH2Repository();
     private static final QuotesRepository QUOTES_REPO = new QuotesH2Repository();
     private static final VehiclesRepository VEHICLES_REPO = new VehiclesH2Repository();
+    private static final DomesRepository DOMES_REPO = new DomesH2Repository();
 
     private Repositories() {}
 
@@ -38,6 +39,10 @@ public class Repositories {
 
     public static VehiclesRepository getVehiclesRepo() {
         return VEHICLES_REPO;
+    }
+
+    public static DomesRepository getDomesRepo() {
+        return DOMES_REPO;
     }
 
     public static void configure(JsonObject dbProps, WebClient webClient) {
