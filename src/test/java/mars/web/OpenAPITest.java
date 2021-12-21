@@ -67,4 +67,54 @@ class OpenAPITest {
                     testContext.completeNow();
                 }));
     }
+
+    @Test
+    void getSubscriptions(final VertxTestContext testContext) {
+        webClient.get(PORT, HOST, "/api/subscriptions/").send()
+                .onFailure(testContext::failNow)
+                .onSuccess(response -> testContext.verify(() -> {
+                    assertEquals(200, response.statusCode(), MSG_200_EXPECTED);
+                    assertTrue(
+                            StringUtils.isNotBlank(
+                                    response.bodyAsJsonObject()
+                                            .getJsonArray("subscriptions")
+                                            .getJsonObject(0)
+                                            .getString("name")
+                            ), "Silver"
+                    );
+                    testContext.completeNow();
+                }));
+    }
+
+    @Test
+    void getVehicles(final VertxTestContext testContext) {
+        webClient.get(PORT, HOST, "/api/vehicles/").send()
+                .onFailure(testContext::failNow)
+                .onSuccess(response -> testContext.verify(() -> {
+                    assertEquals(200, response.statusCode(), MSG_200_EXPECTED);
+                    assertTrue(
+                            StringUtils.isNotBlank(
+                                response.bodyAsJsonObject()
+                                .getJsonArray("vehicles")
+                                .getJsonObject(0)
+                                .getString("identifier")
+                            ), "AV-001"
+                    );
+                    testContext.completeNow();
+                }));
+    }
+
+    @Test
+    void getVehicle(final VertxTestContext testContext) {
+        webClient.get(PORT, HOST, "/api/vehicles/AV-001").send()
+                .onFailure(testContext::failNow)
+                .onSuccess(response -> testContext.verify(() -> {
+                    assertEquals(200, response.statusCode(), MSG_200_EXPECTED);
+                    assertTrue(
+                            StringUtils.isNotBlank(response.bodyAsJsonObject().getString("identifier")),
+                            "AV-001"
+                    );
+                    testContext.completeNow();
+                }));
+    }
 }

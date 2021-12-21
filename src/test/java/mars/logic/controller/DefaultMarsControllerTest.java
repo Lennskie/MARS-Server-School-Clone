@@ -1,10 +1,7 @@
 package mars.logic.controller;
 
 import mars.logic.data.Repositories;
-import mars.logic.domain.Dangerzone;
-import mars.logic.domain.Location;
-import mars.logic.domain.Quote;
-import mars.logic.domain.Subscription;
+import mars.logic.domain.*;
 import mars.logic.exceptions.MarsResourceNotFoundException;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -50,6 +47,24 @@ class DefaultMarsControllerTest {
 
         //Assert
         assertEquals(3, subscriptions.size());
+    }
+
+    @Test
+    void getVehicles() {
+        MarsController sut = new DefaultMarsController();
+
+        List<Vehicle> vehicles = sut.getVehicles();
+
+        assertEquals(3, vehicles.size());
+    }
+
+    @Test
+    void getVehicle() {
+        MarsController sut = new DefaultMarsController();
+
+        Vehicle vehicle = sut.getVehicle("AV-001");
+
+        assertTrue(vehicle != null && StringUtils.isNoneBlank(vehicle.getIdentifier()));
     }
 
     @Test
