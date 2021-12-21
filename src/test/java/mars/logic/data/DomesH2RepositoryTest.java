@@ -26,7 +26,7 @@ class DomesH2RepositoryTest {
 
     @BeforeEach
     void setupTest() {
-        Repositories.getDomesRepo().generateData();
+        Repositories.getH2Repo().generateData();
     }
 
     @Test
