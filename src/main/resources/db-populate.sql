@@ -20,6 +20,7 @@ INSERT INTO user_subscription VALUES ('MARS-ID-007', 'Gold', 750.00, CURRENT_DAT
 INSERT INTO user_subscription VALUES ('MARS-ID-123', 'Silver', 500.00, CURRENT_DATE, null, false);
 INSERT INTO user_subscription VALUES ('MARS-ID-456', 'Platinum', 1000.00, CURRENT_DATE, null, false);
 
+
 -- Vehicles (identifier, occupied)
 INSERT INTO vehicles VALUES ('AV-001', false);
 INSERT INTO vehicles VALUES ('AV-002', false);

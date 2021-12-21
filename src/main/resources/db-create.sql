@@ -55,6 +55,7 @@ create table user_subscription
             on update cascade on delete cascade
 );
 
+
 -- Vehicles
 drop table if exists vehicles;
 create table vehicles
