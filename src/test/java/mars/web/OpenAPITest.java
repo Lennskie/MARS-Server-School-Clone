@@ -117,4 +117,36 @@ class OpenAPITest {
                     testContext.completeNow();
                 }));
     }
+
+    @Test
+    void getDomes(final VertxTestContext testContext) {
+        webClient.get(PORT, HOST, "/api/domes/").send()
+                .onFailure(testContext::failNow)
+                .onSuccess(response -> testContext.verify(() -> {
+                    assertEquals(200, response.statusCode(), MSG_200_EXPECTED);
+                    assertTrue(
+                            StringUtils.isNotBlank(
+                                    response.bodyAsJsonObject()
+                                            .getJsonArray("domes")
+                                            .getJsonObject(0)
+                                            .getString("identifier")
+                            ), "DOME-001"
+                    );
+                    testContext.completeNow();
+                }));
+    }
+
+    @Test
+    void getDome(final VertxTestContext testContext) {
+        webClient.get(PORT, HOST, "/api/domes/DOME-001").send()
+                .onFailure(testContext::failNow)
+                .onSuccess(response -> testContext.verify(() -> {
+                    assertEquals(200, response.statusCode(), MSG_200_EXPECTED);
+                    assertTrue(
+                            StringUtils.isNotBlank(response.bodyAsJsonObject().getString("identifier")),
+                            "DOME-001"
+                    );
+                    testContext.completeNow();
+                }));
+    }
 }
