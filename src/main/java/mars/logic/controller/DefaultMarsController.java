@@ -1,10 +1,7 @@
 package mars.logic.controller;
 
 import mars.logic.data.Repositories;
-import mars.logic.domain.Dangerzone;
-import mars.logic.domain.Quote;
-import mars.logic.domain.Subscription;
-import mars.logic.domain.Vehicle;
+import mars.logic.domain.*;
 import mars.logic.exceptions.MarsResourceNotFoundException;
 import io.vertx.core.Future;
 import org.apache.commons.lang3.StringUtils;
@@ -115,5 +112,24 @@ public class DefaultMarsController implements MarsController {
             throw new MarsResourceNotFoundException(identifier);
 
         return vehicle;
+    }
+
+    @Override
+    public List<Client> getClients() {
+        return Repositories.getClientsRepo().getClients();
+    }
+
+    @Override
+    public List<Client> getSubscribedClients() {
+        return Repositories.getClientsRepo().getSubscribedClients();
+    }
+
+    @Override
+    public Client getClient(String identifier) {
+        Client client = Repositories.getClientsRepo().getClient(identifier);
+        if (null == client)
+            throw new MarsResourceNotFoundException(identifier);
+
+        return client;
     }
 }

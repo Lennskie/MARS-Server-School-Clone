@@ -27,6 +27,18 @@ public class Response {
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(vehicle));
     }
 
+    public static void sendClients(RoutingContext ctx, JsonObject clients) {
+        sendJsonResponse(ctx, 200, JsonObject.mapFrom(clients));
+    }
+
+    public static void sendSubscribedClients(RoutingContext ctx, JsonObject subscribedClients) {
+        sendJsonResponse(ctx, 200, JsonObject.mapFrom(subscribedClients));
+    }
+
+    public static void sendClient(RoutingContext ctx, JsonObject client) {
+        sendJsonResponse(ctx, 200, JsonObject.mapFrom(client));
+    }
+
     public static void sendQuote(RoutingContext ctx, Quote quote) {
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(quote));
     }

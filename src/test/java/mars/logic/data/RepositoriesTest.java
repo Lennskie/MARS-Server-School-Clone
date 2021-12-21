@@ -34,4 +34,9 @@ class RepositoriesTest {
     void getVehiclesRepo() { //noinspection ALL
         assertTrue(Repositories.getVehiclesRepo() instanceof VehiclesRepository);
     }
+
+    @Test
+    void getClientsRepo() { //noinspection ALL
+        assertTrue(Repositories.getClientsRepo() instanceof ClientsRepository);
+    }
 }

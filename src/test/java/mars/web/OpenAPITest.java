@@ -8,11 +8,11 @@ import io.vertx.core.Vertx;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.platform.commons.util.StringUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -116,5 +116,50 @@ class OpenAPITest {
                     );
                     testContext.completeNow();
                 }));
+    }
+
+    @Test
+    void getClients(final VertxTestContext testContext) {
+        webClient.get(PORT, HOST, "/api/clients/").send()
+            .onFailure(testContext::failNow)
+            .onSuccess(response -> testContext.verify(() -> {
+                assertEquals(200, response.statusCode(), MSG_200_EXPECTED);
+                assertEquals(6, response.bodyAsJsonObject().getJsonArray("clients").size());
+                assertTrue(StringUtils.isNotBlank(response.bodyAsJsonObject().getJsonArray("clients").getJsonObject(0).getString("identifier")));
+                assertTrue(StringUtils.isNotBlank(response.bodyAsJsonObject().getJsonArray("clients").getJsonObject(0).getString("firstname")));
+                assertTrue(StringUtils.isNotBlank(response.bodyAsJsonObject().getJsonArray("clients").getJsonObject(0).getString("lastname")));
+                assertTrue(StringUtils.isNotBlank(response.bodyAsJsonObject().getJsonArray("clients").getJsonObject(0).getJsonObject("subscription").getString("name")));
+                testContext.completeNow();
+            }));
+    }
+
+
+    @Test
+    void getSubscribedClients(final VertxTestContext testContext) {
+        webClient.get(PORT, HOST, "/api/clients/subscribed").send()
+            .onFailure(testContext::failNow)
+            .onSuccess(response -> testContext.verify(() -> {
+                assertEquals(200, response.statusCode(), MSG_200_EXPECTED);
+                assertEquals(3, response.bodyAsJsonObject().getJsonArray("subscribedClients").size());
+                assertTrue(StringUtils.isNotBlank(response.bodyAsJsonObject().getJsonArray("subscribedClients").getJsonObject(0).getString("identifier")));
+                assertTrue(StringUtils.isNotBlank(response.bodyAsJsonObject().getJsonArray("subscribedClients").getJsonObject(0).getString("firstname")));
+                assertTrue(StringUtils.isNotBlank(response.bodyAsJsonObject().getJsonArray("subscribedClients").getJsonObject(0).getString("lastname")));
+                assertTrue(StringUtils.isNotBlank(response.bodyAsJsonObject().getJsonArray("subscribedClients").getJsonObject(0).getJsonObject("subscription").getString("name")));
+                testContext.completeNow();
+            }));
+    }
+
+    @Test
+    void getClient(final VertxTestContext testContext) {
+        webClient.get(PORT, HOST, "/api/clients/MARS-ID-001").send()
+            .onFailure(testContext::failNow)
+            .onSuccess(response -> testContext.verify(() -> {
+                assertEquals(200, response.statusCode(), MSG_200_EXPECTED);
+                assertTrue(StringUtils.isNotBlank(response.bodyAsJsonObject().getString("identifier")));
+                assertTrue(StringUtils.isNotBlank(response.bodyAsJsonObject().getString("firstname")));
+                assertTrue(StringUtils.isNotBlank(response.bodyAsJsonObject().getString("lastname")));
+                assertTrue(StringUtils.isNotBlank(response.bodyAsJsonObject().getJsonObject("subscription").getString("name")));
+                testContext.completeNow();
+            }));
     }
 }
