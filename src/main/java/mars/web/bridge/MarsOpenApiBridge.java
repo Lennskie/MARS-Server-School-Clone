@@ -27,10 +27,11 @@ public class MarsOpenApiBridge {
     private static final Logger LOGGER = Logger.getLogger(MarsOpenApiBridge.class.getName());
     private final MarsController controller;
     public static final String SPEC_SUBSCRIPTIONS = "subscriptions";
-    public static final String SPEC_VEHICLES = "vehicles";
     public static final String SPEC_DOMES = "domes";
+    public static final String SPEC_VEHICLES = "vehicles";
     public static final String SPEC_CLIENTS = "clients";
     public static final String SPEC_SUBSCRIBED_CLIENTS = "subscribedClients";
+    public static final String SPEC_DANGERZONES = "dangerzones";
     public static final String SPEC_DISPATCHES = "dispatches";
 
     public MarsOpenApiBridge() {
@@ -42,8 +43,8 @@ public class MarsOpenApiBridge {
     }
 
     public void getDangerzones(RoutingContext ctx) {
-        Dangerzone dangerzones = controller.getDangerzones(Request.from(ctx).getDangerzones());
-        Response.sendDangerzones(ctx, dangerzones);
+        List<Dangerzone> dangerzones = controller.getDangerzones();
+        Response.sendDangerzones(ctx, new JsonObject().put(SPEC_DANGERZONES, dangerzones));
     }
 
     public void getSubscriptions(RoutingContext ctx) {
@@ -91,6 +92,20 @@ public class MarsOpenApiBridge {
         Response.sendDispatches(ctx, new JsonObject().put(SPEC_DISPATCHES, dispatches));
     }
 
+    public void updateVehicleLocation(RoutingContext ctx){
+        Vehicle vehicle = controller.updateVehicleLocation(Request.from(ctx).getVehicleId(), Request.from(ctx).getVehicleLocation());
+        Response.sendClient(ctx, JsonObject.mapFrom(vehicle));
+    }
+
+    public void updateVehicleStatus(RoutingContext ctx){
+        Vehicle vehicle = controller.updateVehicleStatus(Request.from(ctx).getVehicleId(), Request.from(ctx).getVehicleStatus());
+        Response.sendClient(ctx, JsonObject.mapFrom(vehicle));
+    }
+    public void updateClientLocation(RoutingContext ctx){
+        Client client = controller.updateClientLocation(Request.from(ctx).getClientId(), Request.from(ctx).getClientLocation());
+        Response.sendClient(ctx, JsonObject.mapFrom(client));
+    }
+
     /*
     Example of how to consume an external api.
      */
@@ -131,9 +146,19 @@ public class MarsOpenApiBridge {
         LOGGER.log(Level.INFO, "Installing handler for: getDispatches");
         routerBuilder.operation("getDispatches").handler(this::getDispatches);
 
+        LOGGER.log(Level.INFO, "Installing handler for: updateVehicleLocation");
+        routerBuilder.operation("updateVehicleLocation").handler(this::updateVehicleLocation);
+
+        LOGGER.log(Level.INFO, "Installing handler for: updateVehicleStatus");
+        routerBuilder.operation("updateVehicleStatus").handler(this::updateVehicleStatus);
+
+        LOGGER.log(Level.INFO, "Installing handler for: updateClientLocation");
+        routerBuilder.operation("updateClientLocation").handler(this::updateClientLocation);
+
         LOGGER.log(Level.INFO, "All handlers are installed, creating router.");
         return routerBuilder.createRouter();
     }
+
 
     private void onFailedRequest(RoutingContext ctx) {
         Throwable cause = ctx.failure();

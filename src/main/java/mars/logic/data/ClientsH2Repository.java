@@ -1,7 +1,9 @@
 package mars.logic.data;
 
 import mars.logic.domain.Client;
+import mars.logic.domain.Location;
 import mars.logic.domain.Subscription;
+import mars.logic.domain.*;
 import mars.logic.exceptions.RepositoryException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,9 +16,11 @@ import java.util.logging.Logger;
 
 public class ClientsH2Repository implements ClientsRepository {
     private static final Logger LOGGER = Logger.getLogger(ClientsH2Repository.class.getName());
-    private static final String SQL_SELECT_USERS = "select identifier, firstname, lastname, name, description, US.price, start_date, end_date, reimbursed from users left join USER_SUBSCRIPTION US on USERS.IDENTIFIER = US.USER_IDENTIFIER left join SUBSCRIPTIONS S on S.NAME = US.SUBSCRIPTION_NAME";
+    private static final String SQL_SELECT_USERS = "select identifier, firstname, lastname,latitude,longitude,status, name, description, US.price, start_date, end_date, reimbursed from users left join USER_SUBSCRIPTION US on USERS.IDENTIFIER = US.USER_IDENTIFIER left join SUBSCRIPTIONS S on S.NAME = US.SUBSCRIPTION_NAME";
     private static final String SQL_SELECT_USER_BY_ID = SQL_SELECT_USERS + " where identifier = ?;";
     private static final String SQL_SELECT_SUBSCRIBED_USERS = SQL_SELECT_USERS + " where END_DATE is null and REIMBURSED = false";
+    private static final String SQL_UPDATE_CLIENT = "update users set latitude = ?, longitude = ? where identifier like ?;";
+
 
     @Override
     public void generateData() {
@@ -87,8 +91,8 @@ public class ClientsH2Repository implements ClientsRepository {
             rs.getString("firstname"),
             rs.getString("lastname"),
             mapSubscription(rs),
-            null,
-            null
+            new Location(rs.getFloat("latitude"), rs.getFloat("longitude")),
+            rs.getString("status")
         );
     }
 
@@ -103,5 +107,34 @@ public class ClientsH2Repository implements ClientsRepository {
         );
 
         return subscription.getName() != null ? subscription: null;
+    }
+
+    @Override
+    public Client updateClientLocation(String identifier, Location location) {
+        try (Connection connection = Repositories.getH2Repo().getConnection();
+             PreparedStatement updateStmt = connection.prepareStatement(SQL_UPDATE_CLIENT)) {
+
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+
+            updateStmt.setDouble(1, latitude);
+            updateStmt.setDouble(2, longitude);
+            updateStmt.setString(3, identifier);
+            //updateStmt.executeUpdate();
+            if (((updateStmt.executeUpdate()) <= 0)){
+                throw new SQLException();
+            }else{
+                return new Client(
+                        identifier,
+                        getClient(identifier).getFirstname(),
+                        getClient(identifier).getLastname(),
+                        getClient(identifier).getSubscription(),
+                        getClient(identifier).getLocation(),
+                        getClient(identifier).getVitals());
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Failed to update location of Client.", ex);
+            throw new RepositoryException("Could not update location of Client.");
+        }
     }
 }

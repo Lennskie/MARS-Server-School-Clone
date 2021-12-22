@@ -91,8 +91,8 @@ public class DefaultMarsController implements MarsController {
     }
 
     @Override
-    public Dangerzone getDangerzones(Dangerzone dangerzones) {
-        return dangerzones;
+    public List<Dangerzone> getDangerzones() {
+        return Repositories.getDangerRepo().getDangerzones();
     }
 
     @Override
@@ -110,7 +110,6 @@ public class DefaultMarsController implements MarsController {
         Vehicle vehicle = Repositories.getVehiclesRepo().getVehicle(identifier);
         if (null == vehicle)
             throw new MarsResourceNotFoundException(identifier);
-
         return vehicle;
     }
 
@@ -144,6 +143,27 @@ public class DefaultMarsController implements MarsController {
         if (null == client)
             throw new MarsResourceNotFoundException(identifier);
 
+        return client;
+    }
+
+    public Vehicle updateVehicleLocation(String identifier, Location location) {
+        Vehicle vehicle = Repositories.getVehiclesRepo().updateVehicleLocation(identifier, location);
+        if (null == vehicle)
+            throw new MarsResourceNotFoundException(identifier);
+        return vehicle;
+    }
+
+    public Vehicle updateVehicleStatus(String identifier, Boolean status){
+        Vehicle vehicle = Repositories.getVehiclesRepo().updateVehicleStatus(identifier,status);
+        if (null == vehicle)
+            throw new MarsResourceNotFoundException(identifier);
+        return vehicle;
+    }
+
+    public Client updateClientLocation(String identifier, Location location) {
+        Client client = Repositories.getClientsRepo().updateClientLocation(identifier, location);
+        if (null == client)
+            throw new MarsResourceNotFoundException(identifier);
         return client;
     }
 

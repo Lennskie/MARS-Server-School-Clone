@@ -15,7 +15,7 @@ public interface MarsController {
     void deleteQuote(int quoteId);
     Future<Quote> getRandomQuote();
 
-    Dangerzone getDangerzones(Dangerzone dangerzones);
+    List<Dangerzone> getDangerzones();
 
     void addListener(MarsControllerListener listener);
 
@@ -30,6 +30,13 @@ public interface MarsController {
     List<Client> getClients();
     List<Client> getSubscribedClients();
     Client getClient(String identifier);
+
+    Vehicle updateVehicleLocation(String identifier, Location location);
+    Vehicle updateVehicleStatus(String identifier, Boolean status);
+
+    Client updateClientLocation(String identifier, Location location);
+
+
 
     List<Dispatch> getDispatches();
     Dispatch getDispatch(String identifier);

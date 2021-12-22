@@ -14,6 +14,9 @@ create table users
     identifier varchar not null,
     firstname  varchar not null,
     lastname   varchar not null,
+    latitude    float not null,
+    longitude   float not null,
+    status      varchar not null,
     constraint USERS_PK
         primary key (identifier)
 );
@@ -61,7 +64,9 @@ drop table if exists vehicles;
 create table vehicles
 (
     identifier varchar not null,
-    occupied boolean not null default false
+    occupied boolean not null default false,
+    latitude float,
+    longitude float
 );
 
 -- Domes
@@ -69,5 +74,17 @@ drop table if exists domes;
 create table domes
 (
     identifier varchar not null,
-    size double not null
+    size int not null,
+    latitude float,
+    longitude float
+);
+
+-- Dangerzones
+drop table if exists DANGERZONES cascade;
+create table DANGERZONES
+(
+    identifier varchar not null,
+    latitude float not null,
+    longitude  float not null,
+    radius   float not null
 );
