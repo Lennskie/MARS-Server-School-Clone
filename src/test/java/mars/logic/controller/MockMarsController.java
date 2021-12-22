@@ -48,8 +48,12 @@ public class MockMarsController implements MarsController {
     }
 
     @Override
-    public Dangerzone getDangerzones(Dangerzone dangerzones) {
-        return new Dangerzone(new Location(2.33, 2.33),3);
+    public List<Dangerzone> getDangerzones() {
+        List<Dangerzone> dangerzones = new ArrayList<>();
+        dangerzones.add(new Dangerzone("DZ-001", new Location(2.33, 2.33),3));
+        dangerzones.add(new Dangerzone("DZ-002", new Location(2.33, 2.33),3));
+        dangerzones.add(new Dangerzone("DZ-003", new Location(2.33, 2.33),3));
+        return dangerzones;
     }
 
     @Override
@@ -148,9 +152,14 @@ public class MockMarsController implements MarsController {
     }
 
     @Override
+    public Vehicle updateVehicleStatus(String identifier, Boolean status) {
+        return null;
+    }
+
+    @Override
     public Client updateClientLocation(String identifier, Location location) {
         Subscription subscription = new Subscription("platinum", "very epic", 5);
         VitalStatus vitals = new VitalStatus("healthy");
-        return new Client("MARS-ID-999", "Santa", "Claus", subscription, location, vitals);
+        return new Client("MARS-ID-999", "Santa", "Claus", subscription, location, "critical");
     }
 }

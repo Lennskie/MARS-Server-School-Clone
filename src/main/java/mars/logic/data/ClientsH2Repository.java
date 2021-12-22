@@ -1,5 +1,8 @@
 package mars.logic.data;
 
+import mars.logic.domain.Client;
+import mars.logic.domain.Location;
+import mars.logic.domain.Subscription;
 import mars.logic.domain.*;
 import mars.logic.exceptions.RepositoryException;
 import java.sql.Connection;
@@ -13,7 +16,7 @@ import java.util.logging.Logger;
 
 public class ClientsH2Repository implements ClientsRepository {
     private static final Logger LOGGER = Logger.getLogger(ClientsH2Repository.class.getName());
-    private static final String SQL_SELECT_USERS = "select identifier, firstname, lastname, name, description, US.price, start_date, end_date, reimbursed from users left join USER_SUBSCRIPTION US on USERS.IDENTIFIER = US.USER_IDENTIFIER left join SUBSCRIPTIONS S on S.NAME = US.SUBSCRIPTION_NAME";
+    private static final String SQL_SELECT_USERS = "select identifier, firstname, lastname,latitude,longitude,status, name, description, US.price, start_date, end_date, reimbursed from users left join USER_SUBSCRIPTION US on USERS.IDENTIFIER = US.USER_IDENTIFIER left join SUBSCRIPTIONS S on S.NAME = US.SUBSCRIPTION_NAME";
     private static final String SQL_SELECT_USER_BY_ID = SQL_SELECT_USERS + " where identifier = ?;";
     private static final String SQL_SELECT_SUBSCRIBED_USERS = SQL_SELECT_USERS + " where END_DATE is null and REIMBURSED = false";
     private static final String SQL_UPDATE_CLIENT = "update clients set latitude = ?, longitude = ? where identifier like ?;";
@@ -33,11 +36,7 @@ public class ClientsH2Repository implements ClientsRepository {
             List<Client> clients = new ArrayList<>();
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-
-                    Client client = new Client(
-                            rs.getString("identifier"), rs.getString("firstname"), rs.getString("lastname"), new Subscription(rs.getString("name"),rs.getString("description"),rs.getDouble("price")), new Location(rs.getDouble("latitude"),rs.getDouble("longitude")), new VitalStatus(rs.getString("status"))
-                    );
-                    clients.add(client);
+                    clients.add(mapClient(rs));
                 }
             }
             return clients;
@@ -75,8 +74,7 @@ public class ClientsH2Repository implements ClientsRepository {
             stmt.setString(1, identifier);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Client(rs.getString("identifier"), rs.getString("firstname"), rs.getString("lastname"), new Subscription(rs.getString("name"),rs.getString("description"),rs.getDouble("price")), new Location(rs.getDouble("latitude"),rs.getDouble("longitude")), new VitalStatus(rs.getString("status")));
-
+                    return mapClient(rs);
                 } else {
                     return null;
                 }
@@ -93,8 +91,8 @@ public class ClientsH2Repository implements ClientsRepository {
             rs.getString("firstname"),
             rs.getString("lastname"),
             mapSubscription(rs),
-            null,
-            null
+            new Location(rs.getFloat("latitude"), rs.getFloat("longitude")),
+            rs.getString("status")
         );
     }
 

@@ -23,6 +23,7 @@ public class Request {
     public static final String SPEC_QUOTE = "quote";
     public static final String SPEC_VEHICLE_LATITUDE = "latitude";
     public static final String SPEC_VEHICLE_LONGITUDE = "longitude";
+    private static final String SPEC_VEHICLE_STATUS = "status";
     public static final String SPEC_CLIENT_LATITUDE = "latitude";
     public static final String SPEC_CLIENT_LONGITUDE = "longitude";
 
@@ -61,13 +62,17 @@ public class Request {
 
     public Dangerzone getDangerzones() {
         Location testLocation = new Location(3.555, 7.888);
-        return new Dangerzone(testLocation, 50);
+        return new Dangerzone("DZ-001",testLocation, 50);
     }
 
     public Location getVehicleLocation() {
         double latitude = params.pathParameter(SPEC_VEHICLE_LATITUDE).getDouble();
         double longitude = params.pathParameter(SPEC_VEHICLE_LONGITUDE).getDouble();
         return new Location(latitude, longitude);
+    }
+
+    public Boolean getVehicleStatus() {
+        return params.pathParameter(SPEC_VEHICLE_STATUS).getBoolean();
     }
 
     public Location getClientLocation() {

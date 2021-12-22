@@ -61,7 +61,7 @@ public class MarsRtcBridge implements MarsControllerListener {
         // "1" Is arbitrary here, it's mocking
         Subscription dummyClientSubscription = marsController.getSubscriptions().get(1);
         // This client should come from repository as well, this is WIP.
-        Client mockClient = new Client("Dummy", "User", "Lastname", dummyClientSubscription, RandomLocationGenerator.getRandomLocation(), new VitalStatus("critical"));
+        Client mockClient = new Client("Dummy", "User", "Lastname", dummyClientSubscription, RandomLocationGenerator.getRandomLocation(), "critical");
         // Same for the vehicle, repository is WIP
         Vehicle mockVehicle = new Vehicle("V1", false, RandomLocationGenerator.getRandomLocation());
 

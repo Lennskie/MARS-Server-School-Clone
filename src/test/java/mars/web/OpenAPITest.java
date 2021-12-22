@@ -55,20 +55,6 @@ class OpenAPITest {
     }
 
     @Test
-    void getQuote(final VertxTestContext testContext) {
-        webClient.get(PORT, HOST, "/api/dangerzones/").send()
-                .onFailure(testContext::failNow)
-                .onSuccess(response -> testContext.verify(() -> {
-                    assertEquals(200, response.statusCode(), MSG_200_EXPECTED);
-                    assertTrue(
-                            StringUtils.isNotBlank(response.bodyAsJsonObject().getJsonObject("location").getString("longitude")),
-                            "3.555"
-                    );
-                    testContext.completeNow();
-                }));
-    }
-
-    @Test
     void getSubscriptions(final VertxTestContext testContext) {
         webClient.get(PORT, HOST, "/api/subscriptions/").send()
                 .onFailure(testContext::failNow)
