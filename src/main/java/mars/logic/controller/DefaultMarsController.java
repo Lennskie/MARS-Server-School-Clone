@@ -152,4 +152,11 @@ public class DefaultMarsController implements MarsController {
             throw new MarsResourceNotFoundException(identifier);
         return vehicle;
     }
+
+    public Client updateClientLocation(String identifier, Location location) {
+        Client client = Repositories.getClientsRepo().updateClientLocation(identifier, location);
+        if (null == client)
+            throw new MarsResourceNotFoundException(identifier);
+        return client;
+    }
 }

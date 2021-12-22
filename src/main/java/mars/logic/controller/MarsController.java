@@ -32,4 +32,8 @@ public interface MarsController {
     Client getClient(String identifier);
 
     Vehicle updateVehicleLocation(String identifier, Location location);
+
+    Client updateClientLocation(String identifier, Location location);
+
+
 }

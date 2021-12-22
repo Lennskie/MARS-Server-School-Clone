@@ -95,6 +95,11 @@ public class MarsOpenApiBridge {
         Response.sendClient(ctx, JsonObject.mapFrom(vehicle));
     }
 
+    public void updateClientLocation(RoutingContext ctx){
+        Client client = controller.updateClientLocation(Request.from(ctx).getClientId(), Request.from(ctx).getClientLocation());
+        Response.sendClient(ctx, JsonObject.mapFrom(client));
+    }
+
     /*
     Example of how to consume an external api.
      */
@@ -134,6 +139,9 @@ public class MarsOpenApiBridge {
 
         LOGGER.log(Level.INFO, "Installing handler for: updateVehicleLocation");
         routerBuilder.operation("updateVehicleLocation").handler(this::updateVehicleLocation);
+
+        LOGGER.log(Level.INFO, "Installing handler for: updateClientLocation");
+        routerBuilder.operation("updateClientLocation").handler(this::updateClientLocation);
 
         LOGGER.log(Level.INFO, "All handlers are installed, creating router.");
         return routerBuilder.createRouter();
