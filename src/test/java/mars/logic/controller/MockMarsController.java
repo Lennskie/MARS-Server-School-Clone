@@ -119,4 +119,9 @@ public class MockMarsController implements MarsController {
 
         return new Client("MARS-ID-001", "Ana", "'Silveneyer'", subSilver, null, null);
     }
+
+    @Override
+    public Vehicle updateVehicleLocation(String identifier, Location location) {
+        return new Vehicle("AV-001", false, location);
+    }
 }

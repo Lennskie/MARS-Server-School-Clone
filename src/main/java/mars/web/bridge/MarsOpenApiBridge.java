@@ -3,10 +3,7 @@ package mars.web.bridge;
 import io.vertx.core.json.JsonObject;
 import mars.logic.controller.DefaultMarsController;
 import mars.logic.controller.MarsController;
-import mars.logic.domain.Client;
-import mars.logic.domain.Dangerzone;
-import mars.logic.domain.Subscription;
-import mars.logic.domain.Vehicle;
+import mars.logic.domain.*;
 import mars.logic.exceptions.MarsResourceNotFoundException;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.Router;
@@ -77,6 +74,11 @@ public class MarsOpenApiBridge {
         Response.sendClient(ctx, JsonObject.mapFrom(client));
     }
 
+    public void updateVehicleLocation(RoutingContext ctx){
+        Vehicle vehicle = controller.updateVehicleLocation(Request.from(ctx).getVehicleId(), Request.from(ctx).getVehicleLocation());
+        Response.sendClient(ctx, JsonObject.mapFrom(vehicle));
+    }
+
     /*
     Example of how to consume an external api.
      */
@@ -108,9 +110,13 @@ public class MarsOpenApiBridge {
         LOGGER.log(Level.INFO, "Installing handler for: getClient");
         routerBuilder.operation("getClient").handler(this::getClient);
 
+        LOGGER.log(Level.INFO, "Installing handler for: updateVehicleLocation");
+        routerBuilder.operation("updateVehicleLocation").handler(this::updateVehicleLocation);
+
         LOGGER.log(Level.INFO, "All handlers are installed, creating router.");
         return routerBuilder.createRouter();
     }
+
 
     private void onFailedRequest(RoutingContext ctx) {
         Throwable cause = ctx.failure();

@@ -26,4 +26,6 @@ public interface MarsController {
     List<Client> getClients();
     List<Client> getSubscribedClients();
     Client getClient(String identifier);
+
+    Vehicle updateVehicleLocation(String identifier, Location location);
 }

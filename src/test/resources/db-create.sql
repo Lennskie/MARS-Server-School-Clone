@@ -1,3 +1,4 @@
+-- Quotes
 drop table if exists quotes cascade;
 create table quotes
 (
@@ -54,10 +55,13 @@ create table user_subscription
             on update cascade on delete cascade
 );
 
+
 -- Vehicles
 drop table if exists vehicles;
 create table vehicles
 (
     identifier varchar not null,
-    occupied boolean not null default false
+    occupied boolean not null default false,
+    latitude int,
+    longitude int
 )
