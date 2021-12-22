@@ -32,6 +32,7 @@ public class MarsOpenApiBridge {
     private static final Logger LOGGER = Logger.getLogger(MarsOpenApiBridge.class.getName());
     private final MarsController controller;
     public static final String SPEC_SUBSCRIPTIONS = "subscriptions";
+    public static final String SPEC_DOMES = "domes";
     public static final String SPEC_VEHICLES = "vehicles";
     public static final String SPEC_CLIENTS = "clients";
     public static final String SPEC_SUBSCRIBED_CLIENTS = "subscribedClients";
