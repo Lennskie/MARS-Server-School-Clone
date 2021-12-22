@@ -69,7 +69,7 @@ public class Request {
         return new Location(latitude, longitude);
     }
 
-    public Integer getVehicleStatus() {
-        return params.pathParameter(SPEC_VEHICLE_STATUS).getInteger();
+    public Boolean getVehicleStatus() {
+        return params.pathParameter(SPEC_VEHICLE_STATUS).getBoolean();
     }
 }

@@ -153,7 +153,7 @@ public class DefaultMarsController implements MarsController {
         return vehicle;
     }
 
-    public Vehicle updateVehicleStatus(String identifier, Integer status){
+    public Vehicle updateVehicleStatus(String identifier, Boolean status){
         Vehicle vehicle = Repositories.getVehiclesRepo().updateVehicleStatus(identifier,status);
         if (null == vehicle)
             throw new MarsResourceNotFoundException(identifier);

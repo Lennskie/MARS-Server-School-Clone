@@ -90,24 +90,17 @@ public class VehiclesH2Repository implements VehiclesRepository {
         }
     }
 
-    public Vehicle updateVehicleStatus(String identifier, Integer status){
+    public Vehicle updateVehicleStatus(String identifier, Boolean status){
         try (Connection connection = Repositories.getH2Repo().getConnection();
              PreparedStatement stmt = connection.prepareStatement(SQL_UPDATE_STATUS)) {
 
-                boolean flag;
-                if (status.equals(0)){
-                    flag = false;
-                    stmt.setBoolean(1, flag);
-                }else{
-                     flag = true;
-                    stmt.setBoolean(1, flag);
-                }
+                stmt.setBoolean(1, status);
                 stmt.setString(2, identifier);
 
                 if (((stmt.executeUpdate()) <= 0)){
                     throw new SQLException();
                     }else{
-                        return new Vehicle(identifier, flag, getVehicle(identifier).getLocation());
+                        return new Vehicle(identifier, status, getVehicle(identifier).getLocation());
                 }
             }
             catch (SQLException ex) {
