@@ -91,8 +91,8 @@ public class DefaultMarsController implements MarsController {
     }
 
     @Override
-    public Dangerzone getDangerzones(Dangerzone dangerzones) {
-        return dangerzones;
+    public List<Dangerzone> getDangerzones() {
+        return Repositories.getDangerRepo().getDangerzones();
     }
 
     @Override

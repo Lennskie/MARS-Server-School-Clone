@@ -60,7 +60,7 @@ public class Request {
 
     public Dangerzone getDangerzones() {
         Location testLocation = new Location(3.555, 7.888);
-        return new Dangerzone(testLocation, 50);
+        return new Dangerzone("DZ-001",testLocation, 50);
     }
 
     public Location getVehicleLocation() {

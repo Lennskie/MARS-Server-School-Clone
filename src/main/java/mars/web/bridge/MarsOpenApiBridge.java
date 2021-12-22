@@ -3,7 +3,6 @@ package mars.web.bridge;
 import io.vertx.core.json.JsonObject;
 import mars.logic.controller.DefaultMarsController;
 import mars.logic.controller.MarsController;
-import mars.logic.domain.*;
 import mars.logic.domain.Client;
 import mars.logic.domain.Dangerzone;
 import mars.logic.domain.Dome;
@@ -36,6 +35,7 @@ public class MarsOpenApiBridge {
     public static final String SPEC_VEHICLES = "vehicles";
     public static final String SPEC_CLIENTS = "clients";
     public static final String SPEC_SUBSCRIBED_CLIENTS = "subscribedClients";
+    public static final String SPEC_DANGERZONES = "dangerzones";
 
     public MarsOpenApiBridge() {
         this.controller = new DefaultMarsController();
@@ -46,8 +46,8 @@ public class MarsOpenApiBridge {
     }
 
     public void getDangerzones(RoutingContext ctx) {
-        Dangerzone dangerzones = controller.getDangerzones(Request.from(ctx).getDangerzones());
-        Response.sendDangerzones(ctx, dangerzones);
+        List<Dangerzone> dangerzones = controller.getDangerzones();
+        Response.sendDangerzones(ctx, new JsonObject().put(SPEC_DANGERZONES, dangerzones));
     }
 
     public void getSubscriptions(RoutingContext ctx) {

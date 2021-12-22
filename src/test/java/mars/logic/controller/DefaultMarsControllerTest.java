@@ -145,7 +145,7 @@ class DefaultMarsControllerTest {
         MarsController sut = new DefaultMarsController();
 
         // Act
-        Dangerzone dangerzone = sut.getDangerzones(new Dangerzone(new Location(2.33, 2.33),4));
+        List<Dangerzone> dangerzone = sut.getDangerzones();
 
         //Assert
         assertNotNull(dangerzone);
