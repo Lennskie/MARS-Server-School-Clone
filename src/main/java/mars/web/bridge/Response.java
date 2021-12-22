@@ -86,4 +86,8 @@ public class Response {
     public static void sendDangerzones(RoutingContext ctx, Dangerzone dangerzones) {
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(dangerzones));
     }
+
+    public static void sendDispatches(RoutingContext ctx, JsonObject dispatches) {
+        sendJsonResponse(ctx, 200, dispatches);
+    }
 }

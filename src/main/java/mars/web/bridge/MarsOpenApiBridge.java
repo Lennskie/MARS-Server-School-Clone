@@ -3,11 +3,7 @@ package mars.web.bridge;
 import io.vertx.core.json.JsonObject;
 import mars.logic.controller.DefaultMarsController;
 import mars.logic.controller.MarsController;
-import mars.logic.domain.Client;
-import mars.logic.domain.Dangerzone;
-import mars.logic.domain.Dome;
-import mars.logic.domain.Subscription;
-import mars.logic.domain.Vehicle;
+import mars.logic.domain.*;
 import mars.logic.exceptions.MarsResourceNotFoundException;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.Router;
@@ -35,6 +31,7 @@ public class MarsOpenApiBridge {
     public static final String SPEC_DOMES = "domes";
     public static final String SPEC_CLIENTS = "clients";
     public static final String SPEC_SUBSCRIBED_CLIENTS = "subscribedClients";
+    public static final String SPEC_DISPATCHES = "dispatches";
 
     public MarsOpenApiBridge() {
         this.controller = new DefaultMarsController();
@@ -89,6 +86,11 @@ public class MarsOpenApiBridge {
         Response.sendClient(ctx, JsonObject.mapFrom(client));
     }
 
+    public void getDispatches(RoutingContext ctx) {
+        List<Dispatch> dispatches = controller.getDispatches();
+        Response.sendDispatches(ctx, new JsonObject().put(SPEC_DISPATCHES, dispatches));
+    }
+
     /*
     Example of how to consume an external api.
      */
@@ -125,6 +127,9 @@ public class MarsOpenApiBridge {
 
         LOGGER.log(Level.INFO, "Installing handler for: getClient");
         routerBuilder.operation("getClient").handler(this::getClient);
+
+        LOGGER.log(Level.INFO, "Installing handler for: getDispatches");
+        routerBuilder.operation("getDispatches").handler(this::getDispatches);
 
         LOGGER.log(Level.INFO, "All handlers are installed, creating router.");
         return routerBuilder.createRouter();
