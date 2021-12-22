@@ -17,7 +17,7 @@ public class VehiclesH2Repository implements VehiclesRepository {
     private static final Logger LOGGER = Logger.getLogger(VehiclesH2Repository.class.getName());
     private static final String SQL_SELECT_VEHICLES = "select * from vehicles;";
     private static final String SQL_SELECT_VEHICLE_BY_ID = "select * from vehicles where identifier = ?;";
-    private static final String SQL_UPDATE_VEHICLE = "update vehicles set latitude = ?, longitude = ? where identifier like ?";
+    private static final String SQL_UPDATE_VEHICLE = "update vehicles set latitude = ?, longitude = ? where identifier like ?;";
 
     @Override
     public void generateData() {
@@ -34,7 +34,7 @@ public class VehiclesH2Repository implements VehiclesRepository {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Vehicle vehicle = new Vehicle(
-                        rs.getString("identifier")
+                        rs.getString("identifier"), false, new Location(rs.getDouble("latitude"),rs.getDouble("longitude"))
                     );
                     vehicles.add(vehicle);
                 }
@@ -55,7 +55,7 @@ public class VehiclesH2Repository implements VehiclesRepository {
             stmt.setString(1, identifier);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Vehicle(rs.getString("identifier"));
+                    return new Vehicle(rs.getString("identifier"), false, new Location(rs.getDouble("latitude"),rs.getDouble("longitude")));
                 } else {
                     return null;
                 }

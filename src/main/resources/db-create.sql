@@ -62,8 +62,8 @@ create table vehicles
 (
     identifier varchar not null,
     occupied boolean not null default false,
-    latitude int,
-    longitude int
+    latitude float,
+    longitude float
 );
 
 -- Domes
