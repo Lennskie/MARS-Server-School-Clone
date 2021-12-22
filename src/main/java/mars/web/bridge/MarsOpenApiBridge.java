@@ -3,6 +3,7 @@ package mars.web.bridge;
 import io.vertx.core.json.JsonObject;
 import mars.logic.controller.DefaultMarsController;
 import mars.logic.controller.MarsController;
+import mars.logic.domain.*;
 import mars.logic.domain.Client;
 import mars.logic.domain.Dangerzone;
 import mars.logic.domain.Dome;
@@ -15,7 +16,6 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -33,8 +33,8 @@ public class MarsOpenApiBridge {
     private static final Logger LOGGER = Logger.getLogger(MarsOpenApiBridge.class.getName());
     private final MarsController controller;
     public static final String SPEC_SUBSCRIPTIONS = "subscriptions";
-    public static final String SPEC_VEHICLES = "vehicles";
     public static final String SPEC_DOMES = "domes";
+    public static final String SPEC_VEHICLES = "vehicles";
     public static final String SPEC_CLIENTS = "clients";
     public static final String SPEC_SUBSCRIBED_CLIENTS = "subscribedClients";
 
@@ -106,6 +106,15 @@ public class MarsOpenApiBridge {
         Response.sendClient(ctx, JsonObject.mapFrom(client));
     }
 
+    public void updateVehicleLocation(RoutingContext ctx){
+        Vehicle vehicle = controller.updateVehicleLocation(Request.from(ctx).getVehicleId(), Request.from(ctx).getVehicleLocation());
+        Response.sendClient(ctx, JsonObject.mapFrom(vehicle));
+    }
+
+    public void updateVehicleStatus(RoutingContext ctx){
+        Vehicle vehicle = controller.updateVehicleStatus(Request.from(ctx).getVehicleId(), Request.from(ctx).getVehicleStatus());
+        Response.sendClient(ctx, JsonObject.mapFrom(vehicle));
+    }
     /*
     Example of how to consume an external api.
      */
@@ -128,10 +137,10 @@ public class MarsOpenApiBridge {
         LOGGER.log(Level.INFO, "Installing handler for: getVehicle");
         routerBuilder.operation("getVehicle").handler(this::getVehicle);
 
-        LOGGER.log(Level.INFO, "Installing handler for: getDomes");
+        LOGGER.log(Level.INFO, "Installing handler for: getVehicles");
         routerBuilder.operation("getDomes").handler(this::getDomes);
 
-        LOGGER.log(Level.INFO, "Installing handler for: getDome");
+        LOGGER.log(Level.INFO, "Installing handler for: getVehicle");
         routerBuilder.operation("getDome").handler(this::getDome);
 
         LOGGER.log(Level.INFO, "Installing handler for: getClients");
@@ -146,9 +155,16 @@ public class MarsOpenApiBridge {
         LOGGER.log(Level.INFO, "Installing handler for: getOverview");
         routerBuilder.operation("getOverview").handler(this::getOverview);
 
+        LOGGER.log(Level.INFO, "Installing handler for: updateVehicleLocation");
+        routerBuilder.operation("updateVehicleLocation").handler(this::updateVehicleLocation);
+
+        LOGGER.log(Level.INFO, "Installing handler for: updateVehicleStatus");
+        routerBuilder.operation("updateVehicleStatus").handler(this::updateVehicleStatus);
+
         LOGGER.log(Level.INFO, "All handlers are installed, creating router.");
         return routerBuilder.createRouter();
     }
+
 
     private void onFailedRequest(RoutingContext ctx) {
         Throwable cause = ctx.failure();
