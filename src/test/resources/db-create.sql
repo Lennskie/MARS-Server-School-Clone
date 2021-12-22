@@ -8,13 +8,13 @@ create table quotes
 
 
 -- User
-drop table if exists users cascade;
-create table users
+drop table if exists clients cascade;
+create table clients
 (
     identifier varchar not null,
     firstname  varchar not null,
     lastname   varchar not null,
-    constraint USERS_PK
+    constraint CLIENTS_PK
         primary key (identifier)
 );
 
