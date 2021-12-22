@@ -11,5 +11,5 @@ public interface DispatchesRepository {
     List<Dispatch> getDispatches();
     Dispatch getDispatch(String identifier);
     void deleteDispatch(String identifier);
-    void addDispatch(String identifier, DispatchSource source, DispatchTarget target);
+    Dispatch addDispatch(String identifier, DispatchSource source, DispatchTarget target);
 }

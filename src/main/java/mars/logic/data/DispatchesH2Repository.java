@@ -129,32 +129,46 @@ public class DispatchesH2Repository implements DispatchesRepository {
     }
 
     @Override
-    public void addDispatch(String identifier, DispatchSource source, DispatchTarget target) {
+    public Dispatch addDispatch(String identifier, DispatchSource source, DispatchTarget target) {
         try (
                 Connection connection = Repositories.getH2Repo().getConnection();
-                PreparedStatement stmt = connection.prepareStatement(SQL_INSERT_DISPATCH);
+                PreparedStatement addStmt = connection.prepareStatement(SQL_INSERT_DISPATCH);
+                PreparedStatement selectStmt = connection.prepareStatement(SQL_SELECT_DISPATCH);
         ) {
-            stmt.setString(1, identifier);
+            addStmt.setString(1, identifier);
 
             if (source instanceof Vehicle) {
-                stmt.setString(2, "Vehicle");
+                addStmt.setString(2, "Vehicle");
             } else if (source instanceof Client) {
-                stmt.setString(2, "Client");
+                addStmt.setString(2, "Client");
             } else {
                 throw new RepositoryException("Unable to add dispatch");
             }
 
             if (target instanceof Client) {
-                stmt.setString(2, "Client");
+                addStmt.setString(3, "Client");
             } else if (target instanceof Dome) {
-                stmt.setString(2, "Dome");
+                addStmt.setString(3, "Dome");
             } else {
                 throw new RepositoryException("Unable to add dispatch");
             }
 
 
-            stmt.setString(4, source.getIdentifier());
-            stmt.setString(5, source.getIdentifier());
+            addStmt.setString(4, source.getIdentifier());
+            addStmt.setString(5, source.getIdentifier());
+
+            if (addStmt.executeUpdate() <= 0) {
+                 throw new RepositoryException("Unable to add dispatch");
+            } else {
+                selectStmt.setString(1, identifier);
+                ResultSet rs = selectStmt.executeQuery();
+
+                if (rs.next()) {
+                    return mapDispatch(rs);
+                } else {
+                    return null;
+                }
+            }
 
         } catch (SQLException | RepositoryException ex) {
             LOGGER.log(Level.SEVERE, "Unable to add dispatch", ex);

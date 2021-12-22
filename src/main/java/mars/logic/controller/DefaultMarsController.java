@@ -146,4 +146,36 @@ public class DefaultMarsController implements MarsController {
 
         return client;
     }
+
+    @Override
+    public List<Dispatch> getDispatches() {
+        return Repositories.getDispatchesRepository().getDispatches();
+    }
+
+    @Override
+    public Dispatch getDispatch(String identifier) {
+        return Repositories.getDispatchesRepository().getDispatch(identifier);
+    }
+
+    @Override
+    public void deleteDispatch(String identifier) {
+        if (null == Repositories.getDispatchesRepository().getDispatch(identifier)) {
+            throw new MarsResourceNotFoundException("No valid dispatch Identifier provided");
+        }
+
+        Repositories.getDispatchesRepository().deleteDispatch(identifier);
+    }
+
+    @Override
+    public void addDispatch(String identifier, DispatchSource source, DispatchTarget target) {
+        if (StringUtils.isBlank(identifier)) {
+            throw new IllegalArgumentException("Identifier is not allowed to be blank");
+        }
+
+        if (null == source || null == target) {
+            throw new IllegalArgumentException("Source and/or target are not allowed to be blank");
+        }
+
+        Repositories.getDispatchesRepository().addDispatch(identifier, source, target);
+    }
 }

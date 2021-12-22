@@ -30,4 +30,9 @@ public interface MarsController {
     List<Client> getClients();
     List<Client> getSubscribedClients();
     Client getClient(String identifier);
+
+    List<Dispatch> getDispatches();
+    Dispatch getDispatch(String identifier);
+    void deleteDispatch(String identifier);
+    void addDispatch(String identifier, DispatchSource source, DispatchTarget target);
 }
