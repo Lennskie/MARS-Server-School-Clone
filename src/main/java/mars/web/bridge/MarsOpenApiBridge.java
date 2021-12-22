@@ -5,6 +5,7 @@ import mars.logic.controller.DefaultMarsController;
 import mars.logic.controller.MarsController;
 import mars.logic.domain.Client;
 import mars.logic.domain.Dangerzone;
+import mars.logic.domain.Dome;
 import mars.logic.domain.Subscription;
 import mars.logic.domain.Vehicle;
 import mars.logic.exceptions.MarsResourceNotFoundException;
@@ -31,6 +32,7 @@ public class MarsOpenApiBridge {
     private final MarsController controller;
     public static final String SPEC_SUBSCRIPTIONS = "subscriptions";
     public static final String SPEC_VEHICLES = "vehicles";
+    public static final String SPEC_DOMES = "domes";
     public static final String SPEC_CLIENTS = "clients";
     public static final String SPEC_SUBSCRIBED_CLIENTS = "subscribedClients";
 
@@ -60,6 +62,16 @@ public class MarsOpenApiBridge {
     public void getVehicle(RoutingContext ctx) {
         Vehicle vehicle = controller.getVehicle(Request.from(ctx).getVehicleId());
         Response.sendVehicle(ctx, JsonObject.mapFrom(vehicle));
+    }
+
+    public void getDomes(RoutingContext ctx) {
+        List<Dome> domes = controller.getDomes();
+        Response.sendDomes(ctx, new JsonObject().put(SPEC_DOMES, domes));
+    }
+
+    public void getDome(RoutingContext ctx) {
+        Dome dome = controller.getDome(Request.from(ctx).getDomeId());
+        Response.sendDome(ctx, JsonObject.mapFrom(dome));
     }
 
     public void getClients(RoutingContext ctx) {
@@ -98,6 +110,12 @@ public class MarsOpenApiBridge {
 
         LOGGER.log(Level.INFO, "Installing handler for: getVehicle");
         routerBuilder.operation("getVehicle").handler(this::getVehicle);
+
+        LOGGER.log(Level.INFO, "Installing handler for: getVehicles");
+        routerBuilder.operation("getDomes").handler(this::getDomes);
+
+        LOGGER.log(Level.INFO, "Installing handler for: getVehicle");
+        routerBuilder.operation("getDome").handler(this::getDome);
 
         LOGGER.log(Level.INFO, "Installing handler for: getClients");
         routerBuilder.operation("getClients").handler(this::getClients);

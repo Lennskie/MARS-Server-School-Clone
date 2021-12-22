@@ -50,7 +50,7 @@ class DefaultMarsControllerTest {
     }
 
     @Test
-    void getVehicles() {
+    void getVehiclesAmount() {
         MarsController sut = new DefaultMarsController();
 
         List<Vehicle> vehicles = sut.getVehicles();
@@ -59,7 +59,7 @@ class DefaultMarsControllerTest {
     }
 
     @Test
-    void getVehicle() {
+    void getVehicleFirst() {
         MarsController sut = new DefaultMarsController();
 
         Vehicle vehicle = sut.getVehicle("AV-001");
@@ -122,15 +122,21 @@ class DefaultMarsControllerTest {
     }
 
     @Test
-    void getQuote() {
-        // Arrange
+    void getDomesAmount() {
         MarsController sut = new DefaultMarsController();
 
-        // Act
-        Quote quote = sut.getQuote(0);
+        List<Dome> domes = sut.getDomes();
 
-        //Assert
-        assertTrue(quote != null && StringUtils.isNoneBlank(quote.getValue()));
+        assertEquals(10, domes.size());
+    }
+
+    @Test
+    void getDomeFirst() {
+        MarsController sut = new DefaultMarsController();
+
+        Dome dome = sut.getDome("DOME-001");
+
+        assertTrue(dome != null && StringUtils.isNoneBlank(dome.getIdentifier()));
     }
 
     @Test
@@ -144,96 +150,4 @@ class DefaultMarsControllerTest {
         //Assert
         assertNotNull(dangerzone);
     }
-
-    @Test
-    void deleteQuote() {
-        // Arrange
-        MarsController sut = new DefaultMarsController();
-
-        // Act
-        sut.deleteQuote(0);
-
-        //Assert
-        assertThrows(MarsResourceNotFoundException.class, () -> sut.getQuote(0));
-    }
-
-    @Test
-    void updateQuote() {
-        // Arrange
-        MarsController sut = new DefaultMarsController();
-        Quote quote = sut.createQuote("some value");
-
-        // Act
-        Quote updatedQuoted = sut.updateQuote(quote.getId(), "new value");
-
-        //Assert
-        assertEquals("new value", updatedQuoted.getValue());
-    }
-
-    @Test
-    void createQuote() {
-        // Arrange
-        MarsController sut = new DefaultMarsController();
-
-        // Act
-        Quote quote = sut.createQuote("new value");
-
-        //Assert
-        assertEquals("new value", quote.getValue());
-    }
-
-    @Test
-    void getQuoteWithUnknownIdThrowsNotFound() {
-        // Arrange
-        MarsController sut = new DefaultMarsController();
-
-        // Act + Assert
-        assertThrows(MarsResourceNotFoundException.class, () -> sut.getQuote(-1));
-    }
-
-    @Test
-    void createQuoteWithEmptyQuoteThrowsIllegalArgument() {
-        // Arrange
-        MarsController sut = new DefaultMarsController();
-
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> sut.createQuote(""));
-    }
-
-    @Test
-    void updateQuoteWithWrongIdThrowsIllegalArgument() {
-        // Arrange
-        MarsController sut = new DefaultMarsController();
-
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> sut.updateQuote(-1, "some quote"));
-    }
-
-    @Test
-    void updateQuoteWithUnknownIdThrowsMarsResourceNotFoundException() {
-        // Arrange
-        MarsController sut = new DefaultMarsController();
-
-        // Act + Assert
-        assertThrows(MarsResourceNotFoundException.class, () -> sut.updateQuote(1000, "some quote"));
-    }
-
-    @Test
-    void updateQuoteWithEmptyQuoteThrowsIllegalArgument() {
-        // Arrange
-        MarsController sut = new DefaultMarsController();
-
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> sut.updateQuote(1, ""));
-    }
-
-    @Test
-    void deleteQuoteWithUnknownIdThrowsNotFound() {
-        // Arrange
-        MarsController sut = new DefaultMarsController();
-
-        // Act + Assert
-        assertThrows(MarsResourceNotFoundException.class, () -> sut.deleteQuote(-1));
-    }
-
 }

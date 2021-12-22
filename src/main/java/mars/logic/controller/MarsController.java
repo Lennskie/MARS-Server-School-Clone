@@ -23,6 +23,10 @@ public interface MarsController {
 
     Vehicle getVehicle(String identifier);
 
+    List<Dome> getDomes();
+
+    Dome getDome(String identifier);
+
     List<Client> getClients();
     List<Client> getSubscribedClients();
     Client getClient(String identifier);
