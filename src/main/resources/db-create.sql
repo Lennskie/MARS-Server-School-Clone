@@ -14,6 +14,9 @@ create table users
     identifier varchar not null,
     firstname  varchar not null,
     lastname   varchar not null,
+    latitude    float not null,
+    longitude   float not null,
+    status      varchar not null,
     constraint USERS_PK
         primary key (identifier)
 );

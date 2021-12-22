@@ -1,6 +1,7 @@
 package mars.logic.data;
 
 import mars.logic.domain.Client;
+import mars.logic.domain.Location;
 import mars.logic.domain.Subscription;
 import mars.logic.exceptions.RepositoryException;
 import java.sql.Connection;
@@ -14,7 +15,7 @@ import java.util.logging.Logger;
 
 public class ClientsH2Repository implements ClientsRepository {
     private static final Logger LOGGER = Logger.getLogger(ClientsH2Repository.class.getName());
-    private static final String SQL_SELECT_USERS = "select identifier, firstname, lastname, name, description, US.price, start_date, end_date, reimbursed from users left join USER_SUBSCRIPTION US on USERS.IDENTIFIER = US.USER_IDENTIFIER left join SUBSCRIPTIONS S on S.NAME = US.SUBSCRIPTION_NAME";
+    private static final String SQL_SELECT_USERS = "select identifier, firstname, lastname,latitude,longitude,status, name, description, US.price, start_date, end_date, reimbursed from users left join USER_SUBSCRIPTION US on USERS.IDENTIFIER = US.USER_IDENTIFIER left join SUBSCRIPTIONS S on S.NAME = US.SUBSCRIPTION_NAME";
     private static final String SQL_SELECT_USER_BY_ID = SQL_SELECT_USERS + " where identifier = ?;";
     private static final String SQL_SELECT_SUBSCRIBED_USERS = SQL_SELECT_USERS + " where END_DATE is null and REIMBURSED = false";
 
@@ -87,8 +88,8 @@ public class ClientsH2Repository implements ClientsRepository {
             rs.getString("firstname"),
             rs.getString("lastname"),
             mapSubscription(rs),
-            null,
-            null
+            new Location(rs.getFloat("latitude"), rs.getFloat("longitude")),
+            rs.getString("status")
         );
     }
 

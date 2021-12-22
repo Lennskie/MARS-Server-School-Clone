@@ -97,7 +97,7 @@ class DefaultMarsControllerTest {
         List<Client> clients = sut.getSubscribedClients();
 
         // Assert only show Clients with an active subscription
-        assertEquals(3, clients.size());
+        assertEquals(1, clients.size());
 
         // Assert Client attributes
         assertTrue(StringUtils.isNoneBlank(clients.get(0).getIdentifier()));
