@@ -61,7 +61,9 @@ drop table if exists vehicles;
 create table vehicles
 (
     identifier varchar not null,
-    occupied boolean not null default false
+    occupied boolean not null default false,
+    latitude float,
+    longitude float
 );
 
 -- Domes
