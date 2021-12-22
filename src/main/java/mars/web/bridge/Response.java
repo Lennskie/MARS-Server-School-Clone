@@ -87,7 +87,7 @@ public class Response {
                 .put("cause", quote));
     }
 
-    public static void sendDangerzones(RoutingContext ctx, Dangerzone dangerzones) {
+    public static void sendDangerzones(RoutingContext ctx, JsonObject dangerzones) {
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(dangerzones));
     }
 }

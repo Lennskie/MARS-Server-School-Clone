@@ -6,5 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class VitalStatus {
     // TODO Placeholder, this should represent vital statuses
     @JsonProperty
-    private String status = "critical";
+    private String status;
+
+    public VitalStatus(String status){
+        this.status = status;
+    }
 }

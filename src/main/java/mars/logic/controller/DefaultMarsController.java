@@ -91,8 +91,8 @@ public class DefaultMarsController implements MarsController {
     }
 
     @Override
-    public Dangerzone getDangerzones(Dangerzone dangerzones) {
-        return dangerzones;
+    public List<Dangerzone> getDangerzones() {
+        return Repositories.getDangerRepo().getDangerzones();
     }
 
     @Override
@@ -158,5 +158,12 @@ public class DefaultMarsController implements MarsController {
         if (null == vehicle)
             throw new MarsResourceNotFoundException(identifier);
         return vehicle;
+    }
+
+    public Client updateClientLocation(String identifier, Location location) {
+        Client client = Repositories.getClientsRepo().updateClientLocation(identifier, location);
+        if (null == client)
+            throw new MarsResourceNotFoundException(identifier);
+        return client;
     }
 }
