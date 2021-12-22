@@ -48,6 +48,6 @@ INSERT INTO DANGERZONES VALUES ('DZ-001',1,2,3);
 INSERT INTO DANGERZONES VALUES ('DZ-001',4,5,6);
 INSERT INTO DANGERZONES VALUES ('DZ-001',7,8,9);
 
--- Vehicles (identifier, source_type, destination_type, source_identifier, destination_identifier)
+-- Dispatches (identifier, source_type, destination_type, source_identifier, destination_identifier)
 INSERT INTO dispatches VALUES ('DISPATCH-001', 'Vehicle', 'Client', 'AV-001', 'MARS-ID-001');
 INSERT INTO dispatches VALUES ('DISPATCH-002', 'Client', 'Dome', 'MARS-ID-001', 'DOME-001');

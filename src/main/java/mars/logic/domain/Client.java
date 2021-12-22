@@ -2,7 +2,7 @@ package mars.logic.domain;
 
 import java.util.Objects;
 
-public class Client extends User implements DispatchTarget, DispatchSource {
+public class Client extends User implements DispatchDestination, DispatchSource {
     private final String identifier;
     private final String firstname;
     private final String lastname;

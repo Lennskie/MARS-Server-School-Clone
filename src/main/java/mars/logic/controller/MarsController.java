@@ -41,5 +41,5 @@ public interface MarsController {
     List<Dispatch> getDispatches();
     Dispatch getDispatch(String identifier);
     void deleteDispatch(String identifier);
-    void addDispatch(String identifier, DispatchSource source, DispatchTarget target);
+    void addDispatch(String identifier, DispatchSource source, DispatchDestination target);
 }

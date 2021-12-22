@@ -1,5 +1,5 @@
 package mars.logic.domain;
 
-public interface DispatchTarget {
+public interface DispatchDestination {
     public String getIdentifier();
 }

@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 public class DispatchesH2Repository implements DispatchesRepository {
@@ -80,10 +81,11 @@ public class DispatchesH2Repository implements DispatchesRepository {
 
 
     private Dispatch mapDispatch(ResultSet rs) throws SQLException, RepositoryException {
+
         return new Dispatch(
                 rs.getString("identifier"),
                 mapDispatchSource(rs.getString("source_type"), rs.getString("source_identifier")),
-                mapDispatchTarget(rs.getString("destination_type"), rs.getString("destination_type"))
+                mapDispatchDestination(rs.getString("destination_type"), rs.getString("destination_identifier"))
         );
     }
 
@@ -98,14 +100,12 @@ public class DispatchesH2Repository implements DispatchesRepository {
         }
     }
 
-    private DispatchTarget mapDispatchTarget(String destination_type, String destination_identifier) throws RepositoryException {
+    private DispatchDestination mapDispatchDestination(String destination_type, String destination_identifier) throws RepositoryException {
         switch (destination_type) {
             case "Client":
                 return clientRepository.getClient(destination_identifier);
-
             case "Dome":
                 return domeRepository.getDome(destination_identifier);
-
             default:
                 throw new RepositoryException("Unable to get valid DispatchTarget from database");
         }
@@ -129,7 +129,7 @@ public class DispatchesH2Repository implements DispatchesRepository {
     }
 
     @Override
-    public Dispatch addDispatch(String identifier, DispatchSource source, DispatchTarget destination) {
+    public Dispatch addDispatch(String identifier, DispatchSource source, DispatchDestination destination) {
         try (
                 Connection connection = Repositories.getH2Repo().getConnection();
                 PreparedStatement addStmt = connection.prepareStatement(SQL_INSERT_DISPATCH);

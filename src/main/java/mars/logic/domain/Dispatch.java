@@ -11,11 +11,20 @@ public class Dispatch {
     private final DispatchSource source;
 
     @JsonProperty
-    private final DispatchTarget destination;
+    private final DispatchDestination destination;
 
-    public Dispatch(String identifier, DispatchSource source, DispatchTarget destination) {
+    public Dispatch(String identifier, DispatchSource source, DispatchDestination destination) {
         this.identifier = identifier;
         this.source = source;
         this.destination = destination;
+    }
+
+    @Override
+    public String toString() {
+        return "Dispatch{" +
+                "identifier='" + identifier + '\'' +
+                ", source=" + source +
+                ", destination=" + destination +
+                '}';
     }
 }
