@@ -64,4 +64,12 @@ create table vehicles
     occupied boolean not null default false,
     latitude int,
     longitude int
-)
+);
+
+-- Domes
+drop table if exists domes;
+create table domes
+(
+    identifier varchar not null,
+    size double not null
+);

@@ -121,6 +121,28 @@ public class MockMarsController implements MarsController {
     }
 
     @Override
+    public List<Dome> getDomes() {
+        List<Dome> domes = new ArrayList<>();
+        domes.add(new Dome("DOME-001"));
+        domes.add(new Dome("DOME-002"));
+        domes.add(new Dome("DOME-003"));
+        domes.add(new Dome("DOME-004"));
+        domes.add(new Dome("DOME-005"));
+        domes.add(new Dome("DOME-006"));
+        domes.add(new Dome("DOME-007"));
+        domes.add(new Dome("DOME-008"));
+        domes.add(new Dome("DOME-009"));
+        domes.add(new Dome("DOME-010"));
+
+        return domes;
+    }
+
+    @Override
+    public Dome getDome(String identifier) {
+        return new Dome("DOME-001");
+    }
+
+    @Override
     public Vehicle updateVehicleLocation(String identifier, Location location) {
         return new Vehicle("AV-001", false, location);
     }
