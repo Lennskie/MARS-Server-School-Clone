@@ -57,7 +57,7 @@ class ClientsH2RepositoryTest {
         List<Client> clients = Repositories.getClientsRepo().getSubscribedClients();
 
         Assertions.assertNotNull(clients);
-        Assertions.assertEquals(3, clients.size());
+        Assertions.assertEquals(1, clients.size());
         Assertions.assertTrue(StringUtils.isNoneBlank(clients.get(0).getIdentifier()));
         Assertions.assertTrue(StringUtils.isNoneBlank(clients.get(0).getFirstname()));
         Assertions.assertTrue(StringUtils.isNoneBlank(clients.get(0).getLastname()));

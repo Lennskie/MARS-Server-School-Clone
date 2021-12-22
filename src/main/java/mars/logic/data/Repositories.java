@@ -13,6 +13,7 @@ public class Repositories {
     private static final VehiclesRepository VEHICLES_REPO = new VehiclesH2Repository();
     private static final DomesRepository DOMES_REPO = new DomesH2Repository();
     private static final ClientsRepository CLIENTS_REPO = new ClientsH2Repository();
+    private static final DangerzonesRepository DANGER_REPO = new DangerzoneH2Repository();
 
     private Repositories() {}
 
@@ -38,9 +39,7 @@ public class Repositories {
         return QUOTES_REPO;
     }
 
-    public static VehiclesRepository getVehiclesRepo() {
-        return VEHICLES_REPO;
-    }
+    public static VehiclesRepository getVehiclesRepo() { return VEHICLES_REPO; }
 
     public static DomesRepository getDomesRepo() {
         return DOMES_REPO;
@@ -48,6 +47,10 @@ public class Repositories {
 
     public static ClientsRepository getClientsRepo() {
         return CLIENTS_REPO;
+    }
+
+    public static DangerzonesRepository getDangerRepo() {
+        return DANGER_REPO;
     }
 
     public static void configure(JsonObject dbProps, WebClient webClient) {

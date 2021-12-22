@@ -3,9 +3,11 @@ package mars.logic.domain;
 public class Dangerzone {
 
     private final Location location;
-    private final int radius;
+    private final float radius;
+    private final String identifier;
 
-    public Dangerzone(Location location, Integer radius){
+    public Dangerzone(String identifier, Location location, float radius){
+        this.identifier = identifier;
         this.radius = radius;
         this.location = location;
     }
@@ -16,8 +18,13 @@ public class Dangerzone {
     }
 
     @SuppressWarnings("unused")
-    public int getRadius() {
+    public float getRadius() {
         return radius;
+    }
+
+    @SuppressWarnings("unused")
+    public String getIdentifier() {
+        return identifier;
     }
 
     @Override

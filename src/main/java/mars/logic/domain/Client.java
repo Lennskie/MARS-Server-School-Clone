@@ -8,9 +8,9 @@ public class Client extends User {
     private final String lastname;
     private Subscription subscription;
     private Location location;
-    private VitalStatus vitals;
+    private String vitals;
 
-    public Client(String identifier, String firstname, String lastname, Subscription subscription, Location location, VitalStatus vitals) {
+    public Client(String identifier, String firstname, String lastname, Subscription subscription, Location location, String vitals) {
         super(identifier, firstname, lastname);
         this.identifier = identifier;
         this.firstname = firstname;
@@ -36,12 +36,8 @@ public class Client extends User {
         this.location = location;
     }
 
-    public VitalStatus getVitals() {
+    public String getVitals() {
         return vitals;
-    }
-
-    public void setVitals(VitalStatus vitals) {
-        this.vitals = vitals;
     }
 
     @Override

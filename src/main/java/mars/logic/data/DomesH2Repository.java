@@ -1,6 +1,7 @@
 package mars.logic.data;
 
 import mars.logic.domain.Dome;
+import mars.logic.domain.Location;
 import mars.logic.exceptions.RepositoryException;
 
 import java.sql.Connection;
@@ -31,9 +32,7 @@ public class DomesH2Repository implements DomesRepository {
             List<Dome> domes = new ArrayList<>();
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    Dome dome = new Dome(
-                            rs.getString("identifier")
-                    );
+                    Dome dome = new Dome(rs.getString("identifier"), rs.getInt("size"), new Location(rs.getFloat("latitude"), rs.getFloat("longitude")));
                     domes.add(dome);
                 }
             }
@@ -53,7 +52,7 @@ public class DomesH2Repository implements DomesRepository {
             stmt.setString(1, identifier);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Dome(rs.getString("identifier"));
+                    return new Dome(rs.getString("identifier"), rs.getInt("size"), new Location(rs.getFloat("latitude"), rs.getFloat("longitude")));
                 } else {
                     return null;
                 }

@@ -15,7 +15,7 @@ public interface MarsController {
     void deleteQuote(int quoteId);
     Future<Quote> getRandomQuote();
 
-    Dangerzone getDangerzones(Dangerzone dangerzones);
+    List<Dangerzone> getDangerzones();
 
     void addListener(MarsControllerListener listener);
 
