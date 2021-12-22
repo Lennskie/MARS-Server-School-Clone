@@ -2,7 +2,7 @@ package mars.logic.domain;
 
 import java.util.Objects;
 
-public class Dome {
+public class Dome implements DispatchTarget {
     private final String identifier;
     private final int size;
     private Location location;

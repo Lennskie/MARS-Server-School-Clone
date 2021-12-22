@@ -3,7 +3,7 @@ package mars.logic.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
 
-public class Vehicle {
+public class Vehicle implements DispatchSource {
     @JsonProperty
     private boolean occupied;
     @JsonProperty
