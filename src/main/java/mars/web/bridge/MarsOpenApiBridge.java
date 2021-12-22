@@ -46,21 +46,6 @@ public class MarsOpenApiBridge {
         this.controller = controller;
     }
 
-    public void getOverview(RoutingContext ctx) {
-        JsonObject overview = new JsonObject();
-
-        List<Vehicle> vehicles = controller.getVehicles();
-        List<Client> clients = controller.getClients();
-        List<Dome> domes = controller.getDomes();
-
-
-        overview.put(SPEC_VEHICLES, vehicles);
-        overview.put(SPEC_CLIENTS, clients);
-        overview.put(SPEC_DOMES, domes);
-
-        Response.sendOverview(ctx, overview);
-    }
-
     public void getDangerzones(RoutingContext ctx) {
         List<Dangerzone> dangerzones = controller.getDangerzones();
         Response.sendDangerzones(ctx, new JsonObject().put(SPEC_DANGERZONES, dangerzones));
@@ -118,6 +103,21 @@ public class MarsOpenApiBridge {
     public void updateClientLocation(RoutingContext ctx){
         Client client = controller.updateClientLocation(Request.from(ctx).getClientId(), Request.from(ctx).getClientLocation());
         Response.sendClient(ctx, JsonObject.mapFrom(client));
+    }
+
+    public void getOverview(RoutingContext ctx) {
+        JsonObject overview = new JsonObject();
+
+        List<Vehicle> vehicles = controller.getVehicles();
+        List<Client> clients = controller.getClients();
+        List<Dome> domes = controller.getDomes();
+
+
+        overview.put(SPEC_VEHICLES, vehicles);
+        overview.put(SPEC_CLIENTS, clients);
+        overview.put(SPEC_DOMES, domes);
+
+        Response.sendOverview(ctx, overview);
     }
 
     /*

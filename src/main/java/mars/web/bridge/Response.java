@@ -23,10 +23,6 @@ public class Response {
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(vehicles));
     }
 
-    public static void sendOverview(RoutingContext ctx, JsonObject overview) {
-        sendJsonResponse(ctx, 200, JsonObject.mapFrom(overview));
-    }
-
     public static void sendVehicle(RoutingContext ctx, JsonObject vehicle) {
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(vehicle));
     }
@@ -66,6 +62,11 @@ public class Response {
     public static void sendQuoteUpdated(RoutingContext ctx, Quote quote) {
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(quote));
     }
+
+    public static void sendOverview(RoutingContext ctx, JsonObject overview) {
+        sendJsonResponse(ctx, 200, JsonObject.mapFrom(overview));
+    }
+
 
     @SuppressWarnings("all")
     private static void sendEmptyResponse(RoutingContext ctx, int statusCode) {
