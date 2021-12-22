@@ -23,6 +23,7 @@ public class Request {
     public static final String SPEC_QUOTE = "quote";
     public static final String SPEC_VEHICLE_LATITUDE = "latitude";
     public static final String SPEC_VEHICLE_LONGITUDE = "longitude";
+    private static final String SPEC_VEHICLE_STATUS = "status";
 
     private final RequestParameters params;
 
@@ -66,5 +67,9 @@ public class Request {
         double latitude = params.pathParameter(SPEC_VEHICLE_LATITUDE).getDouble();
         double longitude = params.pathParameter(SPEC_VEHICLE_LONGITUDE).getDouble();
         return new Location(latitude, longitude);
+    }
+
+    public Integer getVehicleStatus() {
+        return params.pathParameter(SPEC_VEHICLE_STATUS).getInteger();
     }
 }

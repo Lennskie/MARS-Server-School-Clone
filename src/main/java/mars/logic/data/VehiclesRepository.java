@@ -9,4 +9,5 @@ public interface VehiclesRepository {
     List<Vehicle> getVehicles();
     Vehicle getVehicle(String identifier);
     Vehicle updateVehicleLocation(String identifier, Location location);
+    Vehicle updateVehicleStatus(String identifier, Integer status);
 }

@@ -18,7 +18,7 @@ public class VehiclesH2Repository implements VehiclesRepository {
     private static final String SQL_SELECT_VEHICLES = "select * from vehicles;";
     private static final String SQL_SELECT_VEHICLE_BY_ID = "select * from vehicles where identifier = ?;";
     private static final String SQL_UPDATE_VEHICLE = "update vehicles set latitude = ?, longitude = ? where identifier like ?;";
-    private static final String SQL_UPDATE_STATUS = "update vehicles set status = ? where identifier like ?";
+    private static final String SQL_UPDATE_STATUS = "update vehicles set occupied = ? where identifier like ?";
 
     @Override
     public void generateData() {
@@ -78,11 +78,11 @@ public class VehiclesH2Repository implements VehiclesRepository {
             stmt.setDouble(1, latitude);
             stmt.setDouble(2, longitude);
             stmt.setString(3, identifier);
-            //stmt.executeUpdate();
+
             if (((stmt.executeUpdate()) <= 0)){
                 throw new SQLException();
             }else{
-                return new Vehicle(identifier, false, location);
+                return new Vehicle(identifier, getVehicle(identifier).isOccupied(), location);
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Failed to update location of Vehicle.", ex);
@@ -90,21 +90,29 @@ public class VehiclesH2Repository implements VehiclesRepository {
         }
     }
 
-    public Vehicle updateVehicleStatus(String identifier, Boolean status){
+    public Vehicle updateVehicleStatus(String identifier, Integer status){
         try (Connection connection = Repositories.getH2Repo().getConnection();
              PreparedStatement stmt = connection.prepareStatement(SQL_UPDATE_STATUS)) {
 
-            stmt.setBoolean(1, status);
-            stmt.setString(2, identifier);
-            //stmt.executeUpdate();
-            if (((stmt.executeUpdate()) <= 0)){
-                throw new SQLException();
-            }else{
-                return null;
+                boolean flag;
+                if (status.equals(0)){
+                    flag = false;
+                    stmt.setBoolean(1, flag);
+                }else{
+                     flag = true;
+                    stmt.setBoolean(1, flag);
+                }
+                stmt.setString(2, identifier);
+
+                if (((stmt.executeUpdate()) <= 0)){
+                    throw new SQLException();
+                    }else{
+                        return new Vehicle(identifier, flag, getVehicle(identifier).getLocation());
+                }
             }
-        } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, "Failed to update status of Vehicle.", ex);
-            throw new RepositoryException("Could not update status of Vehicle.");
-        }
+            catch (SQLException ex) {
+                LOGGER.log(Level.SEVERE, "Failed to update status of Vehicle.", ex);
+                throw new RepositoryException("Could not update status of Vehicle.");
+            }
     }
 }
