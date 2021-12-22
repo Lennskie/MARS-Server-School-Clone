@@ -127,7 +127,7 @@ public class ClientsH2Repository implements ClientsRepository {
             }else{
                 selectStmt.setString(1, identifier);
                 ResultSet rs = selectStmt.executeQuery();
-                return new Client(rs.getString("identifier"), rs.getString("firstname"), rs.getString("lastname"), new Subscription(rs.getString("name"),rs.getString("description"),rs.getDouble("price")), new Location(rs.getDouble("latitude"),rs.getDouble("longitude")), new VitalStatus(rs.getString("status")));
+                return new Client(rs.getString("identifier"), rs.getString("firstname"), rs.getString("lastname"), new Subscription(rs.getString("name"),rs.getString("description"),rs.getDouble("price")), new Location(rs.getDouble("latitude"),rs.getDouble("longitude")), rs.getString("status"));
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Failed to update location of Client.", ex);
