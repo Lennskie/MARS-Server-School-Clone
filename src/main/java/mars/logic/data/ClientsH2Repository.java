@@ -19,7 +19,7 @@ public class ClientsH2Repository implements ClientsRepository {
     private static final String SQL_SELECT_USERS = "select identifier, firstname, lastname,latitude,longitude,status, name, description, US.price, start_date, end_date, reimbursed from users left join USER_SUBSCRIPTION US on USERS.IDENTIFIER = US.USER_IDENTIFIER left join SUBSCRIPTIONS S on S.NAME = US.SUBSCRIPTION_NAME";
     private static final String SQL_SELECT_USER_BY_ID = SQL_SELECT_USERS + " where identifier = ?;";
     private static final String SQL_SELECT_SUBSCRIBED_USERS = SQL_SELECT_USERS + " where END_DATE is null and REIMBURSED = false";
-    private static final String SQL_UPDATE_CLIENT = "update clients set latitude = ?, longitude = ? where identifier like ?;";
+    private static final String SQL_UPDATE_CLIENT = "update users set latitude = ?, longitude = ? where identifier like ?;";
 
 
     @Override
@@ -112,8 +112,7 @@ public class ClientsH2Repository implements ClientsRepository {
     @Override
     public Client updateClientLocation(String identifier, Location location) {
         try (Connection connection = Repositories.getH2Repo().getConnection();
-             PreparedStatement updateStmt = connection.prepareStatement(SQL_UPDATE_CLIENT);
-             PreparedStatement selectStmt = connection.prepareStatement(SQL_SELECT_USER_BY_ID)) {
+             PreparedStatement updateStmt = connection.prepareStatement(SQL_UPDATE_CLIENT)) {
 
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
@@ -125,9 +124,13 @@ public class ClientsH2Repository implements ClientsRepository {
             if (((updateStmt.executeUpdate()) <= 0)){
                 throw new SQLException();
             }else{
-                selectStmt.setString(1, identifier);
-                ResultSet rs = selectStmt.executeQuery();
-                return new Client(rs.getString("identifier"), rs.getString("firstname"), rs.getString("lastname"), new Subscription(rs.getString("name"),rs.getString("description"),rs.getDouble("price")), new Location(rs.getDouble("latitude"),rs.getDouble("longitude")), rs.getString("status"));
+                return new Client(
+                        identifier,
+                        getClient(identifier).getFirstname(),
+                        getClient(identifier).getLastname(),
+                        getClient(identifier).getSubscription(),
+                        getClient(identifier).getLocation(),
+                        getClient(identifier).getVitals());
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Failed to update location of Client.", ex);
