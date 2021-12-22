@@ -146,4 +146,9 @@ public class MockMarsController implements MarsController {
     public Vehicle updateVehicleLocation(String identifier, Location location) {
         return new Vehicle("AV-001", false, location);
     }
+
+    @Override
+    public Vehicle updateVehicleStatus(String identifier, Boolean status) {
+        return null;
+    }
 }
