@@ -127,4 +127,23 @@ public class DefaultMarsController implements MarsController {
 
         return dome;
     }
+
+    @Override
+    public List<Client> getClients() {
+        return Repositories.getClientsRepo().getClients();
+    }
+
+    @Override
+    public List<Client> getSubscribedClients() {
+        return Repositories.getClientsRepo().getSubscribedClients();
+    }
+
+    @Override
+    public Client getClient(String identifier) {
+        Client client = Repositories.getClientsRepo().getClient(identifier);
+        if (null == client)
+            throw new MarsResourceNotFoundException(identifier);
+
+        return client;
+    }
 }

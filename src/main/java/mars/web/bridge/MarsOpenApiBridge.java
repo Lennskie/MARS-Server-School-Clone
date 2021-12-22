@@ -3,6 +3,7 @@ package mars.web.bridge;
 import io.vertx.core.json.JsonObject;
 import mars.logic.controller.DefaultMarsController;
 import mars.logic.controller.MarsController;
+import mars.logic.domain.Client;
 import mars.logic.domain.Dangerzone;
 import mars.logic.domain.Dome;
 import mars.logic.domain.Subscription;
@@ -32,6 +33,8 @@ public class MarsOpenApiBridge {
     public static final String SPEC_SUBSCRIPTIONS = "subscriptions";
     public static final String SPEC_VEHICLES = "vehicles";
     public static final String SPEC_DOMES = "domes";
+    public static final String SPEC_CLIENTS = "clients";
+    public static final String SPEC_SUBSCRIBED_CLIENTS = "subscribedClients";
 
     public MarsOpenApiBridge() {
         this.controller = new DefaultMarsController();
@@ -44,7 +47,6 @@ public class MarsOpenApiBridge {
     public void getDangerzones(RoutingContext ctx) {
         Dangerzone dangerzones = controller.getDangerzones(Request.from(ctx).getDangerzones());
         Response.sendDangerzones(ctx, dangerzones);
-
     }
 
     public void getSubscriptions(RoutingContext ctx) {
@@ -72,8 +74,19 @@ public class MarsOpenApiBridge {
         Response.sendDome(ctx, JsonObject.mapFrom(dome));
     }
 
-    public MarsController getMarsController() {
-        return this.controller;
+    public void getClients(RoutingContext ctx) {
+        List<Client> clients = controller.getClients();
+        Response.sendClients(ctx, new JsonObject().put(SPEC_CLIENTS, clients));
+    }
+
+    public void getSubscribedClients(RoutingContext ctx) {
+        List<Client> subscribedClients = controller.getSubscribedClients();
+        Response.sendClients(ctx, new JsonObject().put(SPEC_SUBSCRIBED_CLIENTS, subscribedClients));
+    }
+
+    public void getClient(RoutingContext ctx) {
+        Client client = controller.getClient(Request.from(ctx).getClientId());
+        Response.sendClient(ctx, JsonObject.mapFrom(client));
     }
 
     /*
@@ -103,6 +116,15 @@ public class MarsOpenApiBridge {
 
         LOGGER.log(Level.INFO, "Installing handler for: getVehicle");
         routerBuilder.operation("getDome").handler(this::getDome);
+
+        LOGGER.log(Level.INFO, "Installing handler for: getClients");
+        routerBuilder.operation("getClients").handler(this::getClients);
+
+        LOGGER.log(Level.INFO, "Installing handler for: getSubscribedClients");
+        routerBuilder.operation("getSubscribedClients").handler(this::getSubscribedClients);
+
+        LOGGER.log(Level.INFO, "Installing handler for: getClient");
+        routerBuilder.operation("getClient").handler(this::getClient);
 
         LOGGER.log(Level.INFO, "All handlers are installed, creating router.");
         return routerBuilder.createRouter();

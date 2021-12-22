@@ -34,14 +34,14 @@ import java.util.TimerTask;
  */
 public class MarsRtcBridge implements MarsControllerListener {
 
-    private final String NEW_CLIENT_EVENT_BUS = "new.client";
-    private final String NEW_VEHICLE_EVENT_BUS = "new.vehicle";
+    private static final String NEW_CLIENT_EVENT_BUS = "new.client";
+    private static final String NEW_VEHICLE_EVENT_BUS = "new.vehicle";
 
-    private final String CLIENT_STATUS_EVENT_BUS = "status.client";
-    private final String VEHICLE_STATUS_EVENT_BUS = "status.vehicle";
-
-    private final String CLIENT_LOCATION_EVENT_BUS = "location.client";
-    private final String VEHICLE_LOCATION_EVENT_BUS = "location.vehicle";
+//    private final String CLIENT_STATUS_EVENT_BUS = "status.client";
+//    private final String VEHICLE_STATUS_EVENT_BUS = "status.vehicle";
+//
+//    private final String CLIENT_LOCATION_EVENT_BUS = "location.client";
+//    private final String VEHICLE_LOCATION_EVENT_BUS = "location.vehicle";
 
     private SockJSHandler sockJSHandler;
     private EventBus eb;
@@ -61,7 +61,7 @@ public class MarsRtcBridge implements MarsControllerListener {
         // "1" Is arbitrary here, it's mocking
         Subscription dummyClientSubscription = marsController.getSubscriptions().get(1);
         // This client should come from repository as well, this is WIP.
-        Client mockClient = new Client("Dummy", "User", RandomLocationGenerator.getRandomLocation(), new VitalStatus(), dummyClientSubscription, "1");
+        Client mockClient = new Client("Dummy", "User", "Lastname", dummyClientSubscription, RandomLocationGenerator.getRandomLocation(), new VitalStatus());
         // Same for the vehicle, repository is WIP
         Vehicle mockVehicle = new Vehicle("V1", false, RandomLocationGenerator.getRandomLocation());
 
@@ -122,7 +122,7 @@ public class MarsRtcBridge implements MarsControllerListener {
     }
 
     @Override
-    public void onQuoteCreated(Quote quote) {
+    public void onQuoteCreated(Quote quote) { // noinspection ALL
 
     }
 }

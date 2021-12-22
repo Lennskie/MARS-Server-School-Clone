@@ -1,21 +1,46 @@
 package mars.logic.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Objects;
 
 public class Subscription {
-    @JsonProperty
-    private String name;
-    @JsonProperty
-    private String description;
-    @JsonProperty
-    private double price;
+    private final String name;
+    private final String description;
+    private final double price;
+    private final String startDate;
+    private String endDate;
+    private boolean reimbursed;
 
     public Subscription(String name, String description, double price) {
+        this(name, description, price, null, null, false);
+    }
+
+    public Subscription(String name, String description, double price, String startDate, String endDate, boolean reimbursed) {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.reimbursed = reimbursed;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public boolean isReimbursed() {
+        return reimbursed;
+    }
+
+    public void setReimbursed(boolean reimbursed) {
+        this.reimbursed = reimbursed;
     }
 
     @Override
@@ -48,15 +73,7 @@ public class Subscription {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public double getPrice() {
         return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 }
