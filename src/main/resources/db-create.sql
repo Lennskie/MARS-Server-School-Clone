@@ -71,3 +71,16 @@ create table domes
     identifier varchar not null,
     size double not null
 );
+
+-- Dispatches
+drop table if exists dispatches;
+create table dispatches
+(
+  identifier varchar not null,
+
+  source_type varchar not null,
+  destination_type varchar not null,
+
+  source_identifier varchar not null,
+  destination_identifier varchar not null
+);

@@ -42,3 +42,7 @@ INSERT INTO domes VALUES ('DOME-007', 1534.32);
 INSERT INTO domes VALUES ('DOME-008', 1929.21);
 INSERT INTO domes VALUES ('DOME-009', 1739.76);
 INSERT INTO domes VALUES ('DOME-010', 1846.23);
+
+-- Vehicles (identifier, source_type, destination_type, source_identifier, destination_identifier)
+INSERT INTO dispatches VALUES ('DISPATCH-001', 'Vehicle', 'Client', 'AV-001', 'MARS-ID-001');
+INSERT INTO dispatches VALUES ('DISPATCH-002', 'Client', 'Dome', 'MARS-ID-001', 'DOME-001');
