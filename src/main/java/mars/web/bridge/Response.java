@@ -23,6 +23,10 @@ public class Response {
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(vehicles));
     }
 
+    public static void sendOverview(RoutingContext ctx, JsonObject overview) {
+        sendJsonResponse(ctx, 200, JsonObject.mapFrom(overview));
+    }
+
     public static void sendVehicle(RoutingContext ctx, JsonObject vehicle) {
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(vehicle));
     }

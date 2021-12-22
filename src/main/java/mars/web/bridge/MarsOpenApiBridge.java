@@ -14,6 +14,8 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -42,6 +44,21 @@ public class MarsOpenApiBridge {
 
     public MarsOpenApiBridge(MarsController controller) {
         this.controller = controller;
+    }
+
+    public void getOverview(RoutingContext ctx) {
+        JsonObject overview = new JsonObject();
+
+        List<Vehicle> vehicles = controller.getVehicles();
+        List<Client> clients = controller.getClients();
+        List<Dome> domes = controller.getDomes();
+
+
+        overview.put(SPEC_VEHICLES, vehicles);
+        overview.put(SPEC_CLIENTS, clients);
+        overview.put(SPEC_DOMES, domes);
+
+        Response.sendOverview(ctx, overview);
     }
 
     public void getDangerzones(RoutingContext ctx) {
@@ -111,10 +128,10 @@ public class MarsOpenApiBridge {
         LOGGER.log(Level.INFO, "Installing handler for: getVehicle");
         routerBuilder.operation("getVehicle").handler(this::getVehicle);
 
-        LOGGER.log(Level.INFO, "Installing handler for: getVehicles");
+        LOGGER.log(Level.INFO, "Installing handler for: getDomes");
         routerBuilder.operation("getDomes").handler(this::getDomes);
 
-        LOGGER.log(Level.INFO, "Installing handler for: getVehicle");
+        LOGGER.log(Level.INFO, "Installing handler for: getDome");
         routerBuilder.operation("getDome").handler(this::getDome);
 
         LOGGER.log(Level.INFO, "Installing handler for: getClients");
@@ -125,6 +142,9 @@ public class MarsOpenApiBridge {
 
         LOGGER.log(Level.INFO, "Installing handler for: getClient");
         routerBuilder.operation("getClient").handler(this::getClient);
+
+        LOGGER.log(Level.INFO, "Installing handler for: getOverview");
+        routerBuilder.operation("getOverview").handler(this::getOverview);
 
         LOGGER.log(Level.INFO, "All handlers are installed, creating router.");
         return routerBuilder.createRouter();
