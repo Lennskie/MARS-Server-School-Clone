@@ -34,7 +34,7 @@ public class VehiclesH2Repository implements VehiclesRepository {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Vehicle vehicle = new Vehicle(
-                        rs.getString("identifier"), false, new Location(rs.getDouble("latitude"),rs.getDouble("longitude"))
+                        rs.getString("identifier"), rs.getBoolean("occupied"), new Location(rs.getDouble("latitude"),rs.getDouble("longitude"))
                     );
                     vehicles.add(vehicle);
                 }
@@ -55,7 +55,7 @@ public class VehiclesH2Repository implements VehiclesRepository {
             stmt.setString(1, identifier);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Vehicle(rs.getString("identifier"), false, new Location(rs.getDouble("latitude"),rs.getDouble("longitude")));
+                    return new Vehicle(rs.getString("identifier"), rs.getBoolean("occupied"), new Location(rs.getDouble("latitude"),rs.getDouble("longitude")));
                 } else {
                     return null;
                 }
@@ -77,9 +77,12 @@ public class VehiclesH2Repository implements VehiclesRepository {
             stmt.setDouble(1, latitude);
             stmt.setDouble(2, longitude);
             stmt.setString(3, identifier);
-            stmt.executeUpdate();
-
-            return new Vehicle(identifier, false, location);
+            //stmt.executeUpdate();
+            if (((stmt.executeUpdate()) <= 0)){
+                throw new SQLException();
+            }else{
+                return new Vehicle(identifier, false, location);
+            }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Failed to update location of Vehicle.", ex);
             throw new RepositoryException("Could not update location of Vehicle.");
