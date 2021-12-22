@@ -24,6 +24,8 @@ public class Request {
     public static final String SPEC_VEHICLE_LATITUDE = "latitude";
     public static final String SPEC_VEHICLE_LONGITUDE = "longitude";
     private static final String SPEC_VEHICLE_STATUS = "status";
+    public static final String SPEC_CLIENT_LATITUDE = "latitude";
+    public static final String SPEC_CLIENT_LONGITUDE = "longitude";
 
     private final RequestParameters params;
 
@@ -71,5 +73,11 @@ public class Request {
 
     public Boolean getVehicleStatus() {
         return params.pathParameter(SPEC_VEHICLE_STATUS).getBoolean();
+    }
+
+    public Location getClientLocation() {
+        double latitude = params.pathParameter(SPEC_CLIENT_LATITUDE).getDouble();
+        double longitude = params.pathParameter(SPEC_CLIENT_LONGITUDE).getDouble();
+        return new Location(latitude, longitude);
     }
 }

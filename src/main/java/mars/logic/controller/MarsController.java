@@ -33,4 +33,8 @@ public interface MarsController {
 
     Vehicle updateVehicleLocation(String identifier, Location location);
     Vehicle updateVehicleStatus(String identifier, Boolean status);
+
+    Client updateClientLocation(String identifier, Location location);
+
+
 }

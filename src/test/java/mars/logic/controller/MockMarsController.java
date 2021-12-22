@@ -155,4 +155,11 @@ public class MockMarsController implements MarsController {
     public Vehicle updateVehicleStatus(String identifier, Boolean status) {
         return null;
     }
+
+    @Override
+    public Client updateClientLocation(String identifier, Location location) {
+        Subscription subscription = new Subscription("platinum", "very epic", 5);
+        VitalStatus vitals = new VitalStatus("healthy");
+        return new Client("MARS-ID-999", "Santa", "Claus", subscription, location, "critical");
+    }
 }

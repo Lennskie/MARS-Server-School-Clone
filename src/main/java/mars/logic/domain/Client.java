@@ -20,6 +20,21 @@ public class Client extends User {
         this.vitals = vitals;
     }
 
+    @Override
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    @Override
+    public String getFirstname() {
+        return firstname;
+    }
+
+    @Override
+    public String getLastname() {
+        return lastname;
+    }
+
     public Subscription getSubscription() {
         return subscription;
     }
