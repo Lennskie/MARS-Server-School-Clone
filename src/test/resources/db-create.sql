@@ -1,3 +1,4 @@
+-- Quotes
 drop table if exists quotes cascade;
 create table quotes
 (
@@ -54,6 +55,7 @@ create table user_subscription
             on update cascade on delete cascade
 );
 
+
 -- Vehicles
 drop table if exists vehicles;
 create table vehicles
@@ -69,5 +71,17 @@ drop table if exists domes;
 create table domes
 (
     identifier varchar not null,
-    size double not null
+    size int not null,
+    latitude float,
+    longitude float
+);
+
+-- Dangerzones
+drop table if exists DANGERZONES cascade;
+create table DANGERZONES
+(
+    identifier varchar not null,
+    latitude float not null,
+    longitude  float not null,
+    radius   float not null
 );
