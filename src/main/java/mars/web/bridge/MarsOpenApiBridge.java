@@ -11,6 +11,7 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -129,6 +130,24 @@ public class MarsOpenApiBridge {
         Response.sendClient(ctx, JsonObject.mapFrom(client));
     }
 
+    public void getOverview(RoutingContext ctx) {
+        JsonObject overview = new JsonObject();
+
+        List<Vehicle> vehicles = controller.getVehicles();
+        List<Client> clients = controller.getClients();
+        List<Dome> domes = controller.getDomes();
+        List<Dispatch> dispatches = controller.getDispatches();
+
+
+        overview.put(SPEC_VEHICLES, vehicles);
+        overview.put(SPEC_CLIENTS, clients);
+        overview.put(SPEC_DOMES, domes);
+
+        overview.put(SPEC_DISPATCHES, dispatches);
+
+        Response.sendOverview(ctx, overview);
+    }
+
     /*
     Example of how to consume an external api.
      */
@@ -165,6 +184,9 @@ public class MarsOpenApiBridge {
 
         LOGGER.log(Level.INFO, "Installing handler for: getClient");
         routerBuilder.operation("getClient").handler(this::getClient);
+
+        LOGGER.log(Level.INFO, "Installing handler for: getOverview");
+        routerBuilder.operation("getOverview").handler(this::getOverview);
 
         LOGGER.log(Level.INFO, "Installing handler for: updateVehicleLocation");
         routerBuilder.operation("updateVehicleLocation").handler(this::updateVehicleLocation);

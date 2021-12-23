@@ -63,6 +63,11 @@ public class Response {
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(quote));
     }
 
+    public static void sendOverview(RoutingContext ctx, JsonObject overview) {
+        sendJsonResponse(ctx, 200, JsonObject.mapFrom(overview));
+    }
+
+
     @SuppressWarnings("all")
     private static void sendEmptyResponse(RoutingContext ctx, int statusCode) {
         ctx.response()
