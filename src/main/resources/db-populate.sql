@@ -29,7 +29,13 @@ INSERT INTO user_subscription VALUES ('MARS-ID-005', 'Platinum', 1000.00, CURREN
 -- Vehicles (identifier, occupied, lat, long)
 INSERT INTO vehicles VALUES ('AV-001', false, null, null);
 INSERT INTO vehicles VALUES ('AV-002', false, null, null);
-INSERT INTO vehicles VALUES ('AV-003', false, null, null);
+INSERT INTO vehicles VALUES ('AV-003', true, null, null);
+INSERT INTO vehicles VALUES ('AV-004', true, null, null);
+INSERT INTO vehicles VALUES ('AV-005', true, null, null);
+INSERT INTO vehicles VALUES ('AV-006', true, null, null);
+INSERT INTO vehicles VALUES ('AV-007', true, null, null);
+INSERT INTO vehicles VALUES ('AV-008', true, null, null);
+INSERT INTO vehicles VALUES ('AV-009', true, null, null);
 
 -- Domes (identifier, size, lat, long)
 INSERT INTO domes VALUES ('DOME-001', 1000, 3, 4);
