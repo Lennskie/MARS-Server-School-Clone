@@ -117,6 +117,7 @@ public class DispatchesH2Repository implements DispatchesRepository {
                 Connection connection = Repositories.getH2Repo().getConnection();
                 PreparedStatement stmt = connection.prepareStatement(SQL_DELETE_DISPATCH);
                 ) {
+            stmt.setString(1, identifier);
             if (stmt.executeUpdate() <= 0) {
                 throw new SQLException();
             }

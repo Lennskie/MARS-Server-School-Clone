@@ -90,4 +90,8 @@ public class Response {
     public static void sendDispatches(RoutingContext ctx, JsonObject dispatches) {
         sendJsonResponse(ctx, 200, dispatches);
     }
+
+    public static void sendOK(RoutingContext ctx) {
+        sendEmptyResponse(ctx, 200);
+    }
 }
