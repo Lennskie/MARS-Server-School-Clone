@@ -13,6 +13,7 @@ import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -47,6 +48,7 @@ public class MarsRtcBridge implements MarsControllerListener {
     private final String CLIENT_LOCATION_EVENT_BUS = "location.client";
     private final String VEHICLE_LOCATION_EVENT_BUS = "location.vehicle";
 
+    private MarsController marsController;
     private SockJSHandler sockJSHandler;
     private EventBus eb;
 
@@ -58,38 +60,12 @@ public class MarsRtcBridge implements MarsControllerListener {
         this.setMarsController(marsController);
     }
 
-
-    // Mockcalls is not intended to stay - it is currently just a "filler" to test and get the rest going
     private void MockCalls() {
-        // "1" Is arbitrary here, it's mocking
-        Subscription dummyClientSubscription = Repositories.getSubscriptionsRepo().getSubscriptions().get(1);
-        // This client should come from repository as well, this is WIP.
-        Client mockClient = new Client("Dummy", "User", "Lastname", dummyClientSubscription, RandomLocationGenerator.getRandomLocation(), "critical");
-        // Same for the vehicle, repository is WIP
-        Vehicle mockVehicle = new Vehicle("V1", false, RandomLocationGenerator.getRandomLocation());
+        List<Client> clients = Repositories.getClientsRepo().getClients();
+        List<Vehicle> vehicles = Repositories.getVehiclesRepo().getVehicles();
+        List<Dome> domes = Repositories.getDomesRepo().getDomes();
 
 
-        Timer newClientTimer = new Timer();
-        Timer newVehicleTimer = new Timer();
-
-        TimerTask newClientTimerTask = new TimerTask() {
-            @Override
-            public void run() {
-                publishNewClient(mockClient);
-                mockClient.setLocation(RandomLocationGenerator.getRandomLocation());
-            }
-        };
-
-        TimerTask newVehicleTimerTask = new TimerTask() {
-            @Override
-            public void run() {
-                publishNewVehicle(mockVehicle);
-                mockVehicle.setLocation(RandomLocationGenerator.getRandomLocation());
-            }
-        };
-
-        newClientTimer.schedule(newClientTimerTask, 0, 3000);
-        newVehicleTimer.schedule(newVehicleTimerTask, 0, 3000);
     }
 
     public void publishNewClient(Client newClient) {
@@ -137,6 +113,7 @@ public class MarsRtcBridge implements MarsControllerListener {
     public void setMarsController(MarsController marsController) {
         // DP: Observer pattern (Register this bridge by the controller as listener)
         marsController.addListener(this);
+        this.marsController = marsController;
     }
 
     @Override
