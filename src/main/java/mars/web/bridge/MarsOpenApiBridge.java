@@ -136,11 +136,14 @@ public class MarsOpenApiBridge {
         List<Vehicle> vehicles = controller.getVehicles();
         List<Client> clients = controller.getClients();
         List<Dome> domes = controller.getDomes();
+        List<Dispatch> dispatches = controller.getDispatches();
 
 
         overview.put(SPEC_VEHICLES, vehicles);
         overview.put(SPEC_CLIENTS, clients);
         overview.put(SPEC_DOMES, domes);
+
+        overview.put(SPEC_DISPATCHES, dispatches);
 
         Response.sendOverview(ctx, overview);
     }
