@@ -3,6 +3,7 @@ package mars.web.bridge;
 import mars.logic.controller.DefaultMarsController;
 import mars.logic.controller.MarsControllerListener;
 import mars.logic.controller.MarsController;
+import mars.logic.data.Repositories;
 import mars.logic.domain.*;
 import mars.logic.domain.util.RandomLocationGenerator;
 import io.vertx.core.Vertx;
@@ -36,16 +37,18 @@ public class MarsRtcBridge implements MarsControllerListener {
 
     private static final String NEW_CLIENT_EVENT_BUS = "new.client";
     private static final String NEW_VEHICLE_EVENT_BUS = "new.vehicle";
+    private static final String NEW_DISPATCH_EVENT_BUS = "new.dispatch";
 
-//    private final String CLIENT_STATUS_EVENT_BUS = "status.client";
-//    private final String VEHICLE_STATUS_EVENT_BUS = "status.vehicle";
-//
-//    private final String CLIENT_LOCATION_EVENT_BUS = "location.client";
-//    private final String VEHICLE_LOCATION_EVENT_BUS = "location.vehicle";
+    private static final String DELETED_DISPATCH_EVENT_BUS = "delete.dispatch";
+
+    private final String CLIENT_STATUS_EVENT_BUS = "status.client";
+    private final String VEHICLE_STATUS_EVENT_BUS = "status.vehicle";
+
+    private final String CLIENT_LOCATION_EVENT_BUS = "location.client";
+    private final String VEHICLE_LOCATION_EVENT_BUS = "location.vehicle";
 
     private SockJSHandler sockJSHandler;
     private EventBus eb;
-    private MarsController marsController;
 
     public MarsRtcBridge() {
         this(new DefaultMarsController());
@@ -59,7 +62,7 @@ public class MarsRtcBridge implements MarsControllerListener {
     // Mockcalls is not intended to stay - it is currently just a "filler" to test and get the rest going
     private void MockCalls() {
         // "1" Is arbitrary here, it's mocking
-        Subscription dummyClientSubscription = marsController.getSubscriptions().get(1);
+        Subscription dummyClientSubscription = Repositories.getSubscriptionsRepo().getSubscriptions().get(1);
         // This client should come from repository as well, this is WIP.
         Client mockClient = new Client("Dummy", "User", "Lastname", dummyClientSubscription, RandomLocationGenerator.getRandomLocation(), "critical");
         // Same for the vehicle, repository is WIP
@@ -97,6 +100,22 @@ public class MarsRtcBridge implements MarsControllerListener {
         eb.publish(NEW_VEHICLE_EVENT_BUS, JsonObject.mapFrom(newVehicle));
     }
 
+    public void publishMovedClient(Client movedClient) {
+        eb.publish(CLIENT_LOCATION_EVENT_BUS, JsonObject.mapFrom(movedClient));
+    }
+
+    public void publishMovedVehicle(Vehicle movedVehicle) {
+        eb.publish(VEHICLE_LOCATION_EVENT_BUS, JsonObject.mapFrom(movedVehicle));
+    }
+
+    public void publishNewDispatch(Dispatch newDispatch) {
+        eb.publish(NEW_DISPATCH_EVENT_BUS, JsonObject.mapFrom(newDispatch));
+    }
+
+    public void publishDeletedDispatch(Dispatch deletedDispatch) {
+        eb.publish(DELETED_DISPATCH_EVENT_BUS, JsonObject.mapFrom(deletedDispatch));
+    }
+
     private void createSockJSHandler() {
         final PermittedOptions permittedOptions = new PermittedOptions().setAddressRegex(".+");
         final SockJSBridgeOptions options = new SockJSBridgeOptions()
@@ -118,11 +137,33 @@ public class MarsRtcBridge implements MarsControllerListener {
     public void setMarsController(MarsController marsController) {
         // DP: Observer pattern (Register this bridge by the controller as listener)
         marsController.addListener(this);
-        this.marsController = marsController;
     }
 
     @Override
     public void onQuoteCreated(Quote quote) { // noinspection ALL
+        // Not-Implemented
+        // No Scope of POC
+        // TODO: Lenn, this function can be deleted. It will have to be deleted from
+        //       the MarsControllerListener Interface as well.
+    }
 
+    @Override
+    public void onDispatchAdded(Dispatch dispatch) {
+        publishNewDispatch(dispatch);
+    }
+
+    @Override
+    public void onDispatchDeleted(Dispatch dispatch) {
+        publishDeletedDispatch(dispatch);
+    }
+
+    @Override
+    public void onVehicleMoved(Vehicle vehicle) {
+        publishMovedVehicle(vehicle);
+    }
+
+    @Override
+    public void onClientMoved(Client client) {
+        publishMovedClient(client);
     }
 }
