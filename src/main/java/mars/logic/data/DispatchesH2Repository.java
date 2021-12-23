@@ -150,7 +150,7 @@ public class DispatchesH2Repository implements DispatchesRepository {
             }
 
             switch (destination_type) {
-                case "Vehicle":
+                case "Dome":
                     addStmt.setString(3, "Dome");
                     break;
                 case "Client":
