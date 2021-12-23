@@ -26,6 +26,7 @@ public class Request {
     private static final String SPEC_VEHICLE_STATUS = "status";
     public static final String SPEC_CLIENT_LATITUDE = "latitude";
     public static final String SPEC_CLIENT_LONGITUDE = "longitude";
+    public static final String SPEC_IDENTIFIER = "identifier";
 
     private final RequestParameters params;
 
@@ -58,6 +59,10 @@ public class Request {
 
     public String getClientId() {
         return params.pathParameter(SPEC_CLIENT_ID).getString();
+    }
+
+    public String getIdentifier() {
+        return params.pathParameter(SPEC_IDENTIFIER).getString();
     }
 
     public Dangerzone getDangerzones() {

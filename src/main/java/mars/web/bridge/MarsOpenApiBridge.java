@@ -1,5 +1,6 @@
 package mars.web.bridge;
 
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import mars.logic.controller.DefaultMarsController;
 import mars.logic.controller.MarsController;
@@ -33,6 +34,7 @@ public class MarsOpenApiBridge {
     public static final String SPEC_SUBSCRIBED_CLIENTS = "subscribedClients";
     public static final String SPEC_DANGERZONES = "dangerzones";
     public static final String SPEC_DISPATCHES = "dispatches";
+    public static final String SPEC_DISPATCH = "dispatch";
 
     public MarsOpenApiBridge() {
         this.controller = new DefaultMarsController();
@@ -92,6 +94,11 @@ public class MarsOpenApiBridge {
         Response.sendDispatches(ctx, new JsonObject().put(SPEC_DISPATCHES, dispatches));
     }
 
+    public void getDispatch(RoutingContext ctx) {
+        Dispatch dispatch = controller.getDispatch(Request.from(ctx).getIdentifier());
+        Response.sendDispatches(ctx, new JsonObject().put(SPEC_DISPATCH, dispatch));
+    }
+
     public void updateVehicleLocation(RoutingContext ctx){
         Vehicle vehicle = controller.updateVehicleLocation(Request.from(ctx).getVehicleId(), Request.from(ctx).getVehicleLocation());
         Response.sendClient(ctx, JsonObject.mapFrom(vehicle));
@@ -143,9 +150,6 @@ public class MarsOpenApiBridge {
         LOGGER.log(Level.INFO, "Installing handler for: getClient");
         routerBuilder.operation("getClient").handler(this::getClient);
 
-        LOGGER.log(Level.INFO, "Installing handler for: getDispatches");
-        routerBuilder.operation("getDispatches").handler(this::getDispatches);
-
         LOGGER.log(Level.INFO, "Installing handler for: updateVehicleLocation");
         routerBuilder.operation("updateVehicleLocation").handler(this::updateVehicleLocation);
 
@@ -154,6 +158,12 @@ public class MarsOpenApiBridge {
 
         LOGGER.log(Level.INFO, "Installing handler for: updateClientLocation");
         routerBuilder.operation("updateClientLocation").handler(this::updateClientLocation);
+
+        LOGGER.log(Level.INFO, "Installing handler for: getDispatch");
+        routerBuilder.operation("getDispatch").handler(this::getDispatch);
+
+        LOGGER.log(Level.INFO, "Installing handler for: getDispatches");
+        routerBuilder.operation("getDispatches").handler(this::getDispatches);
 
         LOGGER.log(Level.INFO, "All handlers are installed, creating router.");
         return routerBuilder.createRouter();
