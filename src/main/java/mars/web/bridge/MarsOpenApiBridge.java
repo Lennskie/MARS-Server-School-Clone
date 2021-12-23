@@ -104,6 +104,17 @@ public class MarsOpenApiBridge {
         Response.sendOK(ctx);
     }
 
+    public void addDispatch(RoutingContext ctx) {
+        Dispatch dispatch = controller.addDispatch(
+                Request.from(ctx).getBodyIdentifier(),
+                Request.from(ctx).getType("source"),
+                Request.from(ctx).getType("destination"),
+                Request.from(ctx).getIdentifier("source"),
+                Request.from(ctx).getIdentifier("destination")
+        );
+        Response.sendDispatches(ctx, new JsonObject().put(SPEC_DISPATCH, dispatch));
+    }
+
     public void updateVehicleLocation(RoutingContext ctx){
         Vehicle vehicle = controller.updateVehicleLocation(Request.from(ctx).getVehicleId(), Request.from(ctx).getVehicleLocation());
         Response.sendClient(ctx, JsonObject.mapFrom(vehicle));
@@ -172,6 +183,9 @@ public class MarsOpenApiBridge {
 
         LOGGER.log(Level.INFO, "Installing handler for: deleteDispatch");
         routerBuilder.operation("deleteDispatch").handler(this::deleteDispatch);
+
+        LOGGER.log(Level.INFO, "Installing handler for: addDispatch");
+        routerBuilder.operation("addDispatch").handler(this::addDispatch);
 
         LOGGER.log(Level.INFO, "All handlers are installed, creating router.");
         return routerBuilder.createRouter();

@@ -140,8 +140,8 @@ public class MockMarsController implements MarsController {
     }
 
     @Override
-    public void addDispatch(String identifier, DispatchSource source, DispatchDestination target) {
-
+    public Dispatch addDispatch(String identifier, String source_type, String destination_type, String source_identifier, String destination_identifier) {
+        return null;
     }
 
     @Override

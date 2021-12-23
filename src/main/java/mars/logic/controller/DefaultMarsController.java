@@ -187,15 +187,15 @@ public class DefaultMarsController implements MarsController {
     }
 
     @Override
-    public void addDispatch(String identifier, DispatchSource source, DispatchDestination target) {
+    public Dispatch addDispatch(String identifier, String source_type, String destination_type, String source_identifier, String destination_identifier) {
         if (StringUtils.isBlank(identifier)) {
             throw new IllegalArgumentException("Identifier is not allowed to be blank");
         }
 
-        if (null == source || null == target) {
-            throw new IllegalArgumentException("Source and/or target are not allowed to be blank");
+        if (null == source_type || null == destination_type || null == source_identifier || null == destination_identifier) {
+            throw new IllegalArgumentException("source_type, destination_type, source_identifier, destination_identifier are all required fields");
         }
 
-        Repositories.getDispatchesRepository().addDispatch(identifier, source, target);
+        return Repositories.getDispatchesRepository().addDispatch(identifier, source_type, destination_type, source_identifier, destination_identifier);
     }
 }

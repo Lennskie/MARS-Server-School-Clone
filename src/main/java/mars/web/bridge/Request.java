@@ -65,6 +65,14 @@ public class Request {
         return params.pathParameter(SPEC_IDENTIFIER).getString();
     }
 
+    public String getBodyIdentifier() {
+        return params.body().getJsonObject().getString("identifier");
+    }
+
+    public String getIdentifier(String field) {
+        return params.body().getJsonObject().getString(field + "_identifier");
+    }
+
     public Dangerzone getDangerzones() {
         Location testLocation = new Location(3.555, 7.888);
         return new Dangerzone("DZ-001",testLocation, 50);
@@ -84,5 +92,13 @@ public class Request {
         double latitude = params.pathParameter(SPEC_CLIENT_LATITUDE).getDouble();
         double longitude = params.pathParameter(SPEC_CLIENT_LONGITUDE).getDouble();
         return new Location(latitude, longitude);
+    }
+
+    public String getJsonAsString() {
+        return params.body().getJsonObject().toString();
+    }
+
+    public String getType(String field) {
+        return params.body().getJsonObject().getString(field + "_type");
     }
 }

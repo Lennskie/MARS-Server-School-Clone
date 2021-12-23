@@ -130,7 +130,7 @@ public class DispatchesH2Repository implements DispatchesRepository {
     }
 
     @Override
-    public Dispatch addDispatch(String identifier, DispatchSource source, DispatchDestination destination) {
+    public Dispatch addDispatch(String identifier, String source_type, String destination_type, String source_identifier, String destination_identifier) {
         try (
                 Connection connection = Repositories.getH2Repo().getConnection();
                 PreparedStatement addStmt = connection.prepareStatement(SQL_INSERT_DISPATCH);
@@ -138,25 +138,34 @@ public class DispatchesH2Repository implements DispatchesRepository {
         ) {
             addStmt.setString(1, identifier);
 
-            if (source instanceof Vehicle) {
-                addStmt.setString(2, "Vehicle");
-            } else if (source instanceof Client) {
-                addStmt.setString(2, "Client");
-            } else {
-                throw new RepositoryException("Unable to add dispatch");
+            switch (source_type) {
+                case "Vehicle":
+                    addStmt.setString(2, "Vehicle");
+                    break;
+                case "Client":
+                    addStmt.setString(2, "Client");
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid source type given for dispatch");
             }
 
-            if (destination instanceof Client) {
-                addStmt.setString(3, "Client");
-            } else if (destination instanceof Dome) {
-                addStmt.setString(3, "Dome");
-            } else {
-                throw new RepositoryException("Unable to add dispatch");
+            switch (destination_type) {
+                case "Vehicle":
+                    addStmt.setString(3, "Dome");
+                    break;
+                case "Client":
+                    addStmt.setString(3, "Client");
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid destination type given for dispatch");
             }
 
+            addStmt.setString(4, source_identifier);
+            addStmt.setString(5, destination_identifier);
 
-            addStmt.setString(4, source.getIdentifier());
-            addStmt.setString(5, source.getIdentifier());
+            // TODO: if there is time, check if vehcile/client/dome with given identifier actually exists before creating the dispatch
+            //       right now, if a front-end adds an invalid dispatch, all connected front-ends will crash
+
 
             if (addStmt.executeUpdate() <= 0) {
                  throw new RepositoryException("Unable to add dispatch");
