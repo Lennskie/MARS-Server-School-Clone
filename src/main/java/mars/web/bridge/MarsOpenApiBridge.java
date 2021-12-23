@@ -1,13 +1,10 @@
 package mars.web.bridge;
 
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import mars.logic.controller.DefaultMarsController;
 import mars.logic.controller.MarsController;
-import mars.logic.domain.Client;
-import mars.logic.domain.Dangerzone;
-import mars.logic.domain.Dome;
-import mars.logic.domain.Subscription;
-import mars.logic.domain.Vehicle;
+import mars.logic.domain.*;
 import mars.logic.exceptions.MarsResourceNotFoundException;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.Router;
@@ -37,6 +34,8 @@ public class MarsOpenApiBridge {
     public static final String SPEC_CLIENTS = "clients";
     public static final String SPEC_SUBSCRIBED_CLIENTS = "subscribedClients";
     public static final String SPEC_DANGERZONES = "dangerzones";
+    public static final String SPEC_DISPATCHES = "dispatches";
+    public static final String SPEC_DISPATCH = "dispatch";
 
     public MarsOpenApiBridge() {
         this.controller = new DefaultMarsController();
@@ -89,6 +88,32 @@ public class MarsOpenApiBridge {
     public void getClient(RoutingContext ctx) {
         Client client = controller.getClient(Request.from(ctx).getClientId());
         Response.sendClient(ctx, JsonObject.mapFrom(client));
+    }
+
+    public void getDispatches(RoutingContext ctx) {
+        List<Dispatch> dispatches = controller.getDispatches();
+        Response.sendDispatches(ctx, new JsonObject().put(SPEC_DISPATCHES, dispatches));
+    }
+
+    public void getDispatch(RoutingContext ctx) {
+        Dispatch dispatch = controller.getDispatch(Request.from(ctx).getIdentifier());
+        Response.sendDispatches(ctx, new JsonObject().put(SPEC_DISPATCH, dispatch));
+    }
+
+    public void deleteDispatch(RoutingContext ctx) {
+        controller.deleteDispatch(Request.from(ctx).getIdentifier());
+        Response.sendOK(ctx);
+    }
+
+    public void addDispatch(RoutingContext ctx) {
+        Dispatch dispatch = controller.addDispatch(
+                Request.from(ctx).getBodyIdentifier(),
+                Request.from(ctx).getType("source"),
+                Request.from(ctx).getType("destination"),
+                Request.from(ctx).getIdentifier("source"),
+                Request.from(ctx).getIdentifier("destination")
+        );
+        Response.sendDispatches(ctx, new JsonObject().put(SPEC_DISPATCH, dispatch));
     }
 
     public void updateVehicleLocation(RoutingContext ctx){
@@ -168,6 +193,18 @@ public class MarsOpenApiBridge {
 
         LOGGER.log(Level.INFO, "Installing handler for: updateClientLocation");
         routerBuilder.operation("updateClientLocation").handler(this::updateClientLocation);
+
+        LOGGER.log(Level.INFO, "Installing handler for: getDispatch");
+        routerBuilder.operation("getDispatch").handler(this::getDispatch);
+
+        LOGGER.log(Level.INFO, "Installing handler for: getDispatches");
+        routerBuilder.operation("getDispatches").handler(this::getDispatches);
+
+        LOGGER.log(Level.INFO, "Installing handler for: deleteDispatch");
+        routerBuilder.operation("deleteDispatch").handler(this::deleteDispatch);
+
+        LOGGER.log(Level.INFO, "Installing handler for: addDispatch");
+        routerBuilder.operation("addDispatch").handler(this::addDispatch);
 
         LOGGER.log(Level.INFO, "All handlers are installed, creating router.");
         return routerBuilder.createRouter();

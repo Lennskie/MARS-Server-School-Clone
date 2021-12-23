@@ -91,4 +91,12 @@ public class Response {
     public static void sendDangerzones(RoutingContext ctx, JsonObject dangerzones) {
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(dangerzones));
     }
+
+    public static void sendDispatches(RoutingContext ctx, JsonObject dispatches) {
+        sendJsonResponse(ctx, 200, dispatches);
+    }
+
+    public static void sendOK(RoutingContext ctx) {
+        sendEmptyResponse(ctx, 200);
+    }
 }

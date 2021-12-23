@@ -37,4 +37,9 @@ public interface MarsController {
     Client updateClientLocation(String identifier, Location location);
 
 
+
+    List<Dispatch> getDispatches();
+    Dispatch getDispatch(String identifier);
+    void deleteDispatch(String identifier);
+    Dispatch addDispatch(String identifier, String source_type, String destination_type, String source_identifier, String destination_identifier);
 }

@@ -29,7 +29,13 @@ INSERT INTO user_subscription VALUES ('MARS-ID-005', 'Platinum', 1000.00, CURREN
 -- Vehicles (identifier, occupied, lat, long)
 INSERT INTO vehicles VALUES ('AV-001', false, null, null);
 INSERT INTO vehicles VALUES ('AV-002', false, null, null);
-INSERT INTO vehicles VALUES ('AV-003', false, null, null);
+INSERT INTO vehicles VALUES ('AV-003', true, null, null);
+INSERT INTO vehicles VALUES ('AV-004', true, null, null);
+INSERT INTO vehicles VALUES ('AV-005', true, null, null);
+INSERT INTO vehicles VALUES ('AV-006', true, null, null);
+INSERT INTO vehicles VALUES ('AV-007', true, null, null);
+INSERT INTO vehicles VALUES ('AV-008', true, null, null);
+INSERT INTO vehicles VALUES ('AV-009', true, null, null);
 
 -- Domes (identifier, size, lat, long)
 INSERT INTO domes VALUES ('DOME-001', 1000, 3, 4);
@@ -47,3 +53,7 @@ INSERT INTO domes VALUES ('DOME-010', 1000, 3, 4);
 INSERT INTO DANGERZONES VALUES ('DZ-001',1,2,3);
 INSERT INTO DANGERZONES VALUES ('DZ-001',4,5,6);
 INSERT INTO DANGERZONES VALUES ('DZ-001',7,8,9);
+
+-- Dispatches (identifier, source_type, destination_type, source_identifier, destination_identifier)
+INSERT INTO dispatches VALUES ('DISPATCH-001', 'Vehicle', 'Client', 'AV-001', 'MARS-ID-001');
+INSERT INTO dispatches VALUES ('DISPATCH-002', 'Client', 'Dome', 'MARS-ID-001', 'DOME-001');

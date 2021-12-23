@@ -125,6 +125,26 @@ public class MockMarsController implements MarsController {
     }
 
     @Override
+    public List<Dispatch> getDispatches() {
+        return null;
+    }
+
+    @Override
+    public Dispatch getDispatch(String identifier) {
+        return null;
+    }
+
+    @Override
+    public void deleteDispatch(String identifier) {
+
+    }
+
+    @Override
+    public Dispatch addDispatch(String identifier, String source_type, String destination_type, String source_identifier, String destination_identifier) {
+        return null;
+    }
+
+    @Override
     public List<Dome> getDomes() {
         List<Dome> domes = new ArrayList<>();
         domes.add(new Dome("DOME-001"));
