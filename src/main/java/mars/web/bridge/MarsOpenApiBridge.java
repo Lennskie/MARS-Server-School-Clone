@@ -170,10 +170,10 @@ public class MarsOpenApiBridge {
         LOGGER.log(Level.INFO, "Installing handler for: getVehicle");
         routerBuilder.operation("getVehicle").handler(this::getVehicle);
 
-        LOGGER.log(Level.INFO, "Installing handler for: getVehicles");
+        LOGGER.log(Level.INFO, "Installing handler for: getDomes");
         routerBuilder.operation("getDomes").handler(this::getDomes);
 
-        LOGGER.log(Level.INFO, "Installing handler for: getVehicle");
+        LOGGER.log(Level.INFO, "Installing handler for: getDome");
         routerBuilder.operation("getDome").handler(this::getDome);
 
         LOGGER.log(Level.INFO, "Installing handler for: getClients");
