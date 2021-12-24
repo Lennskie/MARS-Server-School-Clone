@@ -150,6 +150,7 @@ public class DefaultMarsController implements MarsController {
         Vehicle vehicle = Repositories.getVehiclesRepo().updateVehicleLocation(identifier, location);
         if (null == vehicle)
             throw new MarsResourceNotFoundException(identifier);
+        fireVehicleMoved(vehicle);
         return vehicle;
     }
 
@@ -157,7 +158,6 @@ public class DefaultMarsController implements MarsController {
         Vehicle vehicle = Repositories.getVehiclesRepo().updateVehicleStatus(identifier,status);
         if (null == vehicle)
             throw new MarsResourceNotFoundException(identifier);
-        fireVehicleMoved(vehicle);
         return vehicle;
     }
 
