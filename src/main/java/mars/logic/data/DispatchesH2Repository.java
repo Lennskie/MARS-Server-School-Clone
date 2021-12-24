@@ -19,6 +19,10 @@ public class DispatchesH2Repository implements DispatchesRepository {
     private static final String SQL_WHERE_IDENTIFIER = " WHERE identifier = ?";
     private static final String SQL_SELECT_DISPATCH = SQL_SELECT_DISPATCHES + SQL_WHERE_IDENTIFIER;
     private static final String SQL_DELETE_DISPATCH = "DELETE FROM dispatches" + SQL_WHERE_IDENTIFIER;
+    private static final String VEHICLE = "Vehicle";
+    private static final String CLIENT = "Client";
+    private static final String DOME = "Dome";
+    private static final String ERROR_MSG_UNABLE_TO_ADD_DISPATCH = "Unable to add dispatch";
 
     private final ClientsRepository clientRepository = Repositories.getClientsRepo();
     private final DomesRepository domeRepository = Repositories.getDomesRepo();
@@ -34,7 +38,7 @@ public class DispatchesH2Repository implements DispatchesRepository {
     public List<Dispatch> getDispatches() {
         try (
                 Connection connection = Repositories.getH2Repo().getConnection();
-                PreparedStatement stmt = connection.prepareStatement(SQL_SELECT_DISPATCHES);
+                PreparedStatement stmt = connection.prepareStatement(SQL_SELECT_DISPATCHES)
         ) {
             ResultSet rs = stmt.executeQuery();
             List<Dispatch> dispatches = new ArrayList<>();
@@ -59,7 +63,7 @@ public class DispatchesH2Repository implements DispatchesRepository {
     public Dispatch getDispatch(String identifier) {
         try (
                 Connection connection = Repositories.getH2Repo().getConnection();
-                PreparedStatement stmt = connection.prepareStatement(SQL_SELECT_DISPATCH);
+                PreparedStatement stmt = connection.prepareStatement(SQL_SELECT_DISPATCH)
         ) {
 
             stmt.setString(1, identifier);
@@ -88,32 +92,26 @@ public class DispatchesH2Repository implements DispatchesRepository {
     }
 
     private DispatchSource mapDispatchSource(String sourceType, String sourceIdentifier) throws RepositoryException {
-        switch (sourceType) {
-            case "Vehicle":
-                return vehicleDepository.getVehicle(sourceIdentifier);
-            case "Client":
-                return clientRepository.getClient(sourceIdentifier);
-            default:
-                throw new RepositoryException("Unable to get valid DispatchSource from database");
-        }
+        return switch (sourceType) {
+            case VEHICLE -> vehicleDepository.getVehicle(sourceIdentifier);
+            case CLIENT -> clientRepository.getClient(sourceIdentifier);
+            default -> throw new RepositoryException("Unable to get valid DispatchSource from database");
+        };
     }
 
     private DispatchDestination mapDispatchDestination(String destinationType, String destinationIdentifier) throws RepositoryException {
-        switch (destinationType) {
-            case "Client":
-                return clientRepository.getClient(destinationIdentifier);
-            case "Dome":
-                return domeRepository.getDome(destinationIdentifier);
-            default:
-                throw new RepositoryException("Unable to get valid DispatchTarget from database");
-        }
+        return switch (destinationType) {
+            case CLIENT -> clientRepository.getClient(destinationIdentifier);
+            case DOME -> domeRepository.getDome(destinationIdentifier);
+            default -> throw new RepositoryException("Unable to get valid DispatchTarget from database");
+        };
     }
 
     @Override
     public void deleteDispatch(String identifier) {
         try (
                 Connection connection = Repositories.getH2Repo().getConnection();
-                PreparedStatement stmt = connection.prepareStatement(SQL_DELETE_DISPATCH);
+                PreparedStatement stmt = connection.prepareStatement(SQL_DELETE_DISPATCH)
                 ) {
             stmt.setString(1, identifier);
             if (stmt.executeUpdate() <= 0) {
@@ -132,41 +130,31 @@ public class DispatchesH2Repository implements DispatchesRepository {
         try (
                 Connection connection = Repositories.getH2Repo().getConnection();
                 PreparedStatement addStmt = connection.prepareStatement(SQL_INSERT_DISPATCH);
-                PreparedStatement selectStmt = connection.prepareStatement(SQL_SELECT_DISPATCH);
+                PreparedStatement selectStmt = connection.prepareStatement(SQL_SELECT_DISPATCH)
         ) {
             addStmt.setString(1, identifier);
 
             switch (sourceType) {
-                case "Vehicle":
-                    addStmt.setString(2, "Vehicle");
-                    break;
-                case "Client":
-                    addStmt.setString(2, "Client");
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid source type given for dispatch");
+                case VEHICLE -> addStmt.setString(2, VEHICLE);
+                case CLIENT -> addStmt.setString(2, CLIENT);
+                default -> throw new IllegalArgumentException("Invalid source type given for dispatch");
             }
 
             switch (destinationType) {
-                case "Dome":
-                    addStmt.setString(3, "Dome");
-                    break;
-                case "Client":
-                    addStmt.setString(3, "Client");
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid destination type given for dispatch");
+                case DOME -> addStmt.setString(3, DOME);
+                case CLIENT -> addStmt.setString(3, CLIENT);
+                default -> throw new IllegalArgumentException("Invalid destination type given for dispatch");
             }
 
             addStmt.setString(4, sourceIdentifier);
             addStmt.setString(5, destinationIdentifier);
 
-            // TODO: if there is time, check if vehcile/client/dome with given identifier actually exists before creating the dispatch
+            // @TODO: if there is time, check if vehcile/client/dome with given identifier actually exists before creating the dispatch
             //       right now, if a front-end adds an invalid dispatch, all connected front-ends will crash
 
 
             if (addStmt.executeUpdate() <= 0) {
-                 throw new RepositoryException("Unable to add dispatch");
+                 throw new RepositoryException(ERROR_MSG_UNABLE_TO_ADD_DISPATCH);
             } else {
                 selectStmt.setString(1, identifier);
                 ResultSet rs = selectStmt.executeQuery();
@@ -179,8 +167,8 @@ public class DispatchesH2Repository implements DispatchesRepository {
             }
 
         } catch (SQLException | RepositoryException ex) {
-            LOGGER.log(Level.SEVERE, "Unable to add dispatch", ex);
-            throw new RepositoryException("Unable to add dispatch");
+            LOGGER.log(Level.SEVERE, ERROR_MSG_UNABLE_TO_ADD_DISPATCH, ex);
+            throw new RepositoryException(ERROR_MSG_UNABLE_TO_ADD_DISPATCH);
 
         }
     }

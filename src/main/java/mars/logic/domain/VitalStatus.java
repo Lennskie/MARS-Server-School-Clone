@@ -2,11 +2,11 @@ package mars.logic.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@SuppressWarnings("java:S2094")
+
 public class VitalStatus {
-    // TODO Placeholder, this should represent vital statuses
+    @SuppressWarnings("ALL")
     @JsonProperty
-    private String status;
+    private String status; // @TODO IMPLEMENT VITAL STATUSES
 
     public VitalStatus(String status){
         this.status = status;
