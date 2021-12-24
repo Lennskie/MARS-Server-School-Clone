@@ -1,8 +1,5 @@
 package mars.web;
 
-import mars.logic.controller.DefaultMarsController;
-import mars.logic.controller.MarsController;
-import mars.logic.controller.MarsControllerListener;
 import mars.logic.data.Repositories;
 import mars.web.bridge.MarsOpenApiBridge;
 import mars.web.bridge.MarsRtcBridge;
@@ -14,10 +11,8 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 /**
  * WebServer is the main Verticle:
@@ -42,15 +37,19 @@ public class WebServer extends AbstractVerticle {
         // rtcBridge.setMarsController(openApiBridge.getMarsController());
     }
 
+    /* @TODO REMOVE IF UNUSED
     public WebServer(MarsController marsController) {
         // DP: Constructor Chaining
         this(new MarsOpenApiBridge(marsController), new MarsRtcBridge(marsController));
     }
+     */
 
+    /* @TODO REMOVE IF UNUSED
     public WebServer() {
         // DP: Constructor Chaining
         this(new DefaultMarsController());
     }
+     */
 
     @Override
     public void start(Promise<Void> startPromise) {

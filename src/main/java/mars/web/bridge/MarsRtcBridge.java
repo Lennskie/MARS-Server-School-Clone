@@ -12,12 +12,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
-
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * In the MarsRtcBridge class you will find one example function which sends a message on the message bus to the client.
@@ -86,10 +83,12 @@ public class MarsRtcBridge implements MarsControllerListener {
         movementTimer.schedule(movementTimerTask, 0, 5000);
     }
 
+    // @TODO REMOVE IF UNUSED
     public void publishNewClient(Client newClient) {
         eb.publish(NEW_CLIENT_EVENT_BUS, JsonObject.mapFrom(newClient));
     }
 
+    // @TODO REMOVE IF UNUSED
     public void publishNewVehicle(Vehicle newVehicle) {
         eb.publish(NEW_VEHICLE_EVENT_BUS, JsonObject.mapFrom(newVehicle));
     }

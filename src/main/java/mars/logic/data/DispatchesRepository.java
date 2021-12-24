@@ -1,9 +1,6 @@
 package mars.logic.data;
 
 import mars.logic.domain.Dispatch;
-import mars.logic.domain.DispatchSource;
-import mars.logic.domain.DispatchDestination;
-
 import java.util.List;
 
 public interface DispatchesRepository {

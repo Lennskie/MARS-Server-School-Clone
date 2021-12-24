@@ -19,10 +19,10 @@ public class DispatchesH2Repository implements DispatchesRepository {
     private static final String SQL_WHERE_IDENTIFIER = " WHERE identifier = ?";
     private static final String SQL_SELECT_DISPATCH = SQL_SELECT_DISPATCHES + SQL_WHERE_IDENTIFIER;
     private static final String SQL_DELETE_DISPATCH = "DELETE FROM dispatches" + SQL_WHERE_IDENTIFIER;
-    private static final String VEHICLE = "Vehicle";
-    private static final String CLIENT = "Client";
-    private static final String DOME = "Dome";
-    private static final String ERROR_MSG_UNABLE_TO_ADD_DISPATCH = "Unable to add dispatch";
+    public static final String ERROR_MSG_ADD_DISPATCH = "Unable to add dispatch";
+    public static final String VEHICLE = "Vehicle";
+    public static final String CLIENT = "Client";
+    public static final String DOME = "Dome";
 
     private final ClientsRepository clientRepository = Repositories.getClientsRepo();
     private final DomesRepository domeRepository = Repositories.getDomesRepo();
@@ -92,19 +92,25 @@ public class DispatchesH2Repository implements DispatchesRepository {
     }
 
     private DispatchSource mapDispatchSource(String sourceType, String sourceIdentifier) throws RepositoryException {
-        return switch (sourceType) {
-            case VEHICLE -> vehicleDepository.getVehicle(sourceIdentifier);
-            case CLIENT -> clientRepository.getClient(sourceIdentifier);
-            default -> throw new RepositoryException("Unable to get valid DispatchSource from database");
-        };
+        switch (sourceType) {
+            case VEHICLE:
+                return vehicleDepository.getVehicle(sourceIdentifier);
+            case CLIENT:
+                return clientRepository.getClient(sourceIdentifier);
+            default:
+                throw new RepositoryException("Unable to get valid DispatchSource from database");
+        }
     }
 
     private DispatchDestination mapDispatchDestination(String destinationType, String destinationIdentifier) throws RepositoryException {
-        return switch (destinationType) {
-            case CLIENT -> clientRepository.getClient(destinationIdentifier);
-            case DOME -> domeRepository.getDome(destinationIdentifier);
-            default -> throw new RepositoryException("Unable to get valid DispatchTarget from database");
-        };
+        switch (destinationType) {
+            case CLIENT:
+                return clientRepository.getClient(destinationIdentifier);
+            case DOME:
+                return domeRepository.getDome(destinationIdentifier);
+            default:
+                throw new RepositoryException("Unable to get valid DispatchTarget from database");
+        }
     }
 
     @Override
@@ -112,7 +118,7 @@ public class DispatchesH2Repository implements DispatchesRepository {
         try (
                 Connection connection = Repositories.getH2Repo().getConnection();
                 PreparedStatement stmt = connection.prepareStatement(SQL_DELETE_DISPATCH)
-                ) {
+        ) {
             stmt.setString(1, identifier);
             if (stmt.executeUpdate() <= 0) {
                 throw new SQLException();
@@ -135,26 +141,36 @@ public class DispatchesH2Repository implements DispatchesRepository {
             addStmt.setString(1, identifier);
 
             switch (sourceType) {
-                case VEHICLE -> addStmt.setString(2, VEHICLE);
-                case CLIENT -> addStmt.setString(2, CLIENT);
-                default -> throw new IllegalArgumentException("Invalid source type given for dispatch");
+                case VEHICLE:
+                    addStmt.setString(2, VEHICLE);
+                    break;
+                case CLIENT:
+                    addStmt.setString(2, CLIENT);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid source type given for dispatch");
             }
 
             switch (destinationType) {
-                case DOME -> addStmt.setString(3, DOME);
-                case CLIENT -> addStmt.setString(3, CLIENT);
-                default -> throw new IllegalArgumentException("Invalid destination type given for dispatch");
+                case DOME:
+                    addStmt.setString(3, DOME);
+                    break;
+                case CLIENT:
+                    addStmt.setString(3, CLIENT);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid destination type given for dispatch");
             }
 
             addStmt.setString(4, sourceIdentifier);
             addStmt.setString(5, destinationIdentifier);
 
-            // @TODO: if there is time, check if vehcile/client/dome with given identifier actually exists before creating the dispatch
+            // TODO: if there is time, check if vehcile/client/dome with given identifier actually exists before creating the dispatch
             //       right now, if a front-end adds an invalid dispatch, all connected front-ends will crash
 
 
             if (addStmt.executeUpdate() <= 0) {
-                 throw new RepositoryException(ERROR_MSG_UNABLE_TO_ADD_DISPATCH);
+                throw new RepositoryException(ERROR_MSG_ADD_DISPATCH);
             } else {
                 selectStmt.setString(1, identifier);
                 ResultSet rs = selectStmt.executeQuery();
@@ -167,8 +183,8 @@ public class DispatchesH2Repository implements DispatchesRepository {
             }
 
         } catch (SQLException | RepositoryException ex) {
-            LOGGER.log(Level.SEVERE, ERROR_MSG_UNABLE_TO_ADD_DISPATCH, ex);
-            throw new RepositoryException(ERROR_MSG_UNABLE_TO_ADD_DISPATCH);
+            LOGGER.log(Level.SEVERE, ERROR_MSG_ADD_DISPATCH, ex);
+            throw new RepositoryException(ERROR_MSG_ADD_DISPATCH);
 
         }
     }
