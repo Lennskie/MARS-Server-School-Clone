@@ -1,8 +1,3 @@
--- Quotes
-INSERT INTO quotes VALUES (0, 'You must accept that you might fail.');
-INSERT INTO quotes VALUES (1, 'Everyone enjoys doing the kind of work for which he is best suited.');
-
-
 -- Users (identifier, firstname, lastname)
 INSERT INTO users VALUES ('MARS-ID-001', 'Ana', 'Silveneyer',1,2,'critical');
 INSERT INTO users VALUES ('MARS-ID-002', 'Bob', 'Goldeneyer',1,2,'medium');

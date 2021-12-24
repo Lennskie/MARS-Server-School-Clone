@@ -33,64 +33,6 @@ public class DefaultMarsController implements MarsController {
     }
 
     @Override
-    public Quote getQuote(int quoteId) {
-        Quote quote = Repositories.getQuotesRepo().getQuote(quoteId);
-        if (null == quote)
-            throw new MarsResourceNotFoundException(String.format(MSG_QUOTE_ID_UNKNOWN, quoteId));
-
-        return quote;
-    }
-
-    @Override
-    public Quote createQuote(String quote) {
-        if (StringUtils.isBlank(quote))
-            throw new IllegalArgumentException("An empty quote is not allowed.");
-
-        Quote returnQuote = Repositories.getQuotesRepo().insertQuote(quote);
-        fireQuoteCreated(returnQuote);
-        return returnQuote;
-    }
-
-    private void fireQuoteCreated(Quote quote) {
-        // DP: Observer Pattern notify listeners of created quote
-        listeners.forEach(marsControllerListener -> marsControllerListener.onQuoteCreated(quote));
-    }
-
-    @Override
-    public Quote updateQuote(int quoteId, String quote) {
-        if (StringUtils.isBlank(quote))
-            throw new IllegalArgumentException("No quote provided!");
-
-        if (quoteId < 0)
-            throw new IllegalArgumentException("No valid quote ID provided");
-
-        if (null == Repositories.getQuotesRepo().getQuote(quoteId))
-            throw new MarsResourceNotFoundException(String.format(MSG_QUOTE_ID_UNKNOWN, quoteId));
-
-        return Repositories.getQuotesRepo().updateQuote(quoteId, quote);
-    }
-
-    @Override
-    public void deleteQuote(int quoteId) {
-        if (null == Repositories.getQuotesRepo().getQuote(quoteId))
-            throw new MarsResourceNotFoundException(String.format(MSG_QUOTE_ID_UNKNOWN, quoteId));
-
-        Repositories.getQuotesRepo().deleteQuote(quoteId);
-    }
-
-    /*
-    Example of how to consume an external api.
-    See the openapi bridge class for an example of how to handle the Future<String> object.
-     */
-    @Override
-    public Future<Quote> getRandomQuote() {
-        return Repositories
-                .getQuotesExternalRepo()
-                .getRandomQuote()
-                .map(this::createQuote);
-    }
-
-    @Override
     public List<Dangerzone> getDangerzones() {
         return Repositories.getDangerRepo().getDangerzones();
     }

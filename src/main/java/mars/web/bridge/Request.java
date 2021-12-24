@@ -20,7 +20,6 @@ public class Request {
     public static final String SPEC_VEHICLE_ID = "vehicleId";
     public static final String SPEC_DOME_ID = "domeId";
     public static final String SPEC_CLIENT_ID = "clientId";
-    public static final String SPEC_QUOTE = "quote";
     public static final String SPEC_VEHICLE_LATITUDE = "latitude";
     public static final String SPEC_VEHICLE_LONGITUDE = "longitude";
     private static final String SPEC_VEHICLE_STATUS = "status";
@@ -36,17 +35,6 @@ public class Request {
 
     private Request(RoutingContext ctx) {
         this.params = ctx.get(ValidationHandler.REQUEST_CONTEXT_KEY);
-    }
-
-    public String getQuote() {
-        try {
-            if (params.body().isJsonObject())
-                return params.body().getJsonObject().getString(SPEC_QUOTE);
-            return params.body().get().toString();
-        } catch (IllegalArgumentException ex) {
-            LOGGER.log(Level.INFO, "Unable to decipher the data in the body", ex);
-            throw new MalformedRequestException("Unable to decipher the data in the request body. See logs for details.");
-        }
     }
 
     public String getVehicleId() {

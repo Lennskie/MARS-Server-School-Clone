@@ -1,7 +1,5 @@
 package mars.web.bridge;
 
-import mars.logic.domain.Dangerzone;
-import mars.logic.domain.Quote;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
@@ -47,22 +45,6 @@ public class Response {
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(dome));
     }
 
-    public static void sendQuote(RoutingContext ctx, Quote quote) {
-        sendJsonResponse(ctx, 200, JsonObject.mapFrom(quote));
-    }
-
-    public static void sendQuoteCreated(RoutingContext ctx, Quote quote) {
-        sendJsonResponse(ctx, 201, JsonObject.mapFrom(quote));
-    }
-
-    public static void sendQuoteDeleted(RoutingContext ctx) {
-        sendEmptyResponse(ctx, 204);
-    }
-
-    public static void sendQuoteUpdated(RoutingContext ctx, Quote quote) {
-        sendJsonResponse(ctx, 200, JsonObject.mapFrom(quote));
-    }
-
     public static void sendOverview(RoutingContext ctx, JsonObject overview) {
         sendJsonResponse(ctx, 200, JsonObject.mapFrom(overview));
     }
@@ -82,10 +64,10 @@ public class Response {
                 .end(Json.encodePrettily(response));
     }
 
-    public static void sendFailure(RoutingContext ctx, int code, String quote) {
+    public static void sendFailure(RoutingContext ctx, int code, String errorMessage) {
         sendJsonResponse(ctx, code, new JsonObject()
                 .put("failure", code)
-                .put("cause", quote));
+                .put("cause", errorMessage));
     }
 
     public static void sendDangerzones(RoutingContext ctx, JsonObject dangerzones) {

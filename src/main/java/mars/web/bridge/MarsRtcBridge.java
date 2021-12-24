@@ -134,14 +134,6 @@ public class MarsRtcBridge implements MarsControllerListener {
     }
 
     @Override
-    public void onQuoteCreated(Quote quote) { // noinspection ALL
-        // Not-Implemented
-        // No Scope of POC
-        // TODO: Lenn, this function can be deleted. It will have to be deleted from
-        //       the MarsControllerListener Interface as well.
-    }
-
-    @Override
     public void onDispatchAdded(Dispatch dispatch) {
         publishNewDispatch(dispatch);
     }

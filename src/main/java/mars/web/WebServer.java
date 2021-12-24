@@ -88,8 +88,8 @@ public class WebServer extends AbstractVerticle {
                 });
     }
 
-    private void shutDown(String quote, Throwable cause) {
-        LOGGER.log(Level.SEVERE, quote, cause);
+    private void shutDown(String errorMessage, Throwable cause) {
+        LOGGER.log(Level.SEVERE, errorMessage, cause);
         LOGGER.info("Shutting down");
         vertx.close();
         startPromise.fail(cause);

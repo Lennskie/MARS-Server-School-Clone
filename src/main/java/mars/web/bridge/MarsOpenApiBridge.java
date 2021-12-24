@@ -217,7 +217,7 @@ public class MarsOpenApiBridge {
     private void onFailedRequest(RoutingContext ctx) {
         Throwable cause = ctx.failure();
         int code = ctx.statusCode();
-        String quote = Objects.isNull(cause) ? "" + code : cause.getMessage();
+        String errorMessage = Objects.isNull(cause) ? "" + code : cause.getMessage();
 
         // Map custom runtime exceptions to a HTTP status code.
         if (cause instanceof MarsResourceNotFoundException) {
@@ -228,7 +228,7 @@ public class MarsOpenApiBridge {
             LOGGER.log(Level.WARNING, "Failed request", cause);
         }
 
-        Response.sendFailure(ctx, code, quote);
+        Response.sendFailure(ctx, code, errorMessage);
     }
 
     private CorsHandler createCorsHandler() {
