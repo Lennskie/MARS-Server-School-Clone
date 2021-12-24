@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class VitalStatus {
-    @SuppressWarnings("ALL")
     @JsonProperty
     private String status; // @TODO IMPLEMENT VITAL STATUSES
 

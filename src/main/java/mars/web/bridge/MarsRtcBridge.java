@@ -41,11 +41,11 @@ public class MarsRtcBridge implements MarsControllerListener {
 
     private static final String DELETED_DISPATCH_EVENT_BUS = "delete.dispatch";
 
-    /* @TODO REMOVE IF UNUSED
+    // @TODO REMOVE IF UNUSED
+    @SuppressWarnings("unused")
     private static final String CLIENT_STATUS_EVENT_BUS = "status.client";
+    @SuppressWarnings("unused")
     private static final String VEHICLE_STATUS_EVENT_BUS = "status.vehicle";
-    */
-
 
     private static final String CLIENT_LOCATION_EVENT_BUS = "location.client";
     private static final String VEHICLE_LOCATION_EVENT_BUS = "location.vehicle";
@@ -66,10 +66,11 @@ public class MarsRtcBridge implements MarsControllerListener {
         List<Client> clients = Repositories.getClientsRepo().getClients();
         List<Vehicle> vehicles = Repositories.getVehiclesRepo().getVehicles();
 
-        /* @TODO REMOVE IF UNUSED
+        // @TODO REMOVE IF UNUSED
         // Domes don't move
+        @SuppressWarnings("unused")
         List<Dome> domes = Repositories.getDomesRepo().getDomes();
-         */
+
 
         Timer movementTimer = new Timer();
         TimerTask movementTimerTask = new TimerTask() {
@@ -84,11 +85,13 @@ public class MarsRtcBridge implements MarsControllerListener {
     }
 
     // @TODO REMOVE IF UNUSED
+    @SuppressWarnings("unused")
     public void publishNewClient(Client newClient) {
         eb.publish(NEW_CLIENT_EVENT_BUS, JsonObject.mapFrom(newClient));
     }
 
     // @TODO REMOVE IF UNUSED
+    @SuppressWarnings("unused")
     public void publishNewVehicle(Vehicle newVehicle) {
         eb.publish(NEW_VEHICLE_EVENT_BUS, JsonObject.mapFrom(newVehicle));
     }
