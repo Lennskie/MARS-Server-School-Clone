@@ -1,8 +1,6 @@
 package mars.logic.controller;
 
 import mars.logic.domain.*;
-import io.vertx.core.Future;
-
 import java.util.List;
 
 public interface MarsController {

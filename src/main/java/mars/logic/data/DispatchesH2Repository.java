@@ -165,10 +165,6 @@ public class DispatchesH2Repository implements DispatchesRepository {
             addStmt.setString(4, sourceIdentifier);
             addStmt.setString(5, destinationIdentifier);
 
-            // TODO: if there is time, check if vehcile/client/dome with given identifier actually exists before creating the dispatch
-            //       right now, if a front-end adds an invalid dispatch, all connected front-ends will crash
-
-
             if (addStmt.executeUpdate() <= 0) {
                 throw new RepositoryException(ERROR_MSG_ADD_DISPATCH);
             } else {

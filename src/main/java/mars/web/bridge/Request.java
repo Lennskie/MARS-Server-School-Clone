@@ -2,16 +2,12 @@ package mars.web.bridge;
 
 import mars.logic.domain.Dangerzone;
 import mars.logic.domain.Location;
-import mars.web.exceptions.MalformedRequestException;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.validation.RequestParameters;
 import io.vertx.ext.web.validation.ValidationHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class Request {
-    private static final Logger LOGGER = Logger.getLogger(Request.class.getName());
     public static final String SPEC_VEHICLE_ID = "vehicleId";
     public static final String SPEC_DOME_ID = "domeId";
     public static final String SPEC_CLIENT_ID = "clientId";
@@ -56,6 +52,7 @@ public class Request {
         return params.body().getJsonObject().getString(field + "_identifier");
     }
 
+    @SuppressWarnings("unused")
     public Dangerzone getDangerzones() {
         Location testLocation = new Location(3.555, 7.888);
         return new Dangerzone("DZ-001",testLocation, 50);
@@ -77,6 +74,7 @@ public class Request {
         return new Location(latitude, longitude);
     }
 
+    @SuppressWarnings("unused")
     public String getJsonAsString() {
         return params.body().getJsonObject().toString();
     }

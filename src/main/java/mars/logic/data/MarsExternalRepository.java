@@ -12,10 +12,15 @@ public class MarsExternalRepository {
     private static final String DEFAULT_API_URI = "/api/v1/random";
     private static final Logger LOGGER = Logger.getLogger(MarsExternalRepository.class.getName());
 
+    @SuppressWarnings("ALL")
     private final WebClient webClient;
+    @SuppressWarnings("ALL")
     private final String host;
+    @SuppressWarnings("ALL")
     private final String apiUri;
+    @SuppressWarnings("ALL")
     private final int port;
+    @SuppressWarnings("ALL")
     private final boolean useSsl;
 
     public MarsExternalRepository(WebClient webClient) {

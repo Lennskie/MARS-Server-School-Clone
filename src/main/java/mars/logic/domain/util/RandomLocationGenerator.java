@@ -5,7 +5,6 @@ import mars.logic.domain.Location;
 public class RandomLocationGenerator {
 
     // Fit in the chosen map screen
-    // @TODO REMOVE IF UNUSED
     @SuppressWarnings("unused")
     private static final double LATITUDE_OFFSET = 29.62295;
     @SuppressWarnings("unused")
