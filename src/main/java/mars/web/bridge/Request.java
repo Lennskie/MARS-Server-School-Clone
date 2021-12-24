@@ -66,7 +66,7 @@ public class Request {
     }
 
     public String getBodyIdentifier() {
-        return params.body().getJsonObject().getString("identifier");
+        return params.body().getJsonObject().getString(SPEC_IDENTIFIER);
     }
 
     public String getIdentifier(String field) {

@@ -44,11 +44,11 @@ public class MarsRtcBridge implements MarsControllerListener {
 
     private static final String DELETED_DISPATCH_EVENT_BUS = "delete.dispatch";
 
-    private final String CLIENT_STATUS_EVENT_BUS = "status.client";
-    private final String VEHICLE_STATUS_EVENT_BUS = "status.vehicle";
+    private static final String CLIENT_STATUS_EVENT_BUS = "status.client";
+    private static final String VEHICLE_STATUS_EVENT_BUS = "status.vehicle";
 
-    private final String CLIENT_LOCATION_EVENT_BUS = "location.client";
-    private final String VEHICLE_LOCATION_EVENT_BUS = "location.vehicle";
+    private static final String CLIENT_LOCATION_EVENT_BUS = "location.client";
+    private static final String VEHICLE_LOCATION_EVENT_BUS = "location.vehicle";
 
     private MarsController marsController;
     private SockJSHandler sockJSHandler;
@@ -73,12 +73,12 @@ public class MarsRtcBridge implements MarsControllerListener {
         TimerTask movementTimerTask = new TimerTask() {
             @Override
             public void run() {
-                clients.forEach(Client -> {
-                    marsController.updateClientLocation(Client.getIdentifier(), RandomLocationGenerator.getRandomLocation());
+                clients.forEach(client -> {
+                    marsController.updateClientLocation(client.getIdentifier(), RandomLocationGenerator.getRandomLocation());
                 });
 
-                vehicles.forEach(Vehicle -> {
-                    marsController.updateVehicleLocation(Vehicle.getIdentifier(), RandomLocationGenerator.getRandomLocation());
+                vehicles.forEach(vehicle -> {
+                    marsController.updateVehicleLocation(vehicle.getIdentifier(), RandomLocationGenerator.getRandomLocation());
                 });
             }
         };

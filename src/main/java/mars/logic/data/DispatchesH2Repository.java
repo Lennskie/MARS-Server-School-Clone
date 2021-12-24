@@ -87,23 +87,23 @@ public class DispatchesH2Repository implements DispatchesRepository {
         );
     }
 
-    private DispatchSource mapDispatchSource(String source_type, String source_identifier) throws RepositoryException {
-        switch (source_type) {
+    private DispatchSource mapDispatchSource(String sourceType, String sourceIdentifier) throws RepositoryException {
+        switch (sourceType) {
             case "Vehicle":
-                return vehicleDepository.getVehicle(source_identifier);
+                return vehicleDepository.getVehicle(sourceIdentifier);
             case "Client":
-                return clientRepository.getClient(source_identifier);
+                return clientRepository.getClient(sourceIdentifier);
             default:
                 throw new RepositoryException("Unable to get valid DispatchSource from database");
         }
     }
 
-    private DispatchDestination mapDispatchDestination(String destination_type, String destination_identifier) throws RepositoryException {
-        switch (destination_type) {
+    private DispatchDestination mapDispatchDestination(String destinationType, String destinationIdentifier) throws RepositoryException {
+        switch (destinationType) {
             case "Client":
-                return clientRepository.getClient(destination_identifier);
+                return clientRepository.getClient(destinationIdentifier);
             case "Dome":
-                return domeRepository.getDome(destination_identifier);
+                return domeRepository.getDome(destinationIdentifier);
             default:
                 throw new RepositoryException("Unable to get valid DispatchTarget from database");
         }
@@ -128,7 +128,7 @@ public class DispatchesH2Repository implements DispatchesRepository {
     }
 
     @Override
-    public Dispatch addDispatch(String identifier, String source_type, String destination_type, String source_identifier, String destination_identifier) {
+    public Dispatch addDispatch(String identifier, String sourceType, String destinationType, String sourceIdentifier, String destinationIdentifier) {
         try (
                 Connection connection = Repositories.getH2Repo().getConnection();
                 PreparedStatement addStmt = connection.prepareStatement(SQL_INSERT_DISPATCH);
@@ -136,7 +136,7 @@ public class DispatchesH2Repository implements DispatchesRepository {
         ) {
             addStmt.setString(1, identifier);
 
-            switch (source_type) {
+            switch (sourceType) {
                 case "Vehicle":
                     addStmt.setString(2, "Vehicle");
                     break;
@@ -147,7 +147,7 @@ public class DispatchesH2Repository implements DispatchesRepository {
                     throw new IllegalArgumentException("Invalid source type given for dispatch");
             }
 
-            switch (destination_type) {
+            switch (destinationType) {
                 case "Dome":
                     addStmt.setString(3, "Dome");
                     break;
@@ -158,8 +158,8 @@ public class DispatchesH2Repository implements DispatchesRepository {
                     throw new IllegalArgumentException("Invalid destination type given for dispatch");
             }
 
-            addStmt.setString(4, source_identifier);
-            addStmt.setString(5, destination_identifier);
+            addStmt.setString(4, sourceIdentifier);
+            addStmt.setString(5, destinationIdentifier);
 
             // TODO: if there is time, check if vehcile/client/dome with given identifier actually exists before creating the dispatch
             //       right now, if a front-end adds an invalid dispatch, all connected front-ends will crash
