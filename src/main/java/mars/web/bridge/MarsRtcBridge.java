@@ -16,6 +16,8 @@ import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * In the MarsRtcBridge class you will find one example function which sends a message on the message bus to the client.
@@ -61,11 +63,28 @@ public class MarsRtcBridge implements MarsControllerListener {
     }
 
     private void MockCalls() {
+        Logger LOGGER = Logger.getLogger(MarsRtcBridge.class.getName());
         List<Client> clients = Repositories.getClientsRepo().getClients();
         List<Vehicle> vehicles = Repositories.getVehiclesRepo().getVehicles();
+
+        // Domes don't move
         List<Dome> domes = Repositories.getDomesRepo().getDomes();
 
-
+        Timer movementTimer = new Timer();
+        TimerTask movementTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+                LOGGER.log(Level.INFO, "Mocker is updating client locations");
+                clients.forEach(Client -> {
+                    marsController.updateClientLocation(Client.getIdentifier(), RandomLocationGenerator.getRandomLocation());
+                });
+                LOGGER.log(Level.INFO, "Mocker is updating vehicle locations");
+                vehicles.forEach(Vehicle -> {
+                    marsController.updateVehicleLocation(Vehicle.getIdentifier(), RandomLocationGenerator.getRandomLocation());
+                });
+            }
+        };
+        movementTimer.schedule(movementTimerTask, 0, 1000);
     }
 
     public void publishNewClient(Client newClient) {
