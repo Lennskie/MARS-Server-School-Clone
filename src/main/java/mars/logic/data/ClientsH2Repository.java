@@ -3,7 +3,6 @@ package mars.logic.data;
 import mars.logic.domain.Client;
 import mars.logic.domain.Location;
 import mars.logic.domain.Subscription;
-import mars.logic.domain.*;
 import mars.logic.exceptions.RepositoryException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -2,8 +2,6 @@ package mars.logic.data;
 
 import mars.logic.domain.Client;
 import mars.logic.domain.Location;
-import mars.logic.domain.Vehicle;
-
 import java.util.List;
 
 public interface ClientsRepository {

@@ -1,6 +1,5 @@
 package mars.web.bridge;
 
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import mars.logic.controller.DefaultMarsController;
 import mars.logic.controller.MarsController;
@@ -11,12 +10,10 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 /**
  * In the MarsOpenApiBridge class you will find one handler-method per API operation.

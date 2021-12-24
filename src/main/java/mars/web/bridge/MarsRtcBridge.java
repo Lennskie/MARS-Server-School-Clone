@@ -12,12 +12,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
-
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * In the MarsRtcBridge class you will find one example function which sends a message on the message bus to the client.
@@ -44,11 +41,14 @@ public class MarsRtcBridge implements MarsControllerListener {
 
     private static final String DELETED_DISPATCH_EVENT_BUS = "delete.dispatch";
 
-    private final String CLIENT_STATUS_EVENT_BUS = "status.client";
-    private final String VEHICLE_STATUS_EVENT_BUS = "status.vehicle";
+    // @TODO REMOVE IF UNUSED
+    @SuppressWarnings("unused")
+    private static final String CLIENT_STATUS_EVENT_BUS = "status.client";
+    @SuppressWarnings("unused")
+    private static final String VEHICLE_STATUS_EVENT_BUS = "status.vehicle";
 
-    private final String CLIENT_LOCATION_EVENT_BUS = "location.client";
-    private final String VEHICLE_LOCATION_EVENT_BUS = "location.vehicle";
+    private static final String CLIENT_LOCATION_EVENT_BUS = "location.client";
+    private static final String VEHICLE_LOCATION_EVENT_BUS = "location.vehicle";
 
     private MarsController marsController;
     private SockJSHandler sockJSHandler;
@@ -66,29 +66,32 @@ public class MarsRtcBridge implements MarsControllerListener {
         List<Client> clients = Repositories.getClientsRepo().getClients();
         List<Vehicle> vehicles = Repositories.getVehiclesRepo().getVehicles();
 
+        // @TODO REMOVE IF UNUSED
         // Domes don't move
+        @SuppressWarnings("unused")
         List<Dome> domes = Repositories.getDomesRepo().getDomes();
+
 
         Timer movementTimer = new Timer();
         TimerTask movementTimerTask = new TimerTask() {
             @Override
             public void run() {
-                clients.forEach(Client -> {
-                    marsController.updateClientLocation(Client.getIdentifier(), RandomLocationGenerator.getRandomLocation());
-                });
+                clients.forEach(client -> marsController.updateClientLocation(client.getIdentifier(), RandomLocationGenerator.getRandomLocation()));
 
-                vehicles.forEach(Vehicle -> {
-                    marsController.updateVehicleLocation(Vehicle.getIdentifier(), RandomLocationGenerator.getRandomLocation());
-                });
+                vehicles.forEach(vehicle -> marsController.updateVehicleLocation(vehicle.getIdentifier(), RandomLocationGenerator.getRandomLocation()));
             }
         };
         movementTimer.schedule(movementTimerTask, 0, 5000);
     }
 
+    // @TODO REMOVE IF UNUSED
+    @SuppressWarnings("unused")
     public void publishNewClient(Client newClient) {
         eb.publish(NEW_CLIENT_EVENT_BUS, JsonObject.mapFrom(newClient));
     }
 
+    // @TODO REMOVE IF UNUSED
+    @SuppressWarnings("unused")
     public void publishNewVehicle(Vehicle newVehicle) {
         eb.publish(NEW_VEHICLE_EVENT_BUS, JsonObject.mapFrom(newVehicle));
     }
@@ -137,7 +140,7 @@ public class MarsRtcBridge implements MarsControllerListener {
     public void onQuoteCreated(Quote quote) { // noinspection ALL
         // Not-Implemented
         // No Scope of POC
-        // TODO: Lenn, this function can be deleted. It will have to be deleted from
+        // @TODO: Lenn, this function can be deleted. It will have to be deleted from
         //       the MarsControllerListener Interface as well.
     }
 
