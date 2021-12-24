@@ -16,7 +16,7 @@ class RepositoriesTest {
     }
 
     @Test
-    void getQuotesExternalRepoWithoutConfiguration() {
+    void getMarsExternalRepoWithoutConfiguration() {
         assertThrows(RepositoryException.class, Repositories::getMarsExternalRepo);
     }
 

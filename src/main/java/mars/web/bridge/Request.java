@@ -9,10 +9,7 @@ import io.vertx.ext.web.validation.ValidationHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * The Request class is responsible for translating information that is part of the
- * request into Java.
- */
+
 public class Request {
     private static final Logger LOGGER = Logger.getLogger(Request.class.getName());
     public static final String SPEC_VEHICLE_ID = "vehicleId";

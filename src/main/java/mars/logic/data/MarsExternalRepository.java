@@ -6,14 +6,6 @@ import io.vertx.ext.web.client.WebClient;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * This is an example of an external repository consuming an api.
- * In Project II it is encouraged to connect with external api's or api's provided by other teams!
- * <p>
- * This class consumes an external random quotes api.
- * See https://goquotes-api.herokuapp.com/api/v1/random?count=1
- * See SOA&SD for another example.
- */
 public class MarsExternalRepository {
     private static final int DEFAULT_PORT = 443;
     private static final String DEFAULT_HOST = "frightening-warlock-37692.herokuapp.com";
@@ -32,8 +24,8 @@ public class MarsExternalRepository {
 
     public MarsExternalRepository(WebClient webClient, String host, int port, String apiUri, boolean useSsl) {
         if (webClient == null) {
-            LOGGER.log(Level.SEVERE, "RandomQuotesClient is not configured");
-            throw new RepositoryException("RandomQuotesClient is not configured");
+            LOGGER.log(Level.SEVERE, "RandomMarsClient is not configured");
+            throw new RepositoryException("RandomMarsClient is not configured");
         }
         this.webClient = webClient;
         this.host = host;

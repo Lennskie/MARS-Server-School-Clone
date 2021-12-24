@@ -8,22 +8,6 @@ import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-/**
-This is only a starter class to use an H2 database.
-Please always use interfaces in the other Repositories when needed.
-To make this class useful, please complete it with the topics seen in the module OOA & SD
-- Make sure the conf/config.json (local & production) properties are correct.
-- The h2 web console is available at http://localhost:9000
-- The h2 database file is located at ~/mars-db
-- Don't create tables manually but create sql files in the folder resources.
-  - With each deploy create the db structure from scratch (it's just a poc).
-  - Two starter sql script are already given.
-- Hint:
-  - Mocking this repository for testing purposes is not needed.
-    Create database creating and population scripts in plain SQL (resources folder).
-    Use the @Before or @BeforeEach (depending on the type of test) to quickly create a populated database.
- **/
 public class H2Repository {
     private static final Logger LOGGER = Logger.getLogger(H2Repository.class.getName());
     private final Server dbWebConsole;

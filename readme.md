@@ -46,7 +46,7 @@ Please, test the config file thoroughly on your local machine as mistakes will n
 
 ## What's included
   - A very basic openapi specification
-    - localhost:8080/api/quotes
+    - localhost:8080/api
   - H2 database web console
   - The setup of a vert.x and openapi (WebServer.java)
   - Minimal H2 repository class
@@ -83,7 +83,7 @@ By default this property is assigend the value:
    - url: ~/mars-db
    - no credentials
  - Web api
-   - localhost:8080/api/quotes
+   - localhost:8080/api/
  - Web client
    - launch through webstorm/phpstorm (see client-side readme)
   

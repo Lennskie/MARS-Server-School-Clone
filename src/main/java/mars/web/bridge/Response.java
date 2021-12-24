@@ -5,10 +5,6 @@ import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
-/**
- * The Response class is responsible for translating the result of the controller into
- * JSON responses with an appropriate HTTP code.
- */
 public class Response {
 
     private Response() { }

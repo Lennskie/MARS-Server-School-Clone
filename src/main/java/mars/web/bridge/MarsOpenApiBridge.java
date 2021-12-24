@@ -15,13 +15,6 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * In the MarsOpenApiBridge class you will find one handler-method per API operation.
- * The job of the "bridge" is to bridge between JSON (request and response) and Java (the controller).
- * <p>
- * For each API operation you should get the required data from the `Request` class,
- * pass it to the controller and use its result to generate a response in the `Response` class.
- */
 public class MarsOpenApiBridge {
     private static final Logger LOGGER = Logger.getLogger(MarsOpenApiBridge.class.getName());
     private final MarsController controller;

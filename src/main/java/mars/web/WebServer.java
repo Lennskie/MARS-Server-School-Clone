@@ -16,15 +16,6 @@ import io.vertx.ext.web.openapi.RouterBuilder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * WebServer is the main Verticle:
- *  - loads configuration
- *  - loads api specification
- *  - configures a websocket connection
- *  - starts an http-webserver.
- *
- *  No need to update anything in this class unless you know what you are doing !!!
- */
 public class WebServer extends AbstractVerticle {
     private static final String REALTIME_COMM_URI = "/events/*";
     private static final Logger LOGGER = Logger.getLogger(WebServer.class.getName());

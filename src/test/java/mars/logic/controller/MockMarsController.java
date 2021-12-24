@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 
 public class MockMarsController implements MarsController {
-    private static final String SOME_QUOTE = "quote";
 
     @Override
     public List<Subscription> getSubscriptions() {

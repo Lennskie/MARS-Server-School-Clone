@@ -3,27 +3,12 @@ package mars.logic.controller;
 import mars.logic.data.Repositories;
 import mars.logic.domain.*;
 import mars.logic.exceptions.MarsResourceNotFoundException;
-import io.vertx.core.Future;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * DefaultMarsController is the default implementation for the MarsController interface.
- * It should NOT be aware that it is used in the context of a webserver:
- * <p>
- * This class and all other classes in the logic-package (or future sub-packages)
- * should use 100% plain old Java Objects (POJOs). The use of Json, JsonObject or
- * Strings that contain encoded/json data should be avoided here.
- * Do not be afraid to create your own Java classes if needed.
- * <p>
- * Note: Json and JsonObject can (and should) be used in the web-package however.
- * <p>
- * (please update these comments in the final version)
- */
 public class DefaultMarsController implements MarsController {
-    private static final String MSG_QUOTE_ID_UNKNOWN = "No quote with id: %d";
     // DP: Observer Pattern Keep a list of all listeners
     private List<MarsControllerListener> listeners = new LinkedList<>();
 
