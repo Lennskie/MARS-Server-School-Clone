@@ -5,11 +5,11 @@ INSERT INTO quotes VALUES (1, 'Everyone enjoys doing the kind of work for which 
 
 -- Users (identifier, firstname, lastname)
 INSERT INTO users VALUES ('MARS-ID-001', 'Ana', 'Silveneyer',1,2,'critical');
-INSERT INTO users VALUES ('MARS-ID-002', 'Bob', 'Goldeneyer',1,2,'critical');
+INSERT INTO users VALUES ('MARS-ID-002', 'Bob', 'Goldeneyer',1,2,'medium');
 INSERT INTO users VALUES ('MARS-ID-003', 'Carolina', 'Platineyer',1,2,'critical');
-INSERT INTO users VALUES ('MARS-ID-004', 'Dirk', 'Endedneyer',1,2,'critical');
-INSERT INTO users VALUES ('MARS-ID-005', 'Elena', 'Reumbersedneyer',1,2,'critical');
-INSERT INTO users VALUES ('MARS-ID-006', 'Florence', 'Nosubneyer',1,2,'critical');
+INSERT INTO users VALUES ('MARS-ID-004', 'Dirk', 'Endedneyer',1,2,'healthy');
+INSERT INTO users VALUES ('MARS-ID-005', 'Elena', 'Reumbersedneyer',1,2,'healthy');
+INSERT INTO users VALUES ('MARS-ID-006', 'Florence', 'Nosubneyer',1,2,'healthy');
 
 
 -- Subscriptions (name, description, price)
@@ -38,16 +38,9 @@ INSERT INTO vehicles VALUES ('AV-008', true, null, null);
 INSERT INTO vehicles VALUES ('AV-009', true, null, null);
 
 -- Domes (identifier, size, lat, long)
-INSERT INTO domes VALUES ('DOME-001', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-002', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-003', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-004', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-005', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-006', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-007', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-008', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-009', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-010', 1000, 3, 4);
+INSERT INTO domes VALUES ('DOME-001', 1000, 29.64161964165002, 35.408435233550065);
+INSERT INTO domes VALUES ('DOME-002', 1000, 29.635330710775417, 35.40980449187471);
+INSERT INTO domes VALUES ('DOME-003', 1000, 29.628105341126876, 35.45396513878511);
 
 -- DANGERZONES (lat, long, rad)
 INSERT INTO DANGERZONES VALUES ('DZ-001',1,2,3);
