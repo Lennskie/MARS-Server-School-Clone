@@ -82,7 +82,7 @@ public class MarsRtcBridge implements MarsControllerListener {
                 });
             }
         };
-        movementTimer.schedule(movementTimerTask, 0, 1000);
+        movementTimer.schedule(movementTimerTask, 0, 5000);
     }
 
     public void publishNewClient(Client newClient) {
