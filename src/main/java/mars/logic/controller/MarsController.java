@@ -1,19 +1,11 @@
 package mars.logic.controller;
 
 import mars.logic.domain.*;
-import io.vertx.core.Future;
-
 import java.util.List;
 
 public interface MarsController {
 
     List<Subscription> getSubscriptions();
-
-    Quote getQuote(int quoteId);
-    Quote createQuote(String quote);
-    Quote updateQuote(int quoteId, String quote);
-    void deleteQuote(int quoteId);
-    Future<Quote> getRandomQuote();
 
     List<Dangerzone> getDangerzones();
 

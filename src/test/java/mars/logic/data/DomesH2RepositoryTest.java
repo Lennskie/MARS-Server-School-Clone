@@ -43,6 +43,6 @@ class DomesH2RepositoryTest {
         List<Dome> domes = Repositories.getDomesRepo().getDomes();
 
         Assertions.assertNotNull(domes);
-        Assertions.assertEquals(10, domes.size());
+        Assertions.assertEquals(3, domes.size());
     }
 }

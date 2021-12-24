@@ -16,23 +16,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * In the MarsRtcBridge class you will find one example function which sends a message on the message bus to the client.
- * The RTC bridge is one of the class taught topics.
- * If you do not choose the RTC topic you don't have to do anything with this class.
- * Otherwise, you will need to expand this bridge with the websockets topics shown in the other modules.
- *
- * Compared to the other classes only the bare minimum is given.
- * The client-side starter project does not contain any teacher code about the RTC topic.
- * The rtc bridge is already initialized and configured in the WebServer.java.
- * No need to change the WebServer.java
- *
- * As a proof of concept (poc) one message to the client is sent every 30 seconds.
- *
- * The job of the "bridge" is to bridge between websockets events and Java (the controller).
- * Just like in the openapi bridge, keep business logic isolated in the package logic.
- * <p>
- */
 public class MarsRtcBridge implements MarsControllerListener {
 
     private static final String NEW_CLIENT_EVENT_BUS = "new.client";
@@ -41,7 +24,6 @@ public class MarsRtcBridge implements MarsControllerListener {
 
     private static final String DELETED_DISPATCH_EVENT_BUS = "delete.dispatch";
 
-    // @TODO REMOVE IF UNUSED
     @SuppressWarnings("unused")
     private static final String CLIENT_STATUS_EVENT_BUS = "status.client";
     @SuppressWarnings("unused")
@@ -66,7 +48,6 @@ public class MarsRtcBridge implements MarsControllerListener {
         List<Client> clients = Repositories.getClientsRepo().getClients();
         List<Vehicle> vehicles = Repositories.getVehiclesRepo().getVehicles();
 
-        // @TODO REMOVE IF UNUSED
         // Domes don't move
         @SuppressWarnings("unused")
         List<Dome> domes = Repositories.getDomesRepo().getDomes();
@@ -84,13 +65,11 @@ public class MarsRtcBridge implements MarsControllerListener {
         movementTimer.schedule(movementTimerTask, 0, 5000);
     }
 
-    // @TODO REMOVE IF UNUSED
     @SuppressWarnings("unused")
     public void publishNewClient(Client newClient) {
         eb.publish(NEW_CLIENT_EVENT_BUS, JsonObject.mapFrom(newClient));
     }
 
-    // @TODO REMOVE IF UNUSED
     @SuppressWarnings("unused")
     public void publishNewVehicle(Vehicle newVehicle) {
         eb.publish(NEW_VEHICLE_EVENT_BUS, JsonObject.mapFrom(newVehicle));
@@ -134,14 +113,6 @@ public class MarsRtcBridge implements MarsControllerListener {
         // DP: Observer pattern (Register this bridge by the controller as listener)
         marsController.addListener(this);
         this.marsController = marsController;
-    }
-
-    @Override
-    public void onQuoteCreated(Quote quote) { // noinspection ALL
-        // Not-Implemented
-        // No Scope of POC
-        // @TODO: Lenn, this function can be deleted. It will have to be deleted from
-        //       the MarsControllerListener Interface as well.
     }
 
     @Override

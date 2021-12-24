@@ -15,13 +15,6 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * In the MarsOpenApiBridge class you will find one handler-method per API operation.
- * The job of the "bridge" is to bridge between JSON (request and response) and Java (the controller).
- * <p>
- * For each API operation you should get the required data from the `Request` class,
- * pass it to the controller and use its result to generate a response in the `Response` class.
- */
 public class MarsOpenApiBridge {
     private static final Logger LOGGER = Logger.getLogger(MarsOpenApiBridge.class.getName());
     private final MarsController controller;
@@ -167,10 +160,10 @@ public class MarsOpenApiBridge {
         LOGGER.log(Level.INFO, "Installing handler for: getVehicle");
         routerBuilder.operation("getVehicle").handler(this::getVehicle);
 
-        LOGGER.log(Level.INFO, "Installing handler for: getVehicles");
+        LOGGER.log(Level.INFO, "Installing handler for: getDomes");
         routerBuilder.operation("getDomes").handler(this::getDomes);
 
-        LOGGER.log(Level.INFO, "Installing handler for: getVehicle");
+        LOGGER.log(Level.INFO, "Installing handler for: getDome");
         routerBuilder.operation("getDome").handler(this::getDome);
 
         LOGGER.log(Level.INFO, "Installing handler for: getClients");
@@ -214,7 +207,7 @@ public class MarsOpenApiBridge {
     private void onFailedRequest(RoutingContext ctx) {
         Throwable cause = ctx.failure();
         int code = ctx.statusCode();
-        String quote = Objects.isNull(cause) ? "" + code : cause.getMessage();
+        String errorMessage = Objects.isNull(cause) ? "" + code : cause.getMessage();
 
         // Map custom runtime exceptions to a HTTP status code.
         if (cause instanceof MarsResourceNotFoundException) {
@@ -225,7 +218,7 @@ public class MarsOpenApiBridge {
             LOGGER.log(Level.WARNING, "Failed request", cause);
         }
 
-        Response.sendFailure(ctx, code, quote);
+        Response.sendFailure(ctx, code, errorMessage);
     }
 
     private CorsHandler createCorsHandler() {

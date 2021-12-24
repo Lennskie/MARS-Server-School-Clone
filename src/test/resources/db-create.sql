@@ -1,12 +1,3 @@
--- Quotes
-drop table if exists quotes cascade;
-create table quotes
-(
-    id    int auto_increment,
-    quote varchar(255)
-);
-
-
 -- User
 drop table if exists users cascade;
 create table users
@@ -77,6 +68,19 @@ create table domes
     size int not null,
     latitude float,
     longitude float
+);
+
+-- Dispatches
+drop table if exists dispatches;
+create table dispatches
+(
+  identifier varchar not null,
+
+  source_type varchar not null,
+  destination_type varchar not null,
+
+  source_identifier varchar not null,
+  destination_identifier varchar not null
 );
 
 -- Dangerzones

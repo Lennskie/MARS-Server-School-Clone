@@ -44,6 +44,6 @@ class VehiclesH2RepositoryTest {
         List<Vehicle> vehicles = Repositories.getVehiclesRepo().getVehicles();
 
         Assertions.assertNotNull(vehicles);
-        Assertions.assertEquals(3, vehicles.size());
+        Assertions.assertEquals(9, vehicles.size());
     }
 }
