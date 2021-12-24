@@ -7,7 +7,7 @@ import io.vertx.ext.web.client.WebClient;
 
 public class Repositories {
     private static H2Repository h2Repo = null;
-    private static QuotesExternalRepository quotesExternalRepo = null;
+    private static MarsExternalRepository marsExternalRepo = null;
     private static final SubscriptionsRepository SUBSCRIPTIONS_REPO = new SubscriptionsH2Repository();
     private static final VehiclesRepository VEHICLES_REPO = new VehiclesH2Repository();
     private static final DomesRepository DOMES_REPO = new DomesH2Repository();
@@ -24,11 +24,11 @@ public class Repositories {
         return h2Repo;
     }
 
-    public static QuotesExternalRepository getQuotesExternalRepo() {
-        if (quotesExternalRepo == null)
-            throw new RepositoryException("QuotesExternalRepository not configured.");
+    public static MarsExternalRepository getMarsExternalRepo() {
+        if (marsExternalRepo == null)
+            throw new RepositoryException("MarsExternalRepository not configured.");
 
-        return quotesExternalRepo;
+        return marsExternalRepo;
     }
 
     public static SubscriptionsRepository getSubscriptionsRepo() {
@@ -59,7 +59,7 @@ public class Repositories {
                 dbProps.getString("username"),
                 dbProps.getString("password"),
                 dbProps.getInteger("webconsole.port"));
-        quotesExternalRepo = new QuotesExternalRepository(webClient);
+        marsExternalRepo = new MarsExternalRepository(webClient);
     }
 
     public static void configure(JsonObject dbProps, WebClient webClient, String host, int port, String apiUrl, boolean useSsl) {
@@ -67,7 +67,7 @@ public class Repositories {
                 dbProps.getString("username"),
                 dbProps.getString("password"),
                 dbProps.getInteger("webconsole.port"));
-        quotesExternalRepo = new QuotesExternalRepository(webClient, host, port, apiUrl, useSsl);
+        marsExternalRepo = new MarsExternalRepository(webClient, host, port, apiUrl, useSsl);
     }
 
     public static void shutdown() {
@@ -75,6 +75,6 @@ public class Repositories {
             h2Repo.cleanUp();
 
         h2Repo = null;
-        quotesExternalRepo = null;
+        marsExternalRepo = null;
     }
 }

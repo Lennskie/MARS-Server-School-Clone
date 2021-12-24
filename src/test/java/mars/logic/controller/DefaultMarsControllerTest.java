@@ -55,7 +55,7 @@ class DefaultMarsControllerTest {
 
         List<Vehicle> vehicles = sut.getVehicles();
 
-        assertEquals(3, vehicles.size());
+        assertEquals(9, vehicles.size());
     }
 
     @Test
@@ -127,7 +127,7 @@ class DefaultMarsControllerTest {
 
         List<Dome> domes = sut.getDomes();
 
-        assertEquals(10, domes.size());
+        assertEquals(3, domes.size());
     }
 
     @Test

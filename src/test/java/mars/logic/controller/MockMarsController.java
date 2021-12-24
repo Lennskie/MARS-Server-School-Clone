@@ -22,32 +22,6 @@ public class MockMarsController implements MarsController {
     }
 
     @Override
-    public Quote getQuote(int quoteId) {
-        return new Quote(quoteId, SOME_QUOTE);
-    }
-
-    @Override
-    public Quote createQuote(String quote) {
-        return new Quote(1, quote);
-    }
-
-    @Override
-    public Quote updateQuote(int quoteId, String quote) {
-        return new Quote(quoteId, quote);
-    }
-
-    @Override
-    public void deleteQuote(int quoteId) {
-    }
-
-    @Override
-    public Future<Quote> getRandomQuote() {
-        Promise<Quote> promise = Promise.promise();
-        promise.complete(new Quote(1, SOME_QUOTE));
-        return promise.future();
-    }
-
-    @Override
     public List<Dangerzone> getDangerzones() {
         List<Dangerzone> dangerzones = new ArrayList<>();
         dangerzones.add(new Dangerzone("DZ-001", new Location(2.33, 2.33),3));
