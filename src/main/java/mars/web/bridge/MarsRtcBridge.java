@@ -3,6 +3,7 @@ package mars.web.bridge;
 import mars.logic.controller.DefaultMarsController;
 import mars.logic.controller.MarsControllerListener;
 import mars.logic.controller.MarsController;
+import mars.logic.data.Repositories;
 import mars.logic.domain.*;
 import mars.logic.domain.util.RandomLocationGenerator;
 import io.vertx.core.Vertx;
@@ -12,8 +13,11 @@ import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * In the MarsRtcBridge class you will find one example function which sends a message on the message bus to the client.
@@ -36,16 +40,19 @@ public class MarsRtcBridge implements MarsControllerListener {
 
     private static final String NEW_CLIENT_EVENT_BUS = "new.client";
     private static final String NEW_VEHICLE_EVENT_BUS = "new.vehicle";
+    private static final String NEW_DISPATCH_EVENT_BUS = "new.dispatch";
 
-//    private final String CLIENT_STATUS_EVENT_BUS = "status.client";
-//    private final String VEHICLE_STATUS_EVENT_BUS = "status.vehicle";
-//
-//    private final String CLIENT_LOCATION_EVENT_BUS = "location.client";
-//    private final String VEHICLE_LOCATION_EVENT_BUS = "location.vehicle";
+    private static final String DELETED_DISPATCH_EVENT_BUS = "delete.dispatch";
 
+    private final String CLIENT_STATUS_EVENT_BUS = "status.client";
+    private final String VEHICLE_STATUS_EVENT_BUS = "status.vehicle";
+
+    private final String CLIENT_LOCATION_EVENT_BUS = "location.client";
+    private final String VEHICLE_LOCATION_EVENT_BUS = "location.vehicle";
+
+    private MarsController marsController;
     private SockJSHandler sockJSHandler;
     private EventBus eb;
-    private MarsController marsController;
 
     public MarsRtcBridge() {
         this(new DefaultMarsController());
@@ -55,38 +62,27 @@ public class MarsRtcBridge implements MarsControllerListener {
         this.setMarsController(marsController);
     }
 
-
-    // Mockcalls is not intended to stay - it is currently just a "filler" to test and get the rest going
     private void MockCalls() {
-        // "1" Is arbitrary here, it's mocking
-        Subscription dummyClientSubscription = marsController.getSubscriptions().get(1);
-        // This client should come from repository as well, this is WIP.
-        Client mockClient = new Client("Dummy", "User", "Lastname", dummyClientSubscription, RandomLocationGenerator.getRandomLocation(), "critical");
-        // Same for the vehicle, repository is WIP
-        Vehicle mockVehicle = new Vehicle("V1", false, RandomLocationGenerator.getRandomLocation());
+        List<Client> clients = Repositories.getClientsRepo().getClients();
+        List<Vehicle> vehicles = Repositories.getVehiclesRepo().getVehicles();
 
+        // Domes don't move
+        List<Dome> domes = Repositories.getDomesRepo().getDomes();
 
-        Timer newClientTimer = new Timer();
-        Timer newVehicleTimer = new Timer();
-
-        TimerTask newClientTimerTask = new TimerTask() {
+        Timer movementTimer = new Timer();
+        TimerTask movementTimerTask = new TimerTask() {
             @Override
             public void run() {
-                publishNewClient(mockClient);
-                mockClient.setLocation(RandomLocationGenerator.getRandomLocation());
+                clients.forEach(Client -> {
+                    marsController.updateClientLocation(Client.getIdentifier(), RandomLocationGenerator.getRandomLocation());
+                });
+
+                vehicles.forEach(Vehicle -> {
+                    marsController.updateVehicleLocation(Vehicle.getIdentifier(), RandomLocationGenerator.getRandomLocation());
+                });
             }
         };
-
-        TimerTask newVehicleTimerTask = new TimerTask() {
-            @Override
-            public void run() {
-                publishNewVehicle(mockVehicle);
-                mockVehicle.setLocation(RandomLocationGenerator.getRandomLocation());
-            }
-        };
-
-        newClientTimer.schedule(newClientTimerTask, 0, 3000);
-        newVehicleTimer.schedule(newVehicleTimerTask, 0, 3000);
+        movementTimer.schedule(movementTimerTask, 0, 5000);
     }
 
     public void publishNewClient(Client newClient) {
@@ -95,6 +91,22 @@ public class MarsRtcBridge implements MarsControllerListener {
 
     public void publishNewVehicle(Vehicle newVehicle) {
         eb.publish(NEW_VEHICLE_EVENT_BUS, JsonObject.mapFrom(newVehicle));
+    }
+
+    public void publishMovedClient(Client movedClient) {
+        eb.publish(CLIENT_LOCATION_EVENT_BUS, JsonObject.mapFrom(movedClient));
+    }
+
+    public void publishMovedVehicle(Vehicle movedVehicle) {
+        eb.publish(VEHICLE_LOCATION_EVENT_BUS, JsonObject.mapFrom(movedVehicle));
+    }
+
+    public void publishNewDispatch(Dispatch newDispatch) {
+        eb.publish(NEW_DISPATCH_EVENT_BUS, JsonObject.mapFrom(newDispatch));
+    }
+
+    public void publishDeletedDispatch(Dispatch deletedDispatch) {
+        eb.publish(DELETED_DISPATCH_EVENT_BUS, JsonObject.mapFrom(deletedDispatch));
     }
 
     private void createSockJSHandler() {
@@ -123,6 +135,29 @@ public class MarsRtcBridge implements MarsControllerListener {
 
     @Override
     public void onQuoteCreated(Quote quote) { // noinspection ALL
+        // Not-Implemented
+        // No Scope of POC
+        // TODO: Lenn, this function can be deleted. It will have to be deleted from
+        //       the MarsControllerListener Interface as well.
+    }
 
+    @Override
+    public void onDispatchAdded(Dispatch dispatch) {
+        publishNewDispatch(dispatch);
+    }
+
+    @Override
+    public void onDispatchDeleted(Dispatch dispatch) {
+        publishDeletedDispatch(dispatch);
+    }
+
+    @Override
+    public void onVehicleMoved(Vehicle vehicle) {
+        publishMovedVehicle(vehicle);
+    }
+
+    @Override
+    public void onClientMoved(Client client) {
+        publishMovedClient(client);
     }
 }

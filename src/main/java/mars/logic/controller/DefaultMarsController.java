@@ -150,6 +150,7 @@ public class DefaultMarsController implements MarsController {
         Vehicle vehicle = Repositories.getVehiclesRepo().updateVehicleLocation(identifier, location);
         if (null == vehicle)
             throw new MarsResourceNotFoundException(identifier);
+        fireVehicleMoved(vehicle);
         return vehicle;
     }
 
@@ -164,6 +165,7 @@ public class DefaultMarsController implements MarsController {
         Client client = Repositories.getClientsRepo().updateClientLocation(identifier, location);
         if (null == client)
             throw new MarsResourceNotFoundException(identifier);
+        fireClientMoved(client);
         return client;
     }
 
@@ -183,6 +185,7 @@ public class DefaultMarsController implements MarsController {
             throw new MarsResourceNotFoundException("No valid dispatch Identifier provided");
         }
 
+        fireDispatchDeleted(Repositories.getDispatchesRepository().getDispatch(identifier));
         Repositories.getDispatchesRepository().deleteDispatch(identifier);
     }
 
@@ -196,6 +199,25 @@ public class DefaultMarsController implements MarsController {
             throw new IllegalArgumentException("source_type, destination_type, source_identifier, destination_identifier are all required fields");
         }
 
-        return Repositories.getDispatchesRepository().addDispatch(identifier, source_type, destination_type, source_identifier, destination_identifier);
+        Dispatch dispatch = Repositories.getDispatchesRepository().addDispatch(identifier, source_type, destination_type, source_identifier, destination_identifier);
+        fireDispatchAdded(dispatch);
+        return dispatch;
+    }
+
+    private void fireDispatchAdded(Dispatch dispatch) {
+        listeners.forEach(MarsControllerListener -> MarsControllerListener.onDispatchAdded(dispatch));
+    }
+
+    private void fireDispatchDeleted(Dispatch dispatch) {
+        listeners.forEach(MarsControllerListener -> MarsControllerListener.onDispatchDeleted(dispatch));
+
+    }
+
+    private void fireClientMoved(Client client) {
+        listeners.forEach(MarsControllerListener -> MarsControllerListener.onClientMoved(client));
+    }
+
+    private void fireVehicleMoved(Vehicle vehicle) {
+        listeners.forEach(MarsControllerListener -> MarsControllerListener.onVehicleMoved(vehicle));
     }
 }

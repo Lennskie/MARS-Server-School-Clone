@@ -14,8 +14,14 @@ public class RandomLocationGenerator {
     }
 
     public static Location getRandomLocation() {
-        double latitude =  ((Math.random() * (9)) * 0.002) + latitudeOffset;
-        double longitude = ((Math.random() * (59)) * 0.001) + longitudeOffset;
+        double latitude;
+        double longitude;
+
+        latitude = Math.random() * 9d + 1d;
+        longitude = Math.random() * 59d;
+
+        latitude = (latitude * 0.002) + 29.62295;
+        longitude = (longitude * 0.001) + 35.40;
 
         return new Location(latitude, longitude);
     }

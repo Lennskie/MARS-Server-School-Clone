@@ -5,11 +5,11 @@ INSERT INTO quotes VALUES (1, 'Everyone enjoys doing the kind of work for which 
 
 -- Users (identifier, firstname, lastname)
 INSERT INTO users VALUES ('MARS-ID-001', 'Ana', 'Silveneyer',1,2,'critical');
-INSERT INTO users VALUES ('MARS-ID-002', 'Bob', 'Goldeneyer',1,2,'critical');
+INSERT INTO users VALUES ('MARS-ID-002', 'Bob', 'Goldeneyer',1,2,'medium');
 INSERT INTO users VALUES ('MARS-ID-003', 'Carolina', 'Platineyer',1,2,'critical');
-INSERT INTO users VALUES ('MARS-ID-004', 'Dirk', 'Endedneyer',1,2,'critical');
-INSERT INTO users VALUES ('MARS-ID-005', 'Elena', 'Reumbersedneyer',1,2,'critical');
-INSERT INTO users VALUES ('MARS-ID-006', 'Florence', 'Nosubneyer',1,2,'critical');
+INSERT INTO users VALUES ('MARS-ID-004', 'Dirk', 'Endedneyer',1,2,'healthy');
+INSERT INTO users VALUES ('MARS-ID-005', 'Elena', 'Reumbersedneyer',1,2,'healthy');
+INSERT INTO users VALUES ('MARS-ID-006', 'Florence', 'Nosubneyer',1,2,'healthy');
 
 
 -- Subscriptions (name, description, price)
@@ -38,22 +38,14 @@ INSERT INTO vehicles VALUES ('AV-008', true, null, null);
 INSERT INTO vehicles VALUES ('AV-009', true, null, null);
 
 -- Domes (identifier, size, lat, long)
-INSERT INTO domes VALUES ('DOME-001', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-002', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-003', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-004', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-005', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-006', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-007', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-008', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-009', 1000, 3, 4);
-INSERT INTO domes VALUES ('DOME-010', 1000, 3, 4);
+INSERT INTO domes VALUES ('DOME-001', 1000, 29.64161964165002, 35.408435233550065);
+INSERT INTO domes VALUES ('DOME-002', 1000, 29.635330710775417, 35.40980449187471);
+INSERT INTO domes VALUES ('DOME-003', 1000, 29.628105341126876, 35.45396513878511);
 
 -- DANGERZONES (lat, long, rad)
-INSERT INTO DANGERZONES VALUES ('DZ-001',1,2,3);
-INSERT INTO DANGERZONES VALUES ('DZ-001',4,5,6);
-INSERT INTO DANGERZONES VALUES ('DZ-001',7,8,9);
+INSERT INTO DANGERZONES VALUES ('DZ-001',29.640541065329743,35.43516196193293, 450);
+INSERT INTO DANGERZONES VALUES ('DZ-001',29.629945520462858,35.437282973780135, 220);
+INSERT INTO DANGERZONES VALUES ('DZ-001',29.62516014749335,35.449120890032674, 600);
 
 -- Dispatches (identifier, source_type, destination_type, source_identifier, destination_identifier)
-INSERT INTO dispatches VALUES ('DISPATCH-001', 'Vehicle', 'Client', 'AV-001', 'MARS-ID-001');
-INSERT INTO dispatches VALUES ('DISPATCH-002', 'Client', 'Dome', 'MARS-ID-001', 'DOME-001');
+-- DO NOT POPULATE FOR POC
