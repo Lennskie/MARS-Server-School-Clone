@@ -63,8 +63,6 @@ public class MarsRtcBridge implements MarsControllerListener {
     }
 
     private void MockCalls() {
-        Logger LOGGER = Logger.getLogger(MarsRtcBridge.class.getName());
-
         List<Client> clients = Repositories.getClientsRepo().getClients();
         List<Vehicle> vehicles = Repositories.getVehiclesRepo().getVehicles();
 
@@ -75,12 +73,10 @@ public class MarsRtcBridge implements MarsControllerListener {
         TimerTask movementTimerTask = new TimerTask() {
             @Override
             public void run() {
-                LOGGER.log(Level.INFO, "Mocker is updating client locations");
                 clients.forEach(Client -> {
                     marsController.updateClientLocation(Client.getIdentifier(), RandomLocationGenerator.getRandomLocation());
                 });
 
-                LOGGER.log(Level.INFO, "Mocker is updating vehicle locations");
                 vehicles.forEach(Vehicle -> {
                     marsController.updateVehicleLocation(Vehicle.getIdentifier(), RandomLocationGenerator.getRandomLocation());
                 });
