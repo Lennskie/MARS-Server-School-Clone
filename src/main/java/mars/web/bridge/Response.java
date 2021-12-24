@@ -1,6 +1,5 @@
 package mars.web.bridge;
 
-import mars.logic.domain.Dangerzone;
 import mars.logic.domain.Quote;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.json.Json;

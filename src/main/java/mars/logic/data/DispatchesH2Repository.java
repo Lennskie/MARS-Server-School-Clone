@@ -2,7 +2,6 @@ package mars.logic.data;
 
 import mars.logic.domain.*;
 import mars.logic.exceptions.RepositoryException;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 public class DispatchesH2Repository implements DispatchesRepository {
