@@ -2,12 +2,10 @@ package mars.web.bridge;
 
 import mars.logic.domain.Dangerzone;
 import mars.logic.domain.Location;
-import mars.logic.domain.Vehicle;
 import mars.web.exceptions.MalformedRequestException;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.validation.RequestParameters;
 import io.vertx.ext.web.validation.ValidationHandler;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -54,7 +52,7 @@ public class Request {
     }
 
     public String getBodyIdentifier() {
-        return params.body().getJsonObject().getString("identifier");
+        return params.body().getJsonObject().getString(SPEC_IDENTIFIER);
     }
 
     public String getIdentifier(String field) {

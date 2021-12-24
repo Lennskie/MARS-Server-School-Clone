@@ -132,34 +132,34 @@ public class DefaultMarsController implements MarsController {
     }
 
     @Override
-    public Dispatch addDispatch(String identifier, String source_type, String destination_type, String source_identifier, String destination_identifier) {
+    public Dispatch addDispatch(String identifier, String sourceType, String destinationType, String sourceIdentifier, String destinationIdentifier) {
         if (StringUtils.isBlank(identifier)) {
             throw new IllegalArgumentException("Identifier is not allowed to be blank");
         }
 
-        if (null == source_type || null == destination_type || null == source_identifier || null == destination_identifier) {
-            throw new IllegalArgumentException("source_type, destination_type, source_identifier, destination_identifier are all required fields");
+        if (null == sourceType || null == destinationType || null == sourceIdentifier || null == destinationIdentifier) {
+            throw new IllegalArgumentException("sourceType, destinationType, sourceIdentifier, destinationIdentifier are all required fields");
         }
 
-        Dispatch dispatch = Repositories.getDispatchesRepository().addDispatch(identifier, source_type, destination_type, source_identifier, destination_identifier);
+        Dispatch dispatch = Repositories.getDispatchesRepository().addDispatch(identifier, sourceType, destinationType, sourceIdentifier, destinationIdentifier);
         fireDispatchAdded(dispatch);
         return dispatch;
     }
 
     private void fireDispatchAdded(Dispatch dispatch) {
-        listeners.forEach(MarsControllerListener -> MarsControllerListener.onDispatchAdded(dispatch));
+        listeners.forEach(listener -> listener.onDispatchAdded(dispatch));
     }
 
     private void fireDispatchDeleted(Dispatch dispatch) {
-        listeners.forEach(MarsControllerListener -> MarsControllerListener.onDispatchDeleted(dispatch));
+        listeners.forEach(listener -> listener.onDispatchDeleted(dispatch));
 
     }
 
     private void fireClientMoved(Client client) {
-        listeners.forEach(MarsControllerListener -> MarsControllerListener.onClientMoved(client));
+        listeners.forEach(listener -> listener.onClientMoved(client));
     }
 
     private void fireVehicleMoved(Vehicle vehicle) {
-        listeners.forEach(MarsControllerListener -> MarsControllerListener.onVehicleMoved(vehicle));
+        listeners.forEach(listener -> listener.onVehicleMoved(vehicle));
     }
 }
