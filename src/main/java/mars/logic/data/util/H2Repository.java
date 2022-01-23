@@ -80,7 +80,12 @@ public class H2Repository {
 
         LOGGER.log(Level.INFO, "URL: ", url);
         LOGGER.log(Level.INFO, "Username: ", username);
-        LOGGER.log(Level.INFO, "Password: ",pwd_split[pwd_split.length - 2] + pwd_split[pwd_split.length - 1]);
+        if (!(pwd_split.length < 2)) {
+            LOGGER.log(Level.INFO, "Password: ",pwd_split[pwd_split.length - 2] + pwd_split[pwd_split.length - 1]);
+        } else {
+            LOGGER.log(Level.INFO, "Password empty or shorter than 2 chars");
+        }
+
 
         LOGGER.log(Level.INFO, "== GETCONNECTION END (before return) ==");
 
