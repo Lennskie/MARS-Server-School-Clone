@@ -49,7 +49,7 @@ public class H2Repository {
 
     private void executeScript(String fileName) throws IOException, SQLException {
         LOGGER.log(Level.INFO, "== EXECUTESCRIPT START ==");
-        LOGGER.log(Level.INFO, "FileName: " + fileName);
+        LOGGER.log(Level.INFO, "fileName: " + fileName);
 
         String createDbSql = readFile(fileName);
 
