@@ -75,7 +75,7 @@ public class H2Repository {
         LOGGER.log(Level.CONFIG, "== GETCONNECTION START ==");
         LOGGER.log(Level.CONFIG, "URL: {0} ", url);
         LOGGER.log(Level.CONFIG, "Username: {0}", username);
-        LOGGER.log(Level.CONFIG, "Password: {0}", password.substring(0,2));
+        LOGGER.log(Level.CONFIG, "Password: {0}", (null == password || password.isEmpty() || password.length() < 2)? "--" : password.substring(0,2));
         LOGGER.log(Level.CONFIG, "== GETCONNECTION END (before return) ==");
 
         return DriverManager.getConnection(url, username, password);
