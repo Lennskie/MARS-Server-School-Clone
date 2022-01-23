@@ -26,7 +26,7 @@ public class H2Repository {
             LOGGER.log(Level.INFO, "Database webconsole started on port: {0}", console);
             this.generateData();
         } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, "DB configuration failed", ex);
+            LOGGER.log(Level.SEVERE, "DB configuration failed: {0}", ex);
             throw new RepositoryException("Could not configure H2repository");
         }
     }
@@ -49,7 +49,7 @@ public class H2Repository {
 
     private void executeScript(String fileName) throws IOException, SQLException {
         LOGGER.log(Level.CONFIG, "== EXECUTESCRIPT START ==");
-        LOGGER.log(Level.CONFIG, "fileName: {0}" + fileName);
+        LOGGER.log(Level.CONFIG, "fileName: {0}", fileName);
         String createDbSql = readFile(fileName);
         LOGGER.log(Level.CONFIG, "createDbSql: {0}", createDbSql);
         try (
@@ -59,6 +59,8 @@ public class H2Repository {
             LOGGER.log(Level.CONFIG, "connection: {0}", conn);
             LOGGER.log(Level.CONFIG, "stmt: {0}", stmt);
             stmt.executeUpdate();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "sql statement failed: {0}/{1} -- {2}", stmt, conn, ex);
         }
         LOGGER.log(Level.CONFIG, "== EXECUTESCRIPT END ==");
     }
