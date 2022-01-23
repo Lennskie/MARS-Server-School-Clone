@@ -52,12 +52,16 @@ public class H2Repository {
         LOGGER.log(Level.INFO, "FileName: " + fileName);
 
         String createDbSql = readFile(fileName);
+
+        LOGGER.log(Level.INFO, "createDbSql: ", createDbSql);
+
         try (
                 Connection conn = getConnection();
                 PreparedStatement stmt = conn.prepareStatement(createDbSql)
         ) {
             stmt.executeUpdate();
         }
+
         LOGGER.log(Level.INFO, "== EXECUTESCRIPT END ==");
     }
 
@@ -70,6 +74,16 @@ public class H2Repository {
     }
 
     public Connection getConnection() throws SQLException {
+        String[] pwd_split = password.split("");
+
+        LOGGER.log(Level.INFO, "== GETCONNECTION START ==");
+
+        LOGGER.log(Level.INFO, "URL: ", url);
+        LOGGER.log(Level.INFO, "Username: ", username);
+        LOGGER.log(Level.INFO, "Password: ",pwd_split[pwd_split.length - 2] + pwd_split[pwd_split.length - 1]);
+
+        LOGGER.log(Level.INFO, "== GETCONNECTION END (before return) ==");
+
         return DriverManager.getConnection(url, username, password);
     }
 }
