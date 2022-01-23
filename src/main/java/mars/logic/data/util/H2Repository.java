@@ -56,8 +56,8 @@ public class H2Repository {
                 Connection conn = getConnection();
                 LOGGER.log(Level.CONFIG, "connection: {0}", conn);
                 PreparedStatement stmt = conn.prepareStatement(createDbSql);
-                LOGGER.log(Level.CONFIG, "stmt: {0}", stmt);
         ) {
+            LOGGER.log(Level.CONFIG, "stmt: {0}", stmt);
             stmt.executeUpdate();
         }
         LOGGER.log(Level.CONFIG, "== EXECUTESCRIPT END ==");
