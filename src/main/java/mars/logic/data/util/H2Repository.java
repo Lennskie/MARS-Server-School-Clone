@@ -48,6 +48,9 @@ public class H2Repository {
     }
 
     private void executeScript(String fileName) throws IOException, SQLException {
+        LOGGER.log(Level.INFO, "== EXECUTESCRIPT START ==");
+        LOGGER.log(Level.INFO, "FileName: " + fileName);
+
         String createDbSql = readFile(fileName);
         try (
                 Connection conn = getConnection();
@@ -55,6 +58,7 @@ public class H2Repository {
         ) {
             stmt.executeUpdate();
         }
+        LOGGER.log(Level.INFO, "== EXECUTESCRIPT END ==");
     }
 
     private String readFile(String fileName) throws IOException {
