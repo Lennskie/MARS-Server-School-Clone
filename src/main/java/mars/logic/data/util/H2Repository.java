@@ -38,8 +38,10 @@ public class H2Repository {
 
     public void generateData() {
         try {
+            LOGGER.log(Level.INFO, "== SEEDING ==");
             executeScript("db-create.sql");
             executeScript("db-populate.sql");
+            LOGGER.log(Level.INFO, "== SEEDING FINISHED ==");
         } catch (IOException | SQLException ex) {
             LOGGER.log(Level.SEVERE, "Execution of database scripts failed.", ex);
         }
