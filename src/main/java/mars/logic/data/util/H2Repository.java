@@ -38,31 +38,29 @@ public class H2Repository {
 
     public void generateData() {
         try {
-            LOGGER.log(Level.INFO, "== SEEDING ==");
+            LOGGER.log(Level.CONFIG, "== SEEDING ==");
             executeScript("db-create.sql");
             executeScript("db-populate.sql");
-            LOGGER.log(Level.INFO, "== SEEDING FINISHED ==");
+            LOGGER.log(Level.CONFIG, "== SEEDING FINISHED ==");
         } catch (IOException | SQLException ex) {
-            LOGGER.log(Level.SEVERE, "Execution of database scripts failed.", ex);
+            LOGGER.log(Level.SEVERE, "Execution of database scripts failed: {0}", ex);
         }
     }
 
     private void executeScript(String fileName) throws IOException, SQLException {
-        LOGGER.log(Level.INFO, "== EXECUTESCRIPT START ==");
-        LOGGER.log(Level.INFO, "fileName: " + fileName);
-
+        LOGGER.log(Level.CONFIG, "== EXECUTESCRIPT START ==");
+        LOGGER.log(Level.CONFIG, "fileName: {0}" + fileName);
         String createDbSql = readFile(fileName);
-
-        LOGGER.log(Level.INFO, "createDbSql: ", createDbSql);
-
+        LOGGER.log(Level.CONFIG, "createDbSql: {0}", createDbSql);
         try (
                 Connection conn = getConnection();
+                LOGGER.log(Level.CONFIG, "connection: {0}", conn);
                 PreparedStatement stmt = conn.prepareStatement(createDbSql)
+                LOGGER.log(Level.CONFIG, "stmt: {0}", stmt);
         ) {
             stmt.executeUpdate();
         }
-
-        LOGGER.log(Level.INFO, "== EXECUTESCRIPT END ==");
+        LOGGER.log(Level.CONFIG, "== EXECUTESCRIPT END ==");
     }
 
     private String readFile(String fileName) throws IOException {
@@ -74,20 +72,11 @@ public class H2Repository {
     }
 
     public Connection getConnection() throws SQLException {
-        String[] pwd_split = password.split("");
-
-        LOGGER.log(Level.INFO, "== GETCONNECTION START ==");
-
-        LOGGER.log(Level.INFO, "URL: ", url);
-        LOGGER.log(Level.INFO, "Username: ", username);
-        if (!(pwd_split.length < 2)) {
-            LOGGER.log(Level.INFO, "Password: ",pwd_split[pwd_split.length - 2] + pwd_split[pwd_split.length - 1]);
-        } else {
-            LOGGER.log(Level.INFO, "Password empty or shorter than 2 chars");
-        }
-
-
-        LOGGER.log(Level.INFO, "== GETCONNECTION END (before return) ==");
+        LOGGER.log(Level.CONFIG, "== GETCONNECTION START ==");
+        LOGGER.log(Level.CONFIG, "URL: {0} ", url);
+        LOGGER.log(Level.CONFIG, "Username: {0}", username);
+        LOGGER.log(Level.CONFIG, "Password: {0}", password.substring(0,2));
+        LOGGER.log(Level.CONFIG, "== GETCONNECTION END (before return) ==");
 
         return DriverManager.getConnection(url, username, password);
     }
