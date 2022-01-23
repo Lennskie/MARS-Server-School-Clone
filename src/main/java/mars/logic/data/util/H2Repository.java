@@ -54,9 +54,9 @@ public class H2Repository {
         LOGGER.log(Level.CONFIG, "createDbSql: {0}", createDbSql);
         try (
                 Connection conn = getConnection();
-                LOGGER.log(Level.CONFIG, "connection: {0}", conn);
                 PreparedStatement stmt = conn.prepareStatement(createDbSql);
         ) {
+            LOGGER.log(Level.CONFIG, "connection: {0}", conn);
             LOGGER.log(Level.CONFIG, "stmt: {0}", stmt);
             stmt.executeUpdate();
         }
