@@ -60,7 +60,7 @@ public class H2Repository {
             LOGGER.log(Level.CONFIG, "stmt: {0}", stmt);
             stmt.executeUpdate();
         } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, "sql statement failed: {0}/{1} -- {2}", stmt, conn, ex);
+            LOGGER.log(Level.SEVERE, "sql statement failed: {0}", ex);
         }
         LOGGER.log(Level.CONFIG, "== EXECUTESCRIPT END ==");
     }
